@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="start_default">16dp</dimen>
+    <dimen name="end_default">16dp</dimen>
+    <dimen name="bottom_default">16dp</dimen>
+    <dimen name="top_default">16dp</dimen>
+
+    <dimen name="guide_32">32dp</dimen>
+    <dimen name="default_gutter">8dp</dimen>
+
+</resources>

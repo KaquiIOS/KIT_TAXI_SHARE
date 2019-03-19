@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">TaxiShare</string>
+
+    <!-- Login -->
+    <string name="login_title">택시 카풀(가제)</string>
+    <string name="login_id">아이디</string>
+    <string name="login_pw">비밀번호</string>
+    <string name="login_sign_in">로그인</string>
+    <string name="login_sign_up">회원가입</string>
+    <string name="login_find_pw">비밀 번호가 기억나지 않으세요?</string>
+
+    <string name="login_id_hint">아이디</string>
+    <string name="login_pw_hint">비밀번호</string>
+    <string name="login_auto_text">자동 로그인</string>
+    <string name="login_button_text">LOG IN</string>
+    <string name="login_sign_up_button_text">SIGN UP</string>
+    <string name="login_find_pw_text">비밀번호를 잊으셨나요 ?</string>
+    <string name="login_email_not_match">이메일 형식이 맞지 않습니다</string>
+    <string name="login_made_by_text">Made by Kaqui For KIT TaxiShare</string>
+
+
+    <string name="login">로그인 화면입니다 !</string>
+
+
+    <string-array name="major_list">
+        <item>기계공학과</item>
+        <item>기계설계공학과</item>
+        <item>기계시스템공학과</item>
+        <item>전자공학부</item>
+        <item>정보전자전공</item>
+        <item>제어 및 로봇전공</item>
+        <item>전자통신정공</item>
+        <item>전자 및 전파전공</item>
+        <item>전자IT융합전공</item>
+        <item>건축학부</item>
+        <item>건축학전공(5년제)</item>
+        <item>건축공학전공</item>
+        <item>산업공학부</item>
+        <item>산업경영공학전공</item>
+        <item>디자인공학전공</item>
+        <item>신소재공학부</item>
+        <item>화학소재융합공학부</item>
+        <item>고분자공학전공</item>
+        <item>소재디자인공학전공</item>
+        <item>환경공학전공</item>
+        <item>응용화학전공</item>
+        <item>화학공학전공</item>
+        <item>토목공학과</item>
+        <item>컴퓨터소프트웨어공학과</item>
+        <item>광시스템공학과</item>
+        <item>메디컬IT융합공학과</item>
+        <item>IT융합학과</item>
+        <item>응용수학과</item>
+        <item>경영학과</item>
+        <item>기계공학과</item>
+    </string-array>
+</resources>
