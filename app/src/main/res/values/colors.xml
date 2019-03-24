@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDark">@color/transparent</color>
     <color name="colorAccent">#D81B60</color>
 
     <color name="common_blue">#3897F0</color>
@@ -9,4 +9,5 @@
     <color name="disable_blue">#C3E0FA</color>
     <color name="transparent">#00000000</color>
     <color name="common_gray">#999999</color>
+    <color name="common_black">#000000</color>
 </resources>

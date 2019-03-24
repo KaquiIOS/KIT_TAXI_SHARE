@@ -6,5 +6,4 @@ class LoginPresenter {
     fun login(id : String, pw : String) {
 
     }
-
 }

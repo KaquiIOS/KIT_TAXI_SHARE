@@ -1,28 +1,35 @@
 package com.example.taxishare.view.login
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import com.example.taxishare.R
 import com.example.taxishare.util.RegularExpressionChecker
+import com.example.taxishare.view.BaseActivity
+import com.example.taxishare.view.password.FindPasswordActivity
+import com.example.taxishare.view.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 
-class LoginActivity : AppCompatActivity(), LoginView {
+class LoginActivity : BaseActivity(), LoginView {
 
     private lateinit var presenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         initPresenter()
         initListener()
     }
 
+    override fun getLayoutId(): Int = R.layout.activity_login
+
     /*
-     * Presenter 초기화  */
+         * Presenter 초기화  */
     private fun initPresenter() {
         presenter = LoginPresenter()
     }
@@ -30,24 +37,37 @@ class LoginActivity : AppCompatActivity(), LoginView {
     /*
      * View Listener 추가 */
     private fun initListener() {
-        text_input_login_id.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                setLoginButtonClickable(text_input_login_pw.text!!.isNotEmpty() && text_input_login_id.text!!.isNotEmpty())
-                if (!RegularExpressionChecker.checkEmailValidation(s.toString())) {
-                    text_layout_login_id.helperText = resources.getString(R.string.login_email_not_match)
-                }
-            }
-        })
 
-        text_input_login_pw.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                setLoginButtonClickable(text_input_login_pw.text!!.isNotEmpty() && text_input_login_id.text!!.isNotEmpty())
-            }
-        })
+        /* 정규식을 이용한 이메일 형식 확인 */
+        text_input_login_id.doOnTextChanged { _, _, _, _ ->
+            setLoginButtonClickable(text_input_login_pw.text!!.isNotEmpty() && text_input_login_id.text!!.isNotEmpty())
+
+            text_layout_login_id.error =
+                if (RegularExpressionChecker.checkEmailValidation(text_input_login_id.text.toString())) null
+                else resources.getString(R.string.login_email_not_match)
+        }
+
+        /**/
+        text_input_login_pw.doOnTextChanged { _, _, _, _ ->
+            setLoginButtonClickable(text_input_login_pw.text!!.isNotEmpty() && text_input_login_id.text!!.isNotEmpty())
+        }
+
+        /* 로그인 요청 */
+        btn_login_request.onClick {
+            presenter.login(
+                text_input_login_id.text.toString(),
+                text_input_login_pw.text.toString()
+            )
+        }
+
+        /* 자동 로그인 */
+        text_login_remember.onClick { cb_login_remember.isChecked = !cb_login_remember.isChecked }
+
+        /* SignUp 요청 */
+        btn_login_sign_up.onClick { startActivity<SignUpActivity>() }
+
+        /* ForgetPassword 요청 */
+        btn_login_find_pw.onClick { startActivity<FindPasswordActivity>() }
     }
 
     /*
@@ -55,9 +75,11 @@ class LoginActivity : AppCompatActivity(), LoginView {
     private fun setLoginButtonClickable(isClickable: Boolean) {
         btn_login_request.isEnabled = isClickable
         if (isClickable) {
-            btn_login_request.backgroundDrawable = resources.getDrawable(R.drawable.background_enable_btn_round_corner)
+            btn_login_request.backgroundDrawable =
+                ContextCompat.getDrawable(this, R.drawable.background_enable_btn_round_corner)
         } else {
-            btn_login_request.backgroundDrawable = resources.getDrawable(R.drawable.background_disable_btn_round_corner)
+            btn_login_request.backgroundDrawable =
+                ContextCompat.getDrawable(this, R.drawable.background_disable_btn_round_corner)
         }
     }
 }
