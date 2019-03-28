@@ -93,21 +93,27 @@
                     app:layout_constraintVertical_bias="1"
                     app:layout_constraintHorizontal_bias="1"/>
 
+
             <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_sign_up_id"
+                    android:id="@+id/text_input_layout_sign_up_std_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/sign_up_id"
-                    android:layout_marginTop="@dimen/default_gutter"
-                    app:helperText="아이디는 영어와 숫자를 포함해서 5~15자로 구성됩니다."
+                    android:hint="@string/sign_up_student_id"
+                    android:layout_marginTop="@dimen/top_default"
+                    android:layout_marginEnd="@dimen/default_gutter"
                     style="@style/DefaultTextLayoutForm"
+                    app:errorEnabled="false"
+                    app:helperText="학교 이메일로 인증메일이 전송됩니다."
                     app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
-                    app:layout_constraintTop_toBottomOf="@id/iv_sign_up_profile_image">
+                    app:layout_constraintTop_toBottomOf="@id/iv_sign_up_profile_image_selection">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/text_input_sign_up_id"
+                        android:id="@+id/text_input_sign_up_std_id"
+                        android:inputType="numberDecimal"
                         android:layout_width="match_parent"
+                        android:maxLines="1"
+                        android:maxLength="8"
                         android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -122,13 +128,15 @@
                     app:helperText="비밀번호는 영어,숫자,특수문자를 포함하여 6~20자로 구성됩니다"
                     app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
-                    app:layout_constraintTop_toBottomOf="@id/text_input_layout_sign_up_id">
+                    app:layout_constraintTop_toBottomOf="@id/text_input_layout_sign_up_std_id">
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_input_sign_up_pw"
                         android:inputType="textPassword"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:maxLength="20"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +155,9 @@
                         android:id="@+id/text_input_sign_up_confirm_pw"
                         android:inputType="textPassword"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:maxLength="20"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,6 +168,7 @@
                     android:hint="@string/sign_up_nickname"
                     android:layout_marginTop="@dimen/top_default"
                     style="@style/DefaultTextLayoutForm"
+                    app:helperText="@string/sign_up_nickname_helper_text"
                     app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
                     app:layout_constraintTop_toBottomOf="@id/text_input_layout_sign_up_confirm_pw">
@@ -165,7 +176,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_input_sign_up_nick_name"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:maxLength="20"
+                        android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -182,55 +196,20 @@
 
             </Spinner>
 
-            <TextView
-                    android:id="@+id/text_sign_up_id_validation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/default_gutter"
-                    android:layout_marginTop="@dimen/top_default"
-                    android:text="@string/sign_up_validation"
-                    android:textSize="32sp"
-                    android:fontFamily="@font/jua"
-                    app:layout_constraintTop_toBottomOf="@id/spn_sign_up_major"
-                    app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
-                    app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_sign_up_email"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/sign_up_student_id"
-                    android:layout_marginTop="@dimen/top_default"
-                    android:layout_marginEnd="@dimen/default_gutter"
-                    android:orientation="horizontal"
-                    style="@style/DefaultTextLayoutForm"
-                    app:helperText="학교 이메일로 인증메일이 전송됩니다."
-                    app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
-                    app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
-                    app:layout_constraintTop_toBottomOf="@id/text_sign_up_id_validation">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/text_input_sign_up_email"
-                        android:inputType="numberDecimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
             <Button
                     android:id="@+id/btn_sign_up_finish"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/top_default"
                     android:layout_marginBottom="@dimen/top_default"
-                    android:background="@drawable/background_enable_btn_round_corner"
+                    android:background="@drawable/background_disable_btn_round_corner"
                     android:textColor="@color/common_white"
                     android:textSize="24sp"
                     android:text="@string/sign_up_finish"
+                    android:enabled="false"
                     app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
-                    app:layout_constraintTop_toBottomOf="@id/text_input_layout_sign_up_email"/>
+                    app:layout_constraintTop_toBottomOf="@id/spn_sign_up_major"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

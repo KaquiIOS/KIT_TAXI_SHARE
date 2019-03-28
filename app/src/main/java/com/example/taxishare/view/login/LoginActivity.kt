@@ -1,8 +1,6 @@
 package com.example.taxishare.view.login
 
 import android.os.Bundle
-import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.example.taxishare.R
@@ -29,9 +27,9 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun getLayoutId(): Int = R.layout.activity_login
 
     /*
-         * Presenter 초기화  */
+     * Presenter 초기화  */
     private fun initPresenter() {
-        presenter = LoginPresenter()
+        presenter = LoginPresenter(this)
     }
 
     /*
@@ -44,10 +42,10 @@ class LoginActivity : BaseActivity(), LoginView {
 
             text_layout_login_id.error =
                 if (RegularExpressionChecker.checkEmailValidation(text_input_login_id.text.toString())) null
-                else resources.getString(R.string.login_email_not_match)
+                else resources.getString(R.string.common_email_pattern_not_match)
         }
 
-        /**/
+        /* */
         text_input_login_pw.doOnTextChanged { _, _, _, _ ->
             setLoginButtonClickable(text_input_login_pw.text!!.isNotEmpty() && text_input_login_id.text!!.isNotEmpty())
         }
@@ -81,5 +79,9 @@ class LoginActivity : BaseActivity(), LoginView {
             btn_login_request.backgroundDrawable =
                 ContextCompat.getDrawable(this, R.drawable.background_disable_btn_round_corner)
         }
+    }
+
+    private fun isAutoLoginGranted(isGranted : Boolean) {
+
     }
 }

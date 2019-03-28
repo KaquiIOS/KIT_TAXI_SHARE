@@ -10,4 +10,7 @@
     <color name="transparent">#00000000</color>
     <color name="common_gray">#999999</color>
     <color name="common_black">#000000</color>
+
+    <color name="warning_red">#FF0000</color>
+
 </resources>
