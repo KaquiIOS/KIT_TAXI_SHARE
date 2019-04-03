@@ -1,6 +1,13 @@
 <resources>
+    <!-- Common -->
     <string name="app_name">TaxiShare</string>
-
+    <string name="common_email_pattern_not_match">이메일 형식이 맞지 않습니다</string>
+    <string name="common_pw_pattern_not_match">비밀번호 형식이 맞지 않습니다</string>
+    <string name="common_pw_not_same">비밀번호는 숫자,영문,특수문자($@$!%*#?) 6~20자리로 구성됩니다</string>
+    <string name="common_student_id_pattern_not_match">학번은 숫자 8개로 구성됩니다</string>
+    
+    
+    
     <!-- Login -->
     <string name="login_title">택시 카풀(가제)</string>
     <string name="login_id">아이디</string>
@@ -15,7 +22,6 @@
     <string name="login_button_text">LOG IN</string>
     <string name="login_sign_up_button_text">SIGN UP</string>
     <string name="login_find_pw_text">비밀번호를 잊으셨나요 ?</string>
-    <string name="login_email_not_match">이메일 형식이 맞지 않습니다</string>
     <string name="login_made_by_text">Made by Kaqui For KIT TaxiShare</string>
 
 
@@ -23,6 +29,7 @@
 
 
     <string-array name="major_list">
+        <item>전공</item>
         <item>기계공학과</item>
         <item>기계설계공학과</item>
         <item>기계시스템공학과</item>
@@ -53,5 +60,21 @@
         <item>응용수학과</item>
         <item>경영학과</item>
         <item>기계공학과</item>
+        <item>-----</item>
     </string-array>
+
+    <!-- Sign Up -->
+    <string name="sign_up_personal_data">ID INFO</string>
+    <string name="sign_up_validation">VALIDATION</string>
+    <string name="sign_up_id">아이디</string>
+    <string name="sign_up_pw">비밀번호</string>
+    <string name="sign_up_confirm_pw">비밀번호 확인</string>
+    <string name="sign_up_major">학과</string>
+    <string name="sign_up_student_id">학번</string>
+    <string name="sign_up_ok">회원가입</string>
+    <string name="sign_up_send_validation_email">인증 메일 전송</string>
+    <string name="sign_up_nickname">닉네임</string>
+    <string name="sign_up_finish">회원가입</string>
+    <string name="sign_up_nickname_helper_text">아이디는 3-20자로 구성됩니다.</string>
+    
 </resources>
