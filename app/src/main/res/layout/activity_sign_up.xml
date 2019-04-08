@@ -6,13 +6,16 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:overScrollMode="never"
-            android:layout_marginBottom="@dimen/top_default">
+            android:nestedScrollingEnabled="true"
+            android:fitsSystemWindows="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:context=".view.signup.SignUpActivity">
 
             <androidx.constraintlayout.widget.Guideline
@@ -103,7 +106,7 @@
                     android:layout_marginEnd="@dimen/default_gutter"
                     style="@style/DefaultTextLayoutForm"
                     app:errorEnabled="false"
-                    app:helperText="학교 이메일로 인증메일이 전송됩니다."
+                    app:helperText="@string/sign_up_email_validation"
                     app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
                     app:layout_constraintTop_toBottomOf="@id/iv_sign_up_profile_image_selection">
@@ -125,7 +128,7 @@
                     android:hint="@string/sign_up_pw"
                     android:layout_marginTop="@dimen/top_default"
                     style="@style/DefaultTextLayoutForm"
-                    app:helperText="비밀번호는 영어,숫자,특수문자를 포함하여 6~20자로 구성됩니다"
+                    app:helperText="@string/sign_up_pw_validation"
                     app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
                     app:layout_constraintTop_toBottomOf="@id/text_input_layout_sign_up_std_id">
@@ -136,7 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:maxLength="20"/>
+                        android:maxLength="15"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,7 +212,8 @@
                     android:enabled="false"
                     app:layout_constraintStart_toStartOf="@id/guide_sign_up_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_sign_up_end"
-                    app:layout_constraintTop_toBottomOf="@id/spn_sign_up_major"/>
+                    app:layout_constraintTop_toBottomOf="@id/spn_sign_up_major"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

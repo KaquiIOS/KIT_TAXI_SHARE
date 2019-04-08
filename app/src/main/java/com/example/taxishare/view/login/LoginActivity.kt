@@ -83,13 +83,13 @@ class LoginActivity : BaseActivity(), LoginView {
 
     }
 
-    override fun changeIdInputState(isMatched: Boolean) {
+    override fun changeIdEditTextState(isMatched: Boolean) {
         text_layout_login_id.error =
             if (isMatched) null
             else resources.getString(R.string.common_email_pattern_not_match)
     }
 
-    override fun changePwInputState(isMatched: Boolean) {
+    override fun changePwEditTextState(isMatched: Boolean) {
         text_layout_login_pw.error =
             if (isMatched) null
             else resources.getString(R.string.common_pw_pattern_not_match)

@@ -20,13 +20,13 @@ class LoginPresenter(private val loginView: LoginView) {
 
     fun checkIdValidation(id: String) {
         isIdValidate = RegularExpressionChecker.checkEmailValidation(id)
-        view.changeIdInputState(isIdValidate)
+        view.changeIdEditTextState(isIdValidate)
         changeLoginButtonState()
     }
 
     fun checkPwValidation(pw: String) {
         isPwValidate = RegularExpressionChecker.checkPasswordValidation(pw)
-        view.changePwInputState(isPwValidate)
+        view.changePwEditTextState(isPwValidate)
         changeLoginButtonState()
     }
 

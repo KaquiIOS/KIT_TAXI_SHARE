@@ -75,6 +75,8 @@
     <string name="sign_up_send_validation_email">인증 메일 전송</string>
     <string name="sign_up_nickname">닉네임</string>
     <string name="sign_up_finish">회원가입</string>
-    <string name="sign_up_nickname_helper_text">아이디는 3-20자로 구성됩니다.</string>
+    <string name="sign_up_nickname_helper_text">아이디는 3~20자로 구성됩니다.</string>
+    <string name="sign_up_email_validation">학교 이메일로 인증메일이 전송됩니다.</string>
+    <string name="sign_up_pw_validation">비밀번호는 영어,숫자,특수문자를 포함하여 8~15자로 구성됩니다</string>
     
 </resources>
