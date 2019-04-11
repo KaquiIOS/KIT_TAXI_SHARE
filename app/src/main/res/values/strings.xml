@@ -24,10 +24,12 @@
     <string name="login_find_pw_text">비밀번호를 잊으셨나요 ?</string>
     <string name="login_made_by_text">Made by Kaqui For KIT TaxiShare</string>
 
+    <string name="login_fail">아이디 혹은 비밀번호를 확인해주세요</string>
 
     <string name="login">로그인 화면입니다 !</string>
 
 
+    <!-- Sign Up -->
     <string-array name="major_list">
         <item>전공</item>
         <item>기계공학과</item>
@@ -63,7 +65,6 @@
         <item>-----</item>
     </string-array>
 
-    <!-- Sign Up -->
     <string name="sign_up_personal_data">ID INFO</string>
     <string name="sign_up_validation">VALIDATION</string>
     <string name="sign_up_id">아이디</string>
