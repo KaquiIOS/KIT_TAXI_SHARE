@@ -4,8 +4,6 @@
 
 package com.example.taxishare.view.signup
 
-import com.google.android.material.textfield.TextInputEditText
-
 interface SignUpView {
 
     fun changeSignUpButtonState(canActivate : Boolean)
@@ -16,5 +14,9 @@ interface SignUpView {
     fun changeNicknameEditTextState(isMatched: Boolean)
     // 전공 선택 변경
 
-    fun changeEditTextColor(editText: TextInputEditText, isMatched: Boolean)
+    fun sameIdExist()
+    fun sameIdNotExist()
+
+    fun signUpSuccess()
+    fun signUpFail()
 }

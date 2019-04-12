@@ -4,10 +4,12 @@
 
 package com.example.taxishare.data.remote.apis.server
 
-import android.util.Log
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.remote.apis.server.request.ServerRequest
-import com.example.taxishare.data.remote.apis.server.response.DuplicateIdCheckResponse
+import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
+import com.example.taxishare.data.remote.apis.server.response.DuplicateIdExistCheckResponse
+import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
+import com.example.taxishare.data.remote.apis.server.response.SignUpRequestResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -48,9 +50,23 @@ class ServerClient private constructor() {
             }
     }
 
-    fun isSameIdExist(serverRequest: ServerRequest): Observable<DuplicateIdCheckResponse> =
+    fun loginRequest(loginRequest : ServerRequest) : Observable<LoginRequestResponse> =
+            retrofit.create(ServerAPI::class.java)
+                .loginRequest(loginRequest.getRequest())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+
+
+    fun isSameIdExist(serverRequest: ServerRequest): Observable<DuplicateIdExistCheckResponse> =
         retrofit.create(ServerAPI::class.java)
-            .checkSameIdExist()
+            .checkSameIdExist(serverRequest.getRequest())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+
+    fun signUpRequest(signUpRequest: SignUpRequest) : Observable<SignUpRequestResponse> =
+            retrofit.create(ServerAPI::class.java)
+                .signUpRequest(signUpRequest.getRequest())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
 }

@@ -74,4 +74,7 @@ dependencies {
 
     // circular imageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    // tedPermission
+    implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
 }

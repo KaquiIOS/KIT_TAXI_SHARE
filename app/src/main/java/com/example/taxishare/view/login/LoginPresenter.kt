@@ -1,7 +1,7 @@
 package com.example.taxishare.view.login
 
 import com.example.taxishare.data.remote.apis.server.ServerClient
-import com.example.taxishare.data.remote.apis.server.request.SameIdExistCheckRequest
+import com.example.taxishare.data.remote.apis.server.request.LoginRequest
 import com.example.taxishare.util.RegularExpressionChecker
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -24,14 +24,15 @@ class LoginPresenter(
             preLoginRequestDisposable?.dispose()
         }
 
-        preLoginRequestDisposable = serverClient.isSameIdExist(SameIdExistCheckRequest(id))
+        preLoginRequestDisposable = serverClient.loginRequest(LoginRequest(id, pw))
             .subscribe({
-                if (it.sameIdExist)
+                if (it.isLoginSuccess) {
                     loginView.loginSuccess()
-                else
+                } else {
                     loginView.loginFail()
+                }
             }, {
-                loginView.loginFail()
+                it.stackTrace[0]
             })
     }
 
