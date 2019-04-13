@@ -8,5 +8,5 @@ package com.example.taxishare.data.model
 data class UserEntity(
     val studentId: Int, val id: String, val pw: String,
     val nickname: String, val email: String,
-    val profileImageUrl: String, val major: Int
+    val major: Int
 )

@@ -8,6 +8,7 @@ class Constant {
 
 
         const val GALLERY_REQUEST_CODE : Int = 3001
+        const val CAMERA_REQUEST_CODE : Int = 3002
 
         fun toInt(boolean: Boolean, int: Int) : Int = if (boolean) int else 0
     }

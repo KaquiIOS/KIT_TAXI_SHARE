@@ -4,6 +4,9 @@
 
 package com.example.taxishare.data.remote.apis.server.request
 
+import android.net.Uri
+import java.io.ByteArrayOutputStream
+
 class SignUpRequest constructor(
     private val id: String,
     private val pw: String,

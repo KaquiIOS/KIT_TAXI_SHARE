@@ -4,6 +4,7 @@
 
 package com.example.taxishare.view.signup
 
+import android.net.Uri
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.DuplicateIdExistCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
@@ -22,6 +23,7 @@ class SignUpPresenter(
     private var isPwConfirmed: Boolean = false
     private var isNicknameValidated: Boolean = false
     private var isMajorSelected: Boolean = false
+    private var selectedImageUri : Uri? = null
 
     private var preIdExistCheckDisposable: Disposable? = null
     private var preSignUpRequestDisposable: Disposable? = null
@@ -84,6 +86,10 @@ class SignUpPresenter(
     fun checkMajorSelected(selectedIdx: Int) {
         isMajorSelected = (selectedIdx > 0)
         changeSignUpButtonState()
+    }
+
+    fun setProfileImage(selectedImageUri : Uri) {
+        this.selectedImageUri = selectedImageUri
     }
 
     fun signUpRequest(id: String, pw: String, nickname: String, major: String) {

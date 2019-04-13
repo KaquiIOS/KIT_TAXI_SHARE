@@ -6,7 +6,9 @@
     <string name="common_pw_not_same">비밀번호는 숫자,영문,특수문자($@$!%*#?) 6~20자리로 구성됩니다</string>
     <string name="common_student_id_pattern_not_match">학번은 숫자 8개로 구성됩니다</string>
     <string name="common_nickname_pattern_not_match">닉네임 형식에 맞지 않습니다</string>
-    
+    <string name="common_open_gallery">이미지를 선택해주세요</string>
+    <string name="common_select_gallery">이미지 선택</string>
+    <string name="common_use_camera">사진 찍기</string>
     
     <!-- Login -->
     <string name="login_title">택시 카풀(가제)</string>
@@ -82,5 +84,6 @@
     <string name="sign_up_same_id_exist">동일한 아이디가 이미 존재합니다</string>
     <string name="sign_up_request_success">입력하신 이메일로 인증 메일이 발송되었습니다</string>
     <string name="sign_up_request_fail">오류로 인해 가입을 실패했습니다</string>
-    <string name="sign_up_image_permission_require">메인 사진을 선택하기 위해선 카메라 권한이 필요합니다</string>
+    <string name="sign_up_image_permission_require">사진을 촬영하기 위해선 카메라 권한이 필요합니다</string>
+    <string name="sign_up_external_permission_require">사진을 선택하기 위해선 내부 저장소 접근 권한이 필요합니다</string>
 </resources>

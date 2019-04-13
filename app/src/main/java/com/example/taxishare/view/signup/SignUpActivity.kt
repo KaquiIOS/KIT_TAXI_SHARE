@@ -2,9 +2,13 @@ package com.example.taxishare.view.signup
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.remote.apis.server.ServerClient
@@ -25,7 +29,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        iv_sign_up_profile_image.clipToOutline = true
+        //iv_sign_up_profile_image.clipToOutline = true
 
         initPresenter()
         initView()
@@ -86,13 +90,6 @@ class SignUpActivity : BaseActivity(), SignUpView {
         toast(resources.getString(R.string.sign_up_request_fail))
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Constant.GALLERY_REQUEST_CODE) {
-            Log.d("Test", "Test")
-        }
-    }
-
     private fun initPresenter() {
         presenter = SignUpPresenter(this, ServerClient.getInstance())
     }
@@ -105,18 +102,17 @@ class SignUpActivity : BaseActivity(), SignUpView {
             .request()
             .subscribe({
                 // TODO : 갤러리로 넘어가기
-                openGallery()
-            },{
+                slideBottomSheet()
+            }, {
                 // TODO : 오류 처리하기
                 it.stackTrace[0]
             })
     }
 
-    private fun openGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), Constant.GALLERY_REQUEST_CODE)
+
+    private fun slideBottomSheet() {
+        val bottomSheetFragment = BottomSheetFragment()
+        bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
     }
 
     private fun initView() {
@@ -126,22 +122,6 @@ class SignUpActivity : BaseActivity(), SignUpView {
     /* Listener 작성 */
     @SuppressWarnings("all")
     private fun initListener() {
-
-        // 이미지 선택 버튼 클릭
-        iv_sign_up_profile_image_selection.clicks().subscribe({
-            imageChangeBtnClicked()
-        }, {
-            it.stackTrace[0]
-        })
-
-
-        // 이미지 프로필 버튼 클릭
-        iv_sign_up_profile_image.clicks().subscribe({
-            imageChangeBtnClicked()
-        }, {
-            it.stackTrace[0]
-        })
-
 
         // 아이디 양식 확인
         text_input_sign_up_std_id.focusChanges().skipInitialValue()
