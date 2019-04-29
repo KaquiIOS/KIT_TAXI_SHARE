@@ -53,6 +53,7 @@ class ServerClient private constructor() {
     fun loginRequest(loginRequest : ServerRequest) : Observable<LoginRequestResponse> =
             retrofit.create(ServerAPI::class.java)
                 .loginRequest(loginRequest.getRequest())
+                
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
 
