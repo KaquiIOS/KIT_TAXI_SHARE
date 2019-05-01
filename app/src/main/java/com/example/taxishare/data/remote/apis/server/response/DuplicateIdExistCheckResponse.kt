@@ -9,6 +9,6 @@ import com.google.gson.annotations.SerializedName
 
 data class DuplicateIdExistCheckResponse(
     @Expose
-    @SerializedName("result")
-    val sameIdExist: Boolean
+    @SerializedName("responseCode")
+    val responseCode: Int
 )

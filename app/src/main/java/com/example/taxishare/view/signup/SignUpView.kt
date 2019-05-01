@@ -17,6 +17,10 @@ interface SignUpView {
     fun sameIdExist()
     fun sameIdNotExist()
 
+    fun sameNicknameExist()
+    fun sameNicknameNotExist()
+
     fun signUpSuccess()
     fun signUpFail()
+    fun showCheckEmailMessage()
 }

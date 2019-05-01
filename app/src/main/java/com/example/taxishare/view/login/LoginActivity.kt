@@ -39,6 +39,10 @@ class LoginActivity : BaseActivity(), LoginView {
         toast(resources.getString(R.string.login_fail))
     }
 
+    override fun notValidatedUserMessage() {
+        toast(R.string.login_not_validated_user)
+    }
+
     override fun changeLoginButtonState(canActivate: Boolean) {
         btn_login_request.isEnabled = canActivate
         if (canActivate) {
@@ -67,7 +71,7 @@ class LoginActivity : BaseActivity(), LoginView {
     /*
      * Presenter 초기화  */
     private fun initPresenter() {
-        presenter = LoginPresenter(this, ServerClient.getInstance(), compositeDisposable)
+        presenter = LoginPresenter(this, ServerClient.getInstance())
     }
 
     /*

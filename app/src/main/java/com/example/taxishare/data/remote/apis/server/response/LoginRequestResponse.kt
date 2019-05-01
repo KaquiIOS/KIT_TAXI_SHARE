@@ -9,6 +9,6 @@ import com.google.gson.annotations.SerializedName
 
 data class LoginRequestResponse(
     @Expose
-    @SerializedName("result")
-    val isLoginSuccess : Boolean
+    @SerializedName("responseCode")
+    val responseCode : Int
 )

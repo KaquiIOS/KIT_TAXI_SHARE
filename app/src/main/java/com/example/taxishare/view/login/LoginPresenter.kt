@@ -1,15 +1,14 @@
 package com.example.taxishare.view.login
 
+import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.LoginRequest
 import com.example.taxishare.util.RegularExpressionChecker
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 class LoginPresenter(
     private val loginView: LoginView,
-    private val serverClient: ServerClient,
-    private val compositeDisposable: CompositeDisposable
+    private val serverClient: ServerClient
 ) {
 
     private var isIdValidate: Boolean = false
@@ -26,10 +25,11 @@ class LoginPresenter(
 
         preLoginRequestDisposable = serverClient.loginRequest(LoginRequest(id, pw))
             .subscribe({
-                if (it.isLoginSuccess) {
-                    loginView.loginSuccess()
-                } else {
-                    loginView.loginFail()
+                when (it) {
+                    ServerResponse.LOGIN_SUCCESS -> loginView.loginSuccess()
+                    ServerResponse.NOT_VALIDATED_USER -> loginView.notValidatedUserMessage()
+                    ServerResponse.LOGIN_FAIL -> loginView.loginFail()
+                    else -> loginView.loginFail()
                 }
             }, {
                 it.stackTrace[0]
@@ -42,7 +42,7 @@ class LoginPresenter(
     }
 
     fun checkIdValidation(id: String) {
-        isIdValidate = RegularExpressionChecker.checkEmailValidation(id)
+        isIdValidate = RegularExpressionChecker.checkStudentIdValidation(id)
         loginView.changeIdEditTextState(isIdValidate)
         changeLoginButtonState()
     }

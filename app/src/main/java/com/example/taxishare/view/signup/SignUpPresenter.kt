@@ -4,13 +4,12 @@
 
 package com.example.taxishare.view.signup
 
-import android.net.Uri
+import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.DuplicateIdExistCheckRequest
+import com.example.taxishare.data.remote.apis.server.request.DuplicateNicknameCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
 import com.example.taxishare.util.RegularExpressionChecker
-import com.gun0912.tedpermission.TedPermission
-import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
 class SignUpPresenter(
@@ -23,10 +22,10 @@ class SignUpPresenter(
     private var isPwConfirmed: Boolean = false
     private var isNicknameValidated: Boolean = false
     private var isMajorSelected: Boolean = false
-    private var selectedImageUri : Uri? = null
 
     private var preIdExistCheckDisposable: Disposable? = null
     private var preSignUpRequestDisposable: Disposable? = null
+    private var preNicknameCheckDisposable : Disposable? = null
 
     private fun isAllRequestDataValidated(): Boolean =
         isIdValidated && isPwValidated && isPwConfirmed && isNicknameValidated && isMajorSelected
@@ -42,24 +41,44 @@ class SignUpPresenter(
 
         preIdExistCheckDisposable = serverClient.isSameIdExist(DuplicateIdExistCheckRequest(stdId))
             .subscribe({
-                isIdValidated = !it.sameIdExist
-                if (it.sameIdExist)
+                if (it.code == ServerResponse.SAME_ID_EXIST.code) {
+                    isIdValidated = false
                     signUpView.sameIdExist()
-                else
+                } else if (it.code == ServerResponse.SAME_ID_NOT_EXIST.code) {
+                    isIdValidated = true
                     signUpView.sameIdNotExist()
+                }
                 changeSignUpButtonState()
             }, {
                 it.stackTrace[0]
             })
     }
 
-    private fun checkStudentIdPatternValidate(stdId: String) {
-        isIdValidated = RegularExpressionChecker.checkStudentIdValidation(stdId)
-        signUpView.changeIdEditTextState(isIdValidated)
+    private fun checkSameNicknameExist(nickname: String) {
+
+        if (preNicknameCheckDisposable != null && preNicknameCheckDisposable!!.isDisposed) {
+            preNicknameCheckDisposable?.dispose()
+        }
+
+        preNicknameCheckDisposable = serverClient.isSameNicknameExist(DuplicateNicknameCheckRequest(nickname))
+            .subscribe({
+                if(it.code == ServerResponse.SAME_NICKNAME_EXIST.code) {
+                    isNicknameValidated = false
+                    signUpView.sameNicknameExist()
+                } else {
+                    isNicknameValidated = true
+                    signUpView.sameNicknameNotExist()
+                }
+                changeSignUpButtonState()
+            }, {
+                it.stackTrace[0]
+            })
     }
 
+
     fun checkIsIdValidate(stdId: String) {
-        checkStudentIdPatternValidate(stdId)
+        isIdValidated = RegularExpressionChecker.checkStudentIdValidation(stdId)
+        signUpView.changeIdEditTextState(isIdValidated)
         if (isIdValidated) {
             checkSameIdExist(stdId)
         }
@@ -80,16 +99,14 @@ class SignUpPresenter(
     fun checkNicknameValidation(nickname: String) {
         isNicknameValidated = RegularExpressionChecker.checkNicknameValidation(nickname)
         signUpView.changeNicknameEditTextState(isNicknameValidated)
-        changeSignUpButtonState()
+        if (isNicknameValidated) {
+            checkSameNicknameExist(nickname)
+        }
     }
 
     fun checkMajorSelected(selectedIdx: Int) {
         isMajorSelected = (selectedIdx > 0)
         changeSignUpButtonState()
-    }
-
-    fun setProfileImage(selectedImageUri : Uri) {
-        this.selectedImageUri = selectedImageUri
     }
 
     fun signUpRequest(id: String, pw: String, nickname: String, major: String) {
@@ -99,10 +116,11 @@ class SignUpPresenter(
 
         preSignUpRequestDisposable = serverClient.signUpRequest(SignUpRequest(id, pw, nickname, major))
             .subscribe({
-                if (it.result) {
-                    signUpView.signUpSuccess()
-                } else {
-                    signUpView.signUpFail()
+
+                when (it.code) {
+                    ServerResponse.SIGN_UP_REQUEST_SUCCESS.code -> signUpView.signUpSuccess()
+                    ServerResponse.SIGN_UP_REQUEST_FAIL.code -> signUpView.signUpFail()
+                    else -> signUpView.signUpFail()
                 }
             }, {
                 it.stackTrace[0]

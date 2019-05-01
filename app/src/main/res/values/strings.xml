@@ -9,7 +9,8 @@
     <string name="common_open_gallery">이미지를 선택해주세요</string>
     <string name="common_select_gallery">이미지 선택</string>
     <string name="common_use_camera">사진 찍기</string>
-    
+    <string name="ok">확인</string>
+
     <!-- Login -->
     <string name="login_title">택시 카풀(가제)</string>
     <string name="login_id">아이디</string>
@@ -27,6 +28,7 @@
     <string name="login_made_by_text">Made by Kaqui For KIT TaxiShare</string>
 
     <string name="login_fail">아이디 혹은 비밀번호를 확인해주세요</string>
+    <string name="login_not_validated_user">메일을 통해 인증을 먼저 해주세요!</string>
 
     <string name="login">로그인 화면입니다 !</string>
 
@@ -86,4 +88,9 @@
     <string name="sign_up_request_fail">오류로 인해 가입을 실패했습니다</string>
     <string name="sign_up_image_permission_require">사진을 촬영하기 위해선 카메라 권한이 필요합니다</string>
     <string name="sign_up_external_permission_require">사진을 선택하기 위해선 내부 저장소 접근 권한이 필요합니다</string>
+    <string name="sign_up_check_email">학교 이메일을 확인해주세요 !</string>
+    <string name="sign_up_send_email">이메일을 전송했습니다 !</string>
+    <string name="sign_up_fail_send_email">이메일 전송을 실패했습니다</string>
+    <string name="sign_up_same_nickname_exist">동일한 닉네임이 존재합니다</string>
+
 </resources>

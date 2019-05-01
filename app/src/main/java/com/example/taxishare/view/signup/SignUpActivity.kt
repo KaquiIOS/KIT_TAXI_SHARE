@@ -1,16 +1,10 @@
 package com.example.taxishare.view.signup
 
 import android.Manifest
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.taxishare.R
-import com.example.taxishare.app.Constant
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.view.BaseActivity
 import com.jakewharton.rxbinding3.view.clicks
@@ -20,6 +14,7 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.toast
 
 class SignUpActivity : BaseActivity(), SignUpView {
@@ -43,8 +38,25 @@ class SignUpActivity : BaseActivity(), SignUpView {
             resources.getString(R.string.sign_up_same_id_exist)
     }
 
+    override fun showCheckEmailMessage() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.sign_up_check_email)
+            .setPositiveButton(R.string.ok, null)
+            .show()
+    }
+
     override fun sameIdNotExist() {
         text_input_layout_sign_up_std_id.error = null
+        text_input_layout_sign_up_std_id.helperText = resources.getString(R.string.sign_up_email_validation)
+    }
+
+    override fun sameNicknameExist() {
+        text_input_layout_sign_up_nick_name.error = resources.getString(R.string.sign_up_same_nickname_exist)
+    }
+
+    override fun sameNicknameNotExist() {
+        text_input_layout_sign_up_nick_name.error = null
+        text_input_layout_sign_up_nick_name.helperText = resources.getString(R.string.sign_up_nickname_helper_text)
     }
 
     override fun changeSignUpButtonState(canActivate: Boolean) {
@@ -84,6 +96,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     override fun signUpSuccess() {
         toast(resources.getString(R.string.sign_up_request_success))
+        finish()
     }
 
     override fun signUpFail() {
@@ -158,11 +171,13 @@ class SignUpActivity : BaseActivity(), SignUpView {
         text_input_sign_up_nick_name.focusChanges().skipInitialValue()
             .filter { !it }
             .subscribe({
-                presenter.checkNicknameValidation(it.toString())
+                presenter.checkNicknameValidation(text_input_sign_up_nick_name.text.toString())
             }, {
                 it.stackTrace[0]
             })
 
+
+        spn_sign_up_major.onTouch { v, _ -> v.requestFocus() }
 
         // 전공선택 확인
         spn_sign_up_major.itemSelections().skipInitialValue()

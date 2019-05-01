@@ -8,4 +8,5 @@ interface LoginView {
 
     fun loginSuccess()
     fun loginFail()
+    fun notValidatedUserMessage()
 }
