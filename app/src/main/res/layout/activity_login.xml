@@ -5,6 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         tools:context=".view.login.LoginActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -60,6 +62,8 @@
                 android:id="@+id/text_input_login_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="8"
+                android:inputType="numberDecimal"
                 android:maxLines="1"/>
 
     </com.google.android.material.textfield.TextInputLayout>
