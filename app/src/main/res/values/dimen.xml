@@ -8,4 +8,7 @@
     <dimen name="guide_32">32dp</dimen>
     <dimen name="default_gutter">8dp</dimen>
 
+    <dimen name="main_toolbar_size">32dp</dimen>
+    <dimen name="main_bottom_nav_size">48dp</dimen>
+
 </resources>
