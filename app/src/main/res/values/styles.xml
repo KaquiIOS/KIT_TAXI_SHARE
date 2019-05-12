@@ -32,5 +32,18 @@
         <item name="android:textColor">@color/common_gray</item>
         <item name="android:textSize">14sp</item>
     </style>
-    
+
+    <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
+        <item name="android:background">@color/common_white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/main_toolbar_size</item>
+    </style>
+
+    <style name="MainBottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/warning_red</item>
+        <item name="itemTextColor">@color/common_blue</item>
+
+    </style>
+
+
 </resources>

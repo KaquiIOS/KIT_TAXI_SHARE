@@ -79,13 +79,13 @@ class LoginActivity : BaseActivity(), LoginView {
     @SuppressWarnings("all")
     private fun initListener() {
 
-        text_input_login_id.textChanges().skipInitialValue().subscribe({
+        text_input_login_id.textChanges().subscribe({
             presenter.checkIdValidation(text_input_login_id.text.toString())
         }, {
             it.stackTrace[0]
         })
 
-        text_input_login_pw.textChanges().skipInitialValue().subscribe({
+        text_input_login_pw.textChanges().subscribe({
             presenter.checkPwValidation(text_input_login_pw.text.toString())
         }, {
             it.stackTrace[0]
