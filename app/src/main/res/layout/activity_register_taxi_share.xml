@@ -7,4 +7,262 @@
         android:layout_height="match_parent"
         tools:context=".view.main.register.RegisterTaxiShareActivity">
 
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_register_share"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_toolbar_size"
+            android:elevation="11dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+                android:id="@+id/iv_register_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back_black_24dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_title"
+                android:textSize="@dimen/register_title"
+                android:layout_marginStart="10dp"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_register_top"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="0.05"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_register_start"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="@dimen/start_default"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_register_end"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_end="@dimen/start_default"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_register_bottom"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_end="@dimen/start_default"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_register_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_taxi_register_title"
+            style="@style/TaxiRegisterTextInputLayoutStyle"
+            android:hint="@string/register_title_hint"
+            app:helperText="@string/register_title_helper"
+            app:layout_constraintStart_toStartOf="@id/guide_register_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_end"
+            app:layout_constraintTop_toTopOf="@id/guide_register_top">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_input_taxi_register_title"
+                android:padding="15dp"
+                style="@style/TaxiRegisterTextInputEditTextStyle"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+            android:id="@+id/divider_register_taxi_second"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/common_gray"
+            android:layout_marginTop="@dimen/default_gutter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_input_layout_taxi_register_title"/>
+
+
+    <TextView
+            android:id="@+id/text_view_taxi_register_start_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:drawableStart="@drawable/ic_today_black_32dp"
+            android:drawablePadding="10dp"
+            android:textSize="@dimen/register_default_text_size"
+            android:text="@string/register_start_time_hint"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/divider_register_taxi_second"
+            app:layout_constraintStart_toStartOf="@id/guide_register_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_end"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_register_location_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_register_location_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85"/>
+
+    <TextView
+            android:id="@+id/text_view_register_start_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:textColor="@color/common_black"
+            android:hint="@string/register_start_location_hint"
+            app:layout_constraintStart_toStartOf="@id/guide_register_location_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_location_end"
+            app:layout_constraintTop_toBottomOf="@id/text_view_taxi_register_start_time"/>
+
+    <ImageView
+            android:id="@+id/iv_register_start_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dot_departure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_view_register_start_location"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_register_start_location"
+            app:layout_constraintEnd_toStartOf="@id/guide_register_location_start"/>
+
+    <View
+            android:id="@+id/divider_register_taxi_location"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/common_gray"
+            android:layout_marginTop="@dimen/default_gutter"
+            app:layout_constraintTop_toBottomOf="@id/text_view_register_start_location"
+            app:layout_constraintStart_toStartOf="@id/guide_register_location_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_location_end"/>
+
+    <TextView
+            android:id="@+id/text_view_register_end_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="@dimen/default_gutter"
+            android:textColor="@color/common_black"
+            android:hint="@string/register_end_location_hint"
+            app:layout_constraintStart_toStartOf="@id/guide_register_location_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_location_end"
+            app:layout_constraintTop_toTopOf="@id/divider_register_taxi_location"/>
+
+    <ImageView
+            android:id="@+id/iv_register_end_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dot_arrive"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_view_register_end_location"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_register_end_location"
+            app:layout_constraintEnd_toStartOf="@id/text_view_register_end_location"/>
+
+    <ImageView
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:rotation="90"
+            android:src="@drawable/ic_location_link"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_location_start"
+            app:layout_constraintTop_toBottomOf="@id/iv_register_start_location"
+            app:layout_constraintBottom_toTopOf="@id/iv_register_end_location"/>
+
+    <TextView
+            android:id="@+id/text_view_taxi_register_member_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:drawableStart="@drawable/ic_person_add_black_32dp"
+            android:drawablePadding="10dp"
+            android:text="@string/register_member"
+            android:textSize="@dimen/register_default_text_size"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/guide_register_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_end"
+            app:layout_constraintTop_toBottomOf="@id/text_view_register_end_location"/>
+
+    <Spinner
+            style="@style/RegisterSpinnerStyle"
+            android:id="@+id/spn_taxi_register_member_num"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/default_gutter"
+            android:entries="@array/register_member_num"
+            app:layout_constraintStart_toEndOf="@id/text_view_taxi_register_member_num"
+            app:layout_constraintTop_toTopOf="@id/text_view_taxi_register_member_num"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_taxi_register_member_num"/>
+
+    <TextView
+            android:id="@+id/text_view_taxi_register_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:drawableStart="@drawable/ic_content_content_24dp"
+            android:drawablePadding="10dp"
+            android:text="@string/register_content"
+            android:textSize="@dimen/register_default_text_size"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/guide_register_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_end"
+            app:layout_constraintTop_toBottomOf="@id/spn_taxi_register_member_num"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_taxi_register_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            style="@style/TaxiRegisterTextInputLayoutStyle"
+            android:layout_marginTop="@dimen/default_gutter"
+            app:layout_constraintStart_toStartOf="@id/guide_register_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_end"
+            app:layout_constraintTop_toBottomOf="@id/text_view_taxi_register_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_input_taxi_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start|top"
+                android:maxLines="4"
+                android:layout_weight="1"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+            android:id="@+id/btn_taxi_register_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:background="@drawable/button_background_selector"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:text="@string/register_post"
+            android:textColor="@color/common_white"
+            app:layout_constraintStart_toStartOf="@id/guide_register_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_register_end"
+            app:layout_constraintTop_toBottomOf="@id/text_input_layout_taxi_register_content"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

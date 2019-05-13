@@ -5,10 +5,17 @@
     <dimen name="bottom_default">16dp</dimen>
     <dimen name="top_default">16dp</dimen>
 
+
     <dimen name="guide_32">32dp</dimen>
     <dimen name="default_gutter">8dp</dimen>
 
-    <dimen name="main_toolbar_size">32dp</dimen>
+    <dimen name="main_toolbar_size">48dp</dimen>
     <dimen name="main_bottom_nav_size">48dp</dimen>
+
+
+    <dimen name="register_title">24sp</dimen>
+    <dimen name="register_default_text_size">24sp</dimen>
+
+    <dimen name="register_margin_top">32dp</dimen>
 
 </resources>
