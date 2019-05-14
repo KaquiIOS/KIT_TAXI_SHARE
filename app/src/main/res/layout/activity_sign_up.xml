@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/top_default"
                     android:layout_marginBottom="@dimen/top_default"
-                    android:background="@drawable/background_disable_btn_round_corner"
+                    android:background="@drawable/button_background_selector"
                     android:textColor="@color/common_white"
                     android:textSize="24sp"
                     android:text="@string/sign_up_finish"

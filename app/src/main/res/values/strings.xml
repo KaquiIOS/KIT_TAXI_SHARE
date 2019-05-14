@@ -17,7 +17,6 @@
     <string name="main_menu_my_page">MyPage</string>
 
 
-    
     <!-- Register TaxiShare -->
     <string name="register_title">글 등록</string>
     <string name="register_title_hint">제목</string>
@@ -34,6 +33,11 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+
+    <!-- Search Location -->
+    <string name="search_location_departure">출발지 검색</string>
+    <string name="search_location_arrive">도착지 검색</string>
+
 
     <!-- Login -->
     <string name="login_title">택시 카풀(가제)</string>

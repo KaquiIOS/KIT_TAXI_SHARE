@@ -61,13 +61,6 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     override fun changeSignUpButtonState(canActivate: Boolean) {
         btn_sign_up_finish.isEnabled = canActivate
-        if (canActivate) {
-            btn_sign_up_finish.backgroundDrawable =
-                ContextCompat.getDrawable(this, R.drawable.background_enable_btn_round_corner)
-        } else {
-            btn_sign_up_finish.backgroundDrawable =
-                ContextCompat.getDrawable(this, R.drawable.background_disable_btn_round_corner)
-        }
     }
 
     override fun changeIdEditTextState(isMatched: Boolean) {
