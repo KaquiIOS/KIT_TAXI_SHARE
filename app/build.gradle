@@ -78,4 +78,8 @@ dependencies {
 
     // tedPermission
     implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
+
+    // Google play
+    implementation 'com.google.android.gms:play-services-wallet:16.0.1'
+
 }

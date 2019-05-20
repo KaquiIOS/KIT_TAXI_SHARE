@@ -37,6 +37,8 @@
     <!-- Search Location -->
     <string name="search_location_departure">출발지 검색</string>
     <string name="search_location_arrive">도착지 검색</string>
+    <string name="search_location_recent">최근 검색 목록</string>
+    <string name="search_location_register">저장 목록</string>
 
 
     <!-- Login -->
