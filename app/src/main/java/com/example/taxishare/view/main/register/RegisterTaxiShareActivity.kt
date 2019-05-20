@@ -6,13 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.view.main.register.location.LocationSearchActivity
+import com.example.taxishare.view.main.register.location.SearchLocationAdapter
+import com.google.android.gms.maps.GoogleMap
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.itemSelections
 import com.jakewharton.rxbinding3.widget.textChanges
+import kotlinx.android.synthetic.main.activity_location_search.*
 import kotlinx.android.synthetic.main.activity_register_taxi_share.*
 import org.jetbrains.anko.startActivityForResult
 import java.util.*
@@ -21,8 +26,9 @@ import java.util.*
 
 class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
-    lateinit var presenter: RegisterTaxiSharePresenter
-
+    private val presenter: RegisterTaxiSharePresenter by lazy {
+        RegisterTaxiSharePresenter(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +36,6 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
         initView()
         initListener()
-        initPresenter()
     }
 
     override fun changeTitleEditTextState(isMatched: Boolean) {
@@ -77,10 +82,6 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
         } else if (requestCode == Constant.REGISTER_END_LOCATION_CODE && data != null) {
             //presenter.setEndLocation()
         }
-    }
-
-    private fun initPresenter() {
-        presenter = RegisterTaxiSharePresenter(this)
     }
 
     @SuppressWarnings("all")
