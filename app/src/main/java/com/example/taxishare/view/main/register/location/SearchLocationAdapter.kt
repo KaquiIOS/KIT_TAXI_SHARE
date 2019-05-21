@@ -7,21 +7,22 @@ package com.example.taxishare.view.main.register.location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.location_viewholder.view.*
 import java.lang.ref.WeakReference
 
 
-class SearchLocationAdapter constructor(private val mapView: MapView) :
-    RecyclerView.Adapter<SearchLocationAdapter.SearchLocationViewHolder>(), OnMapReadyCallback  {
+class SearchLocationAdapter constructor(private val mapView: MapView, private val animation: Animation) :
+    RecyclerView.Adapter<SearchLocationAdapter.SearchLocationViewHolder>(), OnMapReadyCallback {
 
     private val locationList: ArrayList<LatLng> by lazy { ArrayList<LatLng>() }
-
     private lateinit var mapRef: WeakReference<SearchLocationViewHolder>
     private lateinit var googleMap: GoogleMap
 
@@ -54,7 +55,7 @@ class SearchLocationAdapter constructor(private val mapView: MapView) :
         googleMap = p0 ?: return
     }
 
-    private fun setMapLocation(position : Int) {
+    private fun setMapLocation(position: Int) {
         // 이미 초기화 된 경우는 무시
         if (!::googleMap.isInitialized) return
         // resume
@@ -62,9 +63,14 @@ class SearchLocationAdapter constructor(private val mapView: MapView) :
         // 구글 맵 초기화
         with(googleMap) {
             // 위치 설정 및 줌정도 설정
-            moveCamera(CameraUpdateFactory.newLatLngZoom(locationList[position], 15f))
+            moveCamera(CameraUpdateFactory.newLatLngZoom(locationList[position], 13f))
             // addMarker
-            addMarker(MarkerOptions().position(locationList[position]))
+            addMarker(
+                MarkerOptions().position(locationList[position])
+                    .title("출발")
+                    .alpha(0.0f)
+                    .infoWindowAnchor(0.5f, 1.0f))
+                .showInfoWindow()
             // 지도 타입
             mapType = GoogleMap.MAP_TYPE_NORMAL
         }
@@ -102,9 +108,10 @@ class SearchLocationAdapter constructor(private val mapView: MapView) :
     private fun addView(curHolder: SearchLocationViewHolder, position: Int) {
         setMapLocation(position)
         curHolder.itemView.search_list_constraint.addView(mapView)
+        mapView.startAnimation(animation)
     }
 
-    private fun removeView(preHolder : SearchLocationViewHolder?) {
+    private fun removeView(preHolder: SearchLocationViewHolder?) {
         preHolder?.itemView?.search_list_constraint?.removeView(mapView)
     }
 }

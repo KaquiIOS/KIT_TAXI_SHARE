@@ -1,6 +1,7 @@
 package com.example.taxishare.view.main.register.location
 
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +15,15 @@ import kotlinx.android.synthetic.main.activity_location_search.*
 class LocationSearchActivity : AppCompatActivity(), LocationSearchView {
 
     private val searchListAdapter: SearchLocationAdapter by lazy {
-        SearchLocationAdapter(MapView(this).apply {
-            layoutParams =
-                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Constant.SEARCH_HISTORY_MAP_HEIGHT)
-        })
+        SearchLocationAdapter(
+            animation = AnimationUtils.loadAnimation(this, R.anim.slide_down),
+            mapView = MapView(this).apply {
+                layoutParams =
+                    LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        Constant.SEARCH_HISTORY_MAP_HEIGHT
+                    )
+            })
     }
 
     private val presenter: LocationSearchPresenter by lazy {

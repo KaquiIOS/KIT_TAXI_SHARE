@@ -16,7 +16,7 @@ class Constant {
         val DATE_FORMATTER : SimpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.KOREA)
         val LOCATION_SEARCH_HINT : String = "hint"
 
-        const val SEARCH_HISTORY_MAP_HEIGHT = 500
+        const val SEARCH_HISTORY_MAP_HEIGHT = 600
 
         const val GALLERY_REQUEST_CODE : Int = 3001
         const val CAMERA_REQUEST_CODE : Int = 3002
