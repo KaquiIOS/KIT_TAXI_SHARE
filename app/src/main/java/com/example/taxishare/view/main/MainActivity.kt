@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
         initListener()
         initPresenter()
         initView()

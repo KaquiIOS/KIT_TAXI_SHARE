@@ -114,7 +114,7 @@
             android:enabled="false"
             android:text="@string/login_button_text"
             android:layout_marginTop="@dimen/top_default"
-            android:background="@drawable/background_disable_btn_round_corner"
+            android:background="@drawable/button_background_selector"
             android:textColor="@color/common_white"
             app:layout_constraintStart_toStartOf="@id/guide_login_start"
             app:layout_constraintEnd_toEndOf="@id/guide_login_end"

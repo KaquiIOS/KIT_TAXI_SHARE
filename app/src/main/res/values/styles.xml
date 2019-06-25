@@ -37,6 +37,7 @@
         <item name="android:background">@color/common_white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/main_toolbar_size</item>
+        <item name="android:elevation">2dp</item>
     </style>
 
     <style name="MainBottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
@@ -45,5 +46,19 @@
 
     </style>
 
+    <style name="TaxiRegisterTextInputLayoutStyle" parent="DefaultTextLayoutForm">
+        <item name="android:layout_marginTop">@dimen/top_default</item>
+    </style>
+
+    <style name="TaxiRegisterTextInputEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/top_default</item>
+        <item name="android:textSize">@dimen/register_default_text_size</item>
+    </style>
+    
+    <style name="RegisterSpinnerStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textSize">20sp</item>
+    </style>
 
 </resources>

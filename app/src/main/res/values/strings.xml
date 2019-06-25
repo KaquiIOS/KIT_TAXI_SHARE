@@ -17,6 +17,30 @@
     <string name="main_menu_my_page">MyPage</string>
 
 
+    <!-- Register TaxiShare -->
+    <string name="register_title">글 등록</string>
+    <string name="register_title_hint">제목</string>
+    <string name="register_title_helper">제목은 3~20자로 입력해주세요</string>
+    <string name="register_start_time_hint">출발 시간</string>
+    <string name="register_start_location_hint">출발 위치</string>
+    <string name="register_end_location_hint">도착 위치</string>
+    <string name="register_member">최대 인원</string>
+    <string name="register_content">설명</string>
+    <string name="register_post">등록</string>
+
+    <string-array name="register_member_num">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <!-- Search Location -->
+    <string name="search_location_departure">출발지 검색</string>
+    <string name="search_location_arrive">도착지 검색</string>
+    <string name="search_location_recent">최근 검색 목록</string>
+    <string name="search_location_register">저장 목록</string>
+
+
     <!-- Login -->
     <string name="login_title">택시 카풀(가제)</string>
     <string name="login_id">아이디</string>
