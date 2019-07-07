@@ -5,7 +5,10 @@
 package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
+import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
 import com.example.taxishare.data.remote.apis.server.request.ServerRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
 import io.reactivex.Observable
@@ -48,7 +51,7 @@ class ServerClient private constructor() {
             }
     }
 
-    fun loginRequest(loginRequest : ServerRequest) : Observable<ServerResponse> =
+    fun loginRequest(loginRequest : ServerRequest.PostRequest) : Observable<ServerResponse> =
             retrofit.create(ServerAPI::class.java)
                 .loginRequest(loginRequest.getRequest())
                 .map { ServerResponse.fromServerResponseCode(it.responseCode) }
@@ -56,14 +59,14 @@ class ServerClient private constructor() {
                 .observeOn(AndroidSchedulers.mainThread())
 
 
-    fun isSameIdExist(serverRequest: ServerRequest): Observable<ServerResponse> =
+    fun isSameIdExist(serverRequest: ServerRequest.PostRequest): Observable<ServerResponse> =
         retrofit.create(ServerAPI::class.java)
             .checkSameIdExist(serverRequest.getRequest())
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun isSameNicknameExist(serverRequest: ServerRequest) : Observable<ServerResponse> =
+    fun isSameNicknameExist(serverRequest: ServerRequest.PostRequest) : Observable<ServerResponse> =
             retrofit.create(ServerAPI::class.java)
                 .checkSameNickNameExist(serverRequest.getRequest())
                 .map { ServerResponse.fromServerResponseCode(it.responseCode)}
@@ -76,4 +79,11 @@ class ServerClient private constructor() {
                 .map { ServerResponse.fromServerResponseCode(it.responseCode) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+
+    fun getSearchPlacesInfo(searchPlacesRequest: SearchPlacesRequest) : Observable<MutableList<Location>> =
+        retrofit.create(ServerAPI::class.java)
+            .getSearchPlacesInfo(searchPlacesRequest.query)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
 }

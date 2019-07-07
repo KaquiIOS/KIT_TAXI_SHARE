@@ -9,7 +9,7 @@ class SignUpRequest constructor(
     private val pw: String,
     private val nickname: String,
     private val major: String
-) : ServerRequest {
+) : ServerRequest.PostRequest {
 
     companion object {
         private const val ID: String = "ID"

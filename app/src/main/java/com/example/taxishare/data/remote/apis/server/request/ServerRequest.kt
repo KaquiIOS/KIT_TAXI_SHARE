@@ -5,5 +5,10 @@
 package com.example.taxishare.data.remote.apis.server.request
 
 interface ServerRequest {
-    fun getRequest() : Map<String, String>
+
+    interface PostRequest {
+        fun getRequest() : Map<String, String>
+    }
+    
+    // 필요하면 GetRequest 만들기
 }

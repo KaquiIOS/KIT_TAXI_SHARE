@@ -41,49 +41,15 @@
             app:layout_constraintTop_toBottomOf="@id/tb_search_location"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-
-    <View
-            android:id="@+id/divider_search_location_center"
-            android:layout_width="1dp"
-            android:layout_height="@dimen/search_location_divider"
-            android:background="@color/light_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tb_search_location"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    <Button
-            android:id="@+id/btn_search_location_recent"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/search_location_divider"
-            android:drawableTop="@drawable/ic_history_black_24dp"
-            android:text="@string/search_location_recent"
-            android:background="@color/common_white"
-            android:padding="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_search_location_top"
-            app:layout_constraintEnd_toEndOf="@id/divider_search_location_center"/>
-
-    <Button
-            android:id="@+id/btn_search_location_registered"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/search_location_divider"
-            android:drawableTop="@drawable/ic_record_black_24dp"
-            android:background="@color/common_white"
-            android:text="@string/search_location_register"
-            android:padding="10dp"
-            app:layout_constraintStart_toStartOf="@id/divider_search_location_center"
-            app:layout_constraintTop_toBottomOf="@id/divider_search_location_top"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_search_location_list"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_location_search_fragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_search_location_registered"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_search_location_top">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,23 +6,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.model.Location
 import com.example.taxishare.view.main.register.location.LocationSearchActivity
-import com.example.taxishare.view.main.register.location.SearchLocationAdapter
-import com.google.android.gms.maps.GoogleMap
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.itemSelections
 import com.jakewharton.rxbinding3.widget.textChanges
-import kotlinx.android.synthetic.main.activity_location_search.*
 import kotlinx.android.synthetic.main.activity_register_taxi_share.*
 import org.jetbrains.anko.startActivityForResult
 import java.util.*
-
-//typealias Presenter  = RegisterTaxiSharePresenter
 
 class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
@@ -78,9 +72,9 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constant.REGISTER_START_LOCATION_CODE && data != null) {
-            //presenter.setStartLocation()
+            presenter.setStartLocation(data.getSerializableExtra(resources.getString(R.string.intent_location)) as Location)
         } else if (requestCode == Constant.REGISTER_END_LOCATION_CODE && data != null) {
-            //presenter.setEndLocation()
+            presenter.setEndLocation(data.getSerializableExtra(resources.getString(R.string.intent_location)) as Location)
         }
     }
 
@@ -95,13 +89,27 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
         }
 
         text_view_register_start_location.clicks().subscribe {
-            startActivityForResult<LocationSearchActivity>(Constant.REGISTER_START_LOCATION_CODE,
-                Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_departure))
+            startActivityForResult<LocationSearchActivity>(
+                Constant.REGISTER_START_LOCATION_CODE,
+                Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_departure)
+            )
+                .apply {
+                    intent = Intent().apply {
+                        putExtra(resources.getString(R.string.intent_request_code), Constant.REGISTER_END_LOCATION_CODE)
+                    }
+                }
         }
 
         text_view_taxi_register_end_location.clicks().subscribe {
-            startActivityForResult<LocationSearchActivity>(Constant.REGISTER_END_LOCATION_CODE,
-                Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_arrive))
+            startActivityForResult<LocationSearchActivity>(
+                Constant.REGISTER_END_LOCATION_CODE,
+                Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_arrive)
+            )
+                .apply {
+                    intent = Intent().apply {
+                        putExtra(resources.getString(R.string.intent_request_code), Constant.REGISTER_END_LOCATION_CODE)
+                    }
+                }
         }
 
         text_view_taxi_register_content.doAfterTextChanged {

@@ -4,10 +4,40 @@
 
 package com.example.taxishare.data.model
 
-data class Location(val latitude : Double, val longitude : Double,
-                    val locationName : String, val locationAddress : String) {
+import androidx.recyclerview.widget.DiffUtil
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
+data class Location(
+    @Expose
+    @SerializedName("latitude")
+    val latitude: Double,
+    @Expose
+    @SerializedName("longitude")
+    val longitude: Double,
+    @Expose
+    @SerializedName("name")
+    val locationName: String,
+    @Expose
+    @SerializedName("road_address")
+    val roadAddress: String,
+    @Expose
+    @SerializedName("jibun_address")
+    val jibunAddress: String
+) : Serializable {
     override fun toString(): String {
         // FIXME : toString 변경하기
         return super.toString()
+    }
+
+    companion object {
+        val DIFF_UTIL: DiffUtil.ItemCallback<Location> = object : DiffUtil.ItemCallback<Location>() {
+            override fun areItemsTheSame(oldItem: Location, newItem: Location): Boolean =
+                (oldItem.latitude == newItem.latitude) && (oldItem.longitude == newItem.longitude)
+
+            override fun areContentsTheSame(oldItem: Location, newItem: Location): Boolean =
+                (oldItem.latitude == newItem.latitude) && (oldItem.longitude == newItem.longitude)
+        }
     }
 }

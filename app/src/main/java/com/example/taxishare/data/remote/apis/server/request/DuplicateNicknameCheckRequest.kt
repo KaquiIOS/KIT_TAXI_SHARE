@@ -4,7 +4,7 @@
 
 package com.example.taxishare.data.remote.apis.server.request
 
-class DuplicateNicknameCheckRequest(val nickname : String) : ServerRequest {
+class DuplicateNicknameCheckRequest(val nickname : String) : ServerRequest.PostRequest {
 
     companion object {
         private const val NICKNAME: String = "NICKNAME"
