@@ -5,7 +5,7 @@
 package com.example.taxishare.data.remote.apis.server.request
 
 class LoginRequest(private val id : String, private val pw : String) :
-    ServerRequest {
+    ServerRequest.PostRequest {
 
     companion object {
         private const val ID : String = "ID"

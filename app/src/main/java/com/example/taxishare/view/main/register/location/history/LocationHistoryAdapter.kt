@@ -2,7 +2,7 @@
  * Created by WonJongSeong on 2019-05-15
  */
 
-package com.example.taxishare.view.main.register.location
+package com.example.taxishare.view.main.register.location.history
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,24 +12,23 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.location_viewholder.view.*
 import java.lang.ref.WeakReference
 
 
-class SearchLocationAdapter constructor(private val mapView: MapView, private val animation: Animation) :
-    RecyclerView.Adapter<SearchLocationAdapter.SearchLocationViewHolder>(), OnMapReadyCallback {
+class LocationHistoryAdapter constructor(private val mapView: MapView, private val animation: Animation) :
+    RecyclerView.Adapter<LocationHistoryAdapter.LocationHistoryViewHolder>(), OnMapReadyCallback {
 
     private val locationList: ArrayList<LatLng> by lazy { ArrayList<LatLng>() }
-    private lateinit var mapRef: WeakReference<SearchLocationViewHolder>
+    private lateinit var mapRef: WeakReference<LocationHistoryViewHolder>
     private lateinit var googleMap: GoogleMap
 
     init {
         mapView.apply {
             onCreate(null)
-            getMapAsync(this@SearchLocationAdapter)
+            getMapAsync(this@LocationHistoryAdapter)
         }
 
         locationList.add(LatLng(-33.920455, 18.466941))
@@ -38,8 +37,8 @@ class SearchLocationAdapter constructor(private val mapView: MapView, private va
         locationList.add(LatLng(51.589256, 4.774396))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchLocationViewHolder =
-        SearchLocationViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationHistoryViewHolder =
+        LocationHistoryViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.location_viewholder,
                 parent,
@@ -76,24 +75,24 @@ class SearchLocationAdapter constructor(private val mapView: MapView, private va
         }
     }
 
-    override fun onBindViewHolder(holder: SearchLocationViewHolder, position: Int) {
-        holder.bindView(position)
-        holder.itemView.setOnClickListener {
+    override fun onBindViewHolder(holderHistory: LocationHistoryViewHolder, position: Int) {
+        holderHistory.bindView(position)
+        holderHistory.itemView.setOnClickListener {
             if (!::mapRef.isInitialized) {
-                mapRef = WeakReference(holder)
-                addView(holder, position)
-            } else if (mapRef.get() != holder) {
+                mapRef = WeakReference(holderHistory)
+                addView(holderHistory, position)
+            } else if (mapRef.get() != holderHistory) {
                 removeView(mapRef.get())
-                mapRef = WeakReference(holder)
-                addView(holder, position)
+                mapRef = WeakReference(holderHistory)
+                addView(holderHistory, position)
             } else {
                 mapRef.clear()
-                removeView(holder)
+                removeView(holderHistory)
             }
         }
     }
 
-    inner class SearchLocationViewHolder(private val viewHolder: View) : RecyclerView.ViewHolder(viewHolder) {
+    inner class LocationHistoryViewHolder(private val viewHolder: View) : RecyclerView.ViewHolder(viewHolder) {
 
         private val name: TextView = viewHolder.text_view_search_location_name
         private val address: TextView = viewHolder.text_view_search_location_address
@@ -105,13 +104,13 @@ class SearchLocationAdapter constructor(private val mapView: MapView, private va
         }
     }
 
-    private fun addView(curHolder: SearchLocationViewHolder, position: Int) {
+    private fun addView(curHolderHistory: LocationHistoryViewHolder, position: Int) {
         setMapLocation(position)
-        curHolder.itemView.search_list_constraint.addView(mapView)
+        curHolderHistory.itemView.search_list_constraint.addView(mapView)
         mapView.startAnimation(animation)
     }
 
-    private fun removeView(preHolder: SearchLocationViewHolder?) {
-        preHolder?.itemView?.search_list_constraint?.removeView(mapView)
+    private fun removeView(preHolderHistory: LocationHistoryViewHolder?) {
+        preHolderHistory?.itemView?.search_list_constraint?.removeView(mapView)
     }
 }

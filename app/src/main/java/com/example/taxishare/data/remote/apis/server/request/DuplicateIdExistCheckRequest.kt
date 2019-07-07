@@ -4,7 +4,7 @@
 
 package com.example.taxishare.data.remote.apis.server.request
 
-class DuplicateIdExistCheckRequest(private val id: String) : ServerRequest {
+class DuplicateIdExistCheckRequest(private val id: String) : ServerRequest.PostRequest {
 
     companion object {
         private const val ID: String = "ID"

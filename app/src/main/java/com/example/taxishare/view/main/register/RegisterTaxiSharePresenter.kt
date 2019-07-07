@@ -36,13 +36,13 @@ class RegisterTaxiSharePresenter(val view: RegisterTaxiShareView) {
 
     fun setStartLocation(startLocation: Location) {
         this.startLocation = startLocation
-        view.changeStartLocation(startLocation.toString())
+        view.changeStartLocation(startLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
     }
 
     fun setEndLocation(endLocation: Location) {
         this.endLocation = endLocation
-        view.changeEndLocation(endLocation.toString())
+        view.changeEndLocation(endLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
     }
 
