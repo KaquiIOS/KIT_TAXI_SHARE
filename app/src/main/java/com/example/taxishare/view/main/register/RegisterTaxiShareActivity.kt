@@ -8,7 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.local.room.AppDatabase
+import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.repo.LocationRepositoryImpl
+import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.main.register.location.LocationSearchActivity
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import com.jakewharton.rxbinding3.view.clicks
@@ -21,7 +26,10 @@ import java.util.*
 class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
     private val presenter: RegisterTaxiSharePresenter by lazy {
-        RegisterTaxiSharePresenter(this)
+        RegisterTaxiSharePresenter(
+            this, ServerRepositoryImpl(ServerClient.getInstance()),
+            LocationRepositoryImpl.getInstance(AppDatabase.getInstance(this), TypeMapper)
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

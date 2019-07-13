@@ -4,17 +4,27 @@
 
 package com.example.taxishare.view.main.register
 
+import android.util.Log
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.repo.LocationRepository
+import com.example.taxishare.data.repo.LocationRepositoryImpl
+import com.example.taxishare.data.repo.ServerRepository
+import com.example.taxishare.data.repo.ServerRepositoryImpl
 import java.util.*
 
 
-class RegisterTaxiSharePresenter(val view: RegisterTaxiShareView) {
+class RegisterTaxiSharePresenter(
+    val view: RegisterTaxiShareView,
+    val serverRepoImpl: ServerRepository,
+    val localRepoImpl: LocationRepository
+) {
 
     private lateinit var startDateTime: Date
     private lateinit var startLocation: Location
     private lateinit var endLocation: Location
-    private var isTitleChecked : Boolean = false
+    private var isTitleChecked: Boolean = false
     private var memberNum: Int = 2
     private var content: String = ""
 
@@ -38,12 +48,14 @@ class RegisterTaxiSharePresenter(val view: RegisterTaxiShareView) {
         this.startLocation = startLocation
         view.changeStartLocation(startLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
+        saveSelectedLocationToLocalDB(startLocation)
     }
 
     fun setEndLocation(endLocation: Location) {
         this.endLocation = endLocation
         view.changeEndLocation(endLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
+        saveSelectedLocationToLocalDB(endLocation)
     }
 
     fun setContent(content: String) {
@@ -56,5 +68,17 @@ class RegisterTaxiSharePresenter(val view: RegisterTaxiShareView) {
 
     fun registerTaxiShare() {
         // TODO : 글 등록하기
+    }
+
+    private fun saveSelectedLocationToLocalDB(location: Location) {
+        with(location) {
+            localRepoImpl.insertLocation(
+                LocationModel(latitude, longitude, locationName, roadAddress, jibunAddress, Date())
+            ).subscribe({
+                Log.d("Test", "SaveSelectedLocationToDB")
+            }, {
+                it.printStackTrace()
+            })
+        }
     }
 }

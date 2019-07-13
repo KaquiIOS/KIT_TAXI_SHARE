@@ -12,11 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.local.room.AppDatabase
+import com.example.taxishare.data.mapper.TypeMapper
+import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.repo.LocationRepositoryImpl
+import com.example.taxishare.view.main.register.location.LocationSearchActivity
 import com.example.taxishare.view.main.register.location.LocationSelectionListener
 import com.google.android.gms.maps.MapView
 import kotlinx.android.synthetic.main.fragment_location_history.*
 
-class LocationHistoryFragment : Fragment() {
+class LocationHistoryFragment : Fragment(), LocationHistoryView {
 
     companion object {
         fun newInstance() =
@@ -29,17 +34,9 @@ class LocationHistoryFragment : Fragment() {
 
     private lateinit var locationSelectionListener: LocationSelectionListener
 
-    private val searchHistoryListAdapter: LocationHistoryAdapter by lazy {
-        LocationHistoryAdapter(
-            animation = AnimationUtils.loadAnimation(context, R.anim.slide_down),
-            mapView = MapView(context).apply {
-                layoutParams =
-                    LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        Constant.SEARCH_HISTORY_MAP_HEIGHT
-                    )
-            })
-    }
+    private lateinit var presenter: LocationHistoryPresenter
+
+    private lateinit var searchHistoryListAdapter: LocationHistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +53,45 @@ class LocationHistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initPresenter()
+        initAdapter()
+        initView()
+        initListener()
+        presenter.loadSearchLocationHistory()
+    }
+
+    override fun setSearchHistoryList(historyList: MutableList<Location>) {
+        searchHistoryListAdapter.setSearchHistoryList(historyList)
+    }
+
+    private fun initPresenter() {
+        presenter = LocationHistoryPresenter(
+            this,
+            LocationRepositoryImpl.getInstance(AppDatabase.getInstance(context!!), TypeMapper)
+        )
+    }
+
+    private fun initView() {
         rcv_location_history_list.apply {
             adapter = searchHistoryListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
+    }
+
+    private fun initAdapter() {
+        searchHistoryListAdapter = LocationHistoryAdapter(
+            animation = AnimationUtils.loadAnimation(context, R.anim.slide_down),
+            mapView = MapView(context).apply {
+                layoutParams =
+                    LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        Constant.SEARCH_HISTORY_MAP_HEIGHT
+                    )
+            })
+    }
+
+    private fun initListener() {
+        searchHistoryListAdapter.setOnSelectionListener(activity as LocationSearchActivity)
     }
 
     fun setLocationSelectedListener(locationSelectionListener: LocationSelectionListener) {

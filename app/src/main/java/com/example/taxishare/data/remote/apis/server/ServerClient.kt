@@ -8,9 +8,14 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.remote.apis.server.request.LoginRequest
 import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
 import com.example.taxishare.data.remote.apis.server.request.ServerRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
+import com.example.taxishare.data.remote.apis.server.response.DuplicateIdExistCheckResponse
+import com.example.taxishare.data.remote.apis.server.response.DuplicateNicknameExistCheckResponse
+import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
+import com.example.taxishare.data.remote.apis.server.response.SignUpRequestResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -51,39 +56,23 @@ class ServerClient private constructor() {
             }
     }
 
-    fun loginRequest(loginRequest : ServerRequest.PostRequest) : Observable<ServerResponse> =
+    fun loginRequest(loginRequest : ServerRequest.PostRequest) : Observable<LoginRequestResponse> =
             retrofit.create(ServerAPI::class.java)
                 .loginRequest(loginRequest.getRequest())
-                .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
 
-
-    fun isSameIdExist(serverRequest: ServerRequest.PostRequest): Observable<ServerResponse> =
+    fun isSameIdExist(serverRequest: ServerRequest.PostRequest): Observable<DuplicateIdExistCheckResponse> =
         retrofit.create(ServerAPI::class.java)
             .checkSameIdExist(serverRequest.getRequest())
-            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
 
-    fun isSameNicknameExist(serverRequest: ServerRequest.PostRequest) : Observable<ServerResponse> =
+    fun isSameNicknameExist(serverRequest: ServerRequest.PostRequest) : Observable<DuplicateNicknameExistCheckResponse> =
             retrofit.create(ServerAPI::class.java)
                 .checkSameNickNameExist(serverRequest.getRequest())
-                .map { ServerResponse.fromServerResponseCode(it.responseCode)}
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
 
-    fun signUpRequest(signUpRequest: SignUpRequest) : Observable<ServerResponse> =
+    fun signUpRequest(signUpRequest: SignUpRequest) : Observable<SignUpRequestResponse> =
             retrofit.create(ServerAPI::class.java)
                 .signUpRequest(signUpRequest.getRequest())
-                .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
 
     fun getSearchPlacesInfo(searchPlacesRequest: SearchPlacesRequest) : Observable<MutableList<Location>> =
         retrofit.create(ServerAPI::class.java)
             .getSearchPlacesInfo(searchPlacesRequest.query)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-
 }
