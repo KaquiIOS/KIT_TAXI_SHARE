@@ -34,7 +34,7 @@ class LocationRepositoryImpl private constructor(
             .subscribeOn(Schedulers.io())
             .doOnComplete { } // to do something when complete
 
-    override fun getLocations(lastItemTime: Date): Observable<List<Location>> =
+    override fun getLocations(lastItemTime: Date): Observable<MutableList<Location>> =
         appDatabase.locationDao().getLocation(lastItemTime)
             .map { typeMapper.locationModelToLocation(it) }
             .subscribeOn(Schedulers.io())

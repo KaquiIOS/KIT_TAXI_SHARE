@@ -10,7 +10,7 @@ import com.example.taxishare.data.model.Location
 
 object TypeMapper {
 
-    fun locationModelToLocation(locationModelList: List<LocationModel>): List<Location> {
+    fun locationModelToLocation(locationModelList: List<LocationModel>): MutableList<Location> {
         val convertedList: MutableList<Location> = mutableListOf()
 
         locationModelList.forEach {

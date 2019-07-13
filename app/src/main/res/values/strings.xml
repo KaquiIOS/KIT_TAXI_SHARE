@@ -132,4 +132,6 @@
     <string name="intent_request_code">reqCode</string>
     <string name="intent_location">location</string>
 
+    <string name="location_select">선택</string>
+
 </resources>

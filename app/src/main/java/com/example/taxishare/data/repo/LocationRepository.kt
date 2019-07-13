@@ -12,5 +12,5 @@ import java.util.*
 
 interface LocationRepository {
     fun insertLocation(location: LocationModel): Completable
-    fun getLocations(lastItemTime: Date): Observable<List<Location>>
+    fun getLocations(lastItemTime: Date): Observable<MutableList<Location>>
 }
