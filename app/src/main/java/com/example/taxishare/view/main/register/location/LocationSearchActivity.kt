@@ -5,12 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.main.register.location.history.LocationHistoryFragment
 import com.example.taxishare.view.main.register.location.search.LocationSearchFragment
 import com.google.android.gms.common.ConnectionResult
@@ -39,7 +39,7 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
     private val presenter: LocationSearchPresenter by lazy {
         LocationSearchPresenter(
             this,
-            ServerClient.getInstance()
+            ServerRepositoryImpl.getInstance(ServerClient.getInstance())
         )
     }
 

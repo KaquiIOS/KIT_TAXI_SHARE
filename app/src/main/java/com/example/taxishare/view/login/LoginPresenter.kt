@@ -1,14 +1,14 @@
 package com.example.taxishare.view.login
 
 import com.example.taxishare.data.model.ServerResponse
-import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.LoginRequest
+import com.example.taxishare.data.repo.ServerRepository
 import com.example.taxishare.util.RegularExpressionChecker
 import io.reactivex.disposables.Disposable
 
 class LoginPresenter(
     private val loginView: LoginView,
-    private val serverClient: ServerClient
+    private val serverRepoImpl: ServerRepository
 ) {
 
     private var isIdValidate: Boolean = false
@@ -23,7 +23,7 @@ class LoginPresenter(
             preLoginRequestDisposable?.dispose()
         }
 
-        preLoginRequestDisposable = serverClient.loginRequest(LoginRequest(id, pw))
+        preLoginRequestDisposable = serverRepoImpl.loginRequest(LoginRequest(id, pw))
             .subscribe({
                 when (it) {
                     ServerResponse.LOGIN_SUCCESS -> loginView.loginSuccess()

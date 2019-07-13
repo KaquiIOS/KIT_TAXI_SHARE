@@ -9,12 +9,13 @@ import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.DuplicateIdExistCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.DuplicateNicknameCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
+import com.example.taxishare.data.repo.ServerRepository
 import com.example.taxishare.util.RegularExpressionChecker
 import io.reactivex.disposables.Disposable
 
 class SignUpPresenter(
     private val signUpView: SignUpView,
-    private val serverClient: ServerClient
+    private val serverClient: ServerRepository
 ) {
 
     private var isIdValidated: Boolean = false

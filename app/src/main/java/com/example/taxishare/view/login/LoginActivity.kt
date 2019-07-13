@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.example.taxishare.R
 import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.BaseActivity
 import com.example.taxishare.view.main.MainActivity
 import com.example.taxishare.view.password.FindPasswordActivity
@@ -71,7 +72,7 @@ class LoginActivity : BaseActivity(), LoginView {
     /*
      * Presenter 초기화  */
     private fun initPresenter() {
-        presenter = LoginPresenter(this, ServerClient.getInstance())
+        presenter = LoginPresenter(this, ServerRepositoryImpl.getInstance(ServerClient.getInstance()))
     }
 
     /*

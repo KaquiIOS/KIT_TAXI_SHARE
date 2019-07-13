@@ -6,15 +6,23 @@ package com.example.taxishare.view.main.register
 
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.repo.LocationRepository
+import com.example.taxishare.data.repo.LocationRepositoryImpl
+import com.example.taxishare.data.repo.ServerRepository
+import com.example.taxishare.data.repo.ServerRepositoryImpl
 import java.util.*
 
 
-class RegisterTaxiSharePresenter(val view: RegisterTaxiShareView) {
+class RegisterTaxiSharePresenter(
+    val view: RegisterTaxiShareView,
+    val serverRepoImpl: ServerRepository,
+    val localRepoImpl: LocationRepository
+) {
 
     private lateinit var startDateTime: Date
     private lateinit var startLocation: Location
     private lateinit var endLocation: Location
-    private var isTitleChecked : Boolean = false
+    private var isTitleChecked: Boolean = false
     private var memberNum: Int = 2
     private var content: String = ""
 

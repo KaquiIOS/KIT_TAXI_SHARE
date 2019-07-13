@@ -3,9 +3,9 @@ package com.example.taxishare.view.signup
 import android.Manifest
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import com.example.taxishare.R
 import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.BaseActivity
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.view.focusChanges
@@ -13,7 +13,6 @@ import com.jakewharton.rxbinding3.widget.itemSelections
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.toast
 
@@ -97,7 +96,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     }
 
     private fun initPresenter() {
-        presenter = SignUpPresenter(this, ServerClient.getInstance())
+        presenter = SignUpPresenter(this, ServerRepositoryImpl(ServerClient.getInstance()))
     }
 
     @SuppressWarnings("all")
