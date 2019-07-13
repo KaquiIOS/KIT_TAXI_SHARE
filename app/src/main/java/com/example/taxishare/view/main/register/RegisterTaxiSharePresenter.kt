@@ -4,7 +4,9 @@
 
 package com.example.taxishare.view.main.register
 
+import android.util.Log
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.repo.LocationRepository
 import com.example.taxishare.data.repo.LocationRepositoryImpl
@@ -46,12 +48,14 @@ class RegisterTaxiSharePresenter(
         this.startLocation = startLocation
         view.changeStartLocation(startLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
+        saveSelectedLocationToLocalDB(startLocation)
     }
 
     fun setEndLocation(endLocation: Location) {
         this.endLocation = endLocation
         view.changeEndLocation(endLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
+        saveSelectedLocationToLocalDB(endLocation)
     }
 
     fun setContent(content: String) {
@@ -64,5 +68,17 @@ class RegisterTaxiSharePresenter(
 
     fun registerTaxiShare() {
         // TODO : 글 등록하기
+    }
+
+    private fun saveSelectedLocationToLocalDB(location: Location) {
+        with(location) {
+            localRepoImpl.insertLocation(
+                LocationModel(latitude, longitude, locationName, roadAddress, jibunAddress, Date())
+            ).subscribe({
+                Log.d("Test", "SaveSelectedLocationToDB")
+            }, {
+                it.printStackTrace()
+            })
+        }
     }
 }
