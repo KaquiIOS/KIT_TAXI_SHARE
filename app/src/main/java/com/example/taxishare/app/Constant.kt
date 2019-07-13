@@ -28,5 +28,8 @@ class Constant {
         // Debounce Time
         const val EDIT_TEXT_DEBOUNCE_TIME : Long = 500
 
+        // AppDatabase Name
+        const val ROOM_DB_NAME = "db.db"
+
     }
 }
