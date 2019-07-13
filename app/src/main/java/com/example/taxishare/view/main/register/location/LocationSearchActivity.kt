@@ -68,7 +68,7 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
     private fun initView() {
         et_search_location.hint = intent.getStringExtra(Constant.LOCATION_SEARCH_HINT)
 
-        et_search_location.textChanges()
+        et_search_location.textChanges().skipInitialValue()
             .debounce(Constant.EDIT_TEXT_DEBOUNCE_TIME, TimeUnit.MILLISECONDS)
             .subscribe({
                 // 검색창이 빈 경우에 기록 화면 보여주기
