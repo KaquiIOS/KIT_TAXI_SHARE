@@ -24,5 +24,9 @@ class Constant {
         const val REGISTER_START_LOCATION_CODE : Int = 4001
         const val REGISTER_END_LOCATION_CODE : Int = 4002
 
+
+        // Debounce Time
+        const val EDIT_TEXT_DEBOUNCE_TIME : Long = 500
+
     }
 }
