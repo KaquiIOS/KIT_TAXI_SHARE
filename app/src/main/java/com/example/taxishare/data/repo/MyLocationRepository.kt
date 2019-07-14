@@ -15,4 +15,5 @@ interface MyLocationRepository {
     fun gets(lastItemTime : Date) : Observable<MutableList<MyLocation>>
     fun insert(selectedLocation : MyLocationModel) : Completable
     fun searchMyLocationByName(name : String) : Observable<Boolean>
+    fun delete(name : String) : Completable
 }

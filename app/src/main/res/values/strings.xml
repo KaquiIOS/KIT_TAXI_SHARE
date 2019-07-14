@@ -133,6 +133,7 @@
     <string name="intent_request_code">reqCode</string>
     <string name="intent_location">location</string>
 
+    <string name="location_delete">삭제</string>
     <string name="location_save_complete">저장이 완료되었습니다 !</string>
     <string name="location_select">선택</string>
     <string name="location_dialog_title">새로 등록할 지역의 이름을 입력해주세요 !</string>

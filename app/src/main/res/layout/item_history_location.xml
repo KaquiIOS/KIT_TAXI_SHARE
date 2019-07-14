@@ -6,13 +6,12 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@color/common_white"
-              android:padding="10dp">
+              android:padding="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/common_white"
-            android:padding="10dp">
+            android:background="@color/common_white">
 
         <Button android:id="@+id/btn_history_item_select"
                 android:layout_width="60dp"
@@ -27,6 +26,7 @@
         <TextView android:id="@+id/tv_history_item_name"
                   android:layout_marginTop="4dp"
                   style="@style/HistoryItemDefaultStyle"
+                  android:textSize="20sp"
                   app:layout_constraintTop_toTopOf="parent"
                   app:layout_constraintEnd_toStartOf="@id/btn_history_item_select"/>
 

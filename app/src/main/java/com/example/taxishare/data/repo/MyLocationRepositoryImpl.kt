@@ -45,4 +45,9 @@ class MyLocationRepositoryImpl(
             .map { name == it }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    override fun delete(name: String): Completable =
+        appDatabase.myLocationDao().delete(name)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 }

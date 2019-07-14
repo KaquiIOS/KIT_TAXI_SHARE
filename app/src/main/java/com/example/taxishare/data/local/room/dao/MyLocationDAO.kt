@@ -4,10 +4,7 @@
 
 package com.example.taxishare.data.local.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.taxishare.data.local.room.entity.MyLocationModel
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -24,4 +21,7 @@ interface MyLocationDAO {
 
     @Query("SELECT name FROM mylocation where name == :name LIMIT 1")
     fun searchMyLocationByName(name : String) : Observable<String>
+
+    @Query("DELETE FROM mylocation WHERE name == :name")
+    fun delete(name : String) : Completable
 }
