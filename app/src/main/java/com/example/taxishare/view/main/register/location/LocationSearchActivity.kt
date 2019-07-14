@@ -3,14 +3,17 @@ package com.example.taxishare.view.main.register.location
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.local.room.AppDatabase
+import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.repo.MyLocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.view.main.register.location.dialog.MyLocationRegisterDialog
 import com.example.taxishare.view.main.register.location.history.LocationHistoryFragment
 import com.example.taxishare.view.main.register.location.search.LocationSearchFragment
 import com.google.android.gms.common.ConnectionResult
@@ -35,7 +38,6 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
             setLocationSelectedListener(this@LocationSearchActivity)
         }
     }
-
 
     private val presenter: LocationSearchPresenter by lazy {
         LocationSearchPresenter(
@@ -65,10 +67,12 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
     }
 
     override fun locationLongClicked(selectedLocation: Location) {
-        // TODO : 추가 다이얼로그를 출력한다.
-        // 다이얼로그를 통해 정보를 입력하고
-        // 같은 이름이 존재하는 경우 -> warning 메시지 출력
-        // 같은 이름이 존재하지 않는 경우 -> 그냥 등록
+        MyLocationRegisterDialog.newInstance(
+            MyLocationRepositoryImpl.getInstance(
+                AppDatabase.getInstance(this),
+                TypeMapper
+            ), selectedLocation
+        ).show(supportFragmentManager, "TAG")
     }
 
     @SuppressWarnings("all")

@@ -19,6 +19,15 @@ class MyLocationRepositoryImpl(
     private val typeMapper: TypeMapper
 ) : MyLocationRepository {
 
+    companion object {
+        @Volatile
+        private var INSTANCE: MyLocationRepositoryImpl? = null
+
+        fun getInstance(appDatabase: AppDatabase, typeMapper: TypeMapper): MyLocationRepository =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: MyLocationRepositoryImpl(appDatabase, typeMapper)
+            }
+    }
 
     override fun gets(lastItemTime: Date): Observable<MutableList<MyLocation>> =
         appDatabase.myLocationDao().gets(lastItemTime)

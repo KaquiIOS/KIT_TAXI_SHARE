@@ -10,6 +10,7 @@
     <string name="common_select_gallery">이미지 선택</string>
     <string name="common_use_camera">사진 찍기</string>
     <string name="ok">확인</string>
+    <string name="cancel">취소</string>
 
     <!-- Main -->
     <string name="main_menu_party">TaxiShare</string>
@@ -132,6 +133,8 @@
     <string name="intent_request_code">reqCode</string>
     <string name="intent_location">location</string>
 
+    <string name="location_save_complete">저장이 완료되었습니다 !</string>
     <string name="location_select">선택</string>
-
+    <string name="location_dialog_title">새로 등록할 지역의 이름을 입력해주세요 !</string>
+    <string name="location_dialog_hint">여기다 입력해주세요 !</string>
 </resources>
