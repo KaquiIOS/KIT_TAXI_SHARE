@@ -16,6 +16,7 @@ import com.example.taxishare.data.local.room.AppDatabase
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.repo.LocationRepositoryImpl
+import com.example.taxishare.view.main.register.location.LocationLongClickListener
 import com.example.taxishare.view.main.register.location.LocationSearchActivity
 import com.example.taxishare.view.main.register.location.LocationSelectionListener
 import com.google.android.gms.maps.MapView
@@ -33,6 +34,7 @@ class LocationHistoryFragment : Fragment(), LocationHistoryView {
     }
 
     private lateinit var locationSelectionListener: LocationSelectionListener
+    private lateinit var locationSelectionLongClickListener: LocationLongClickListener
 
     private lateinit var presenter: LocationHistoryPresenter
 
@@ -56,7 +58,6 @@ class LocationHistoryFragment : Fragment(), LocationHistoryView {
         initPresenter()
         initAdapter()
         initView()
-        initListener()
         presenter.loadSearchLocationHistory()
     }
 
@@ -87,14 +88,17 @@ class LocationHistoryFragment : Fragment(), LocationHistoryView {
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         Constant.SEARCH_HISTORY_MAP_HEIGHT
                     )
-            })
-    }
-
-    private fun initListener() {
-        searchHistoryListAdapter.setOnSelectionListener(activity as LocationSearchActivity)
+            }).apply {
+            setOnSelectionListener(locationSelectionListener)
+            setOnLocationLongClickListener(locationSelectionLongClickListener)
+        }
     }
 
     fun setLocationSelectedListener(locationSelectionListener: LocationSelectionListener) {
         this@LocationHistoryFragment.locationSelectionListener = locationSelectionListener
+    }
+
+    fun setLocationItemLongClickListener(locationLongClickListener: LocationLongClickListener) {
+        this@LocationHistoryFragment.locationSelectionLongClickListener = locationLongClickListener
     }
 }

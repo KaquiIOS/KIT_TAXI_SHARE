@@ -13,11 +13,14 @@ class LocationHistoryPresenter(private val view: LocationHistoryView, private va
     private lateinit var loadDisposable : Disposable
 
     fun loadSearchLocationHistory() {
-        locationRepo.getLocations(Date())
-            .subscribe({
-                view.setSearchHistoryList(it)
-            }, {
 
-            })
+        if(!::loadDisposable.isInitialized || loadDisposable.isDisposed) {
+            loadDisposable = locationRepo.getLocations(Date())
+                .subscribe({
+                    view.setSearchHistoryList(it)
+                }, {
+                    it.printStackTrace()
+                })
+        }
     }
 }

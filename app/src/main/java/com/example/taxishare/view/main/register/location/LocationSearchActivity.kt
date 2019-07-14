@@ -21,11 +21,12 @@ import java.util.concurrent.TimeUnit
 
 
 class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleApiClient.OnConnectionFailedListener,
-    LocationSelectionListener {
+    LocationSelectionListener, LocationLongClickListener {
 
     private val locationHistoryFragment: LocationHistoryFragment by lazy {
         LocationHistoryFragment.newInstance().apply {
             setLocationSelectedListener(this@LocationSearchActivity)
+            setLocationItemLongClickListener(this@LocationSearchActivity)
         }
     }
 
@@ -48,7 +49,6 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
         setContentView(R.layout.activity_location_search)
 
         initView()
-        initListener()
     }
 
     override fun locationSelected(location: Location) {
@@ -64,6 +64,13 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
         presenter.onDestroy()
     }
 
+    override fun locationLongClicked(selectedLocation: Location) {
+        // TODO : 추가 다이얼로그를 출력한다.
+        // 다이얼로그를 통해 정보를 입력하고
+        // 같은 이름이 존재하는 경우 -> warning 메시지 출력
+        // 같은 이름이 존재하지 않는 경우 -> 그냥 등록
+    }
+
     @SuppressWarnings("all")
     private fun initView() {
         et_search_location.hint = intent.getStringExtra(Constant.LOCATION_SEARCH_HINT)
@@ -73,7 +80,6 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
             .subscribe({
                 // 검색창이 빈 경우에 기록 화면 보여주기
                 if (it.isEmpty()) {
-                    Log.d("Test", "1\n$it")
                     changeFragment(locationHistoryFragment)
                 } else if (it.length > 1) {
                     changeFragment(locationSearchFragment)
@@ -84,10 +90,6 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
             })
 
         changeFragment(locationHistoryFragment)
-    }
-
-    private fun initListener() {
-
     }
 
     private fun changeFragment(fragment: Fragment) =

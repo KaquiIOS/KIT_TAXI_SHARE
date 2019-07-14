@@ -14,8 +14,9 @@ import com.example.taxishare.data.local.room.converter.RoomTypeConverter
 import com.example.taxishare.data.local.room.dao.LocationDAO
 import com.example.taxishare.data.local.room.dao.MyLocationDAO
 import com.example.taxishare.data.local.room.entity.LocationModel
+import com.example.taxishare.data.local.room.entity.MyLocationModel
 
-@Database(entities = [LocationModel::class], version = 1)
+@Database(entities = [LocationModel::class, MyLocationModel::class], version = 2)
 @TypeConverters(value = [RoomTypeConverter::class])
 abstract class AppDatabase : RoomDatabase() {
 
