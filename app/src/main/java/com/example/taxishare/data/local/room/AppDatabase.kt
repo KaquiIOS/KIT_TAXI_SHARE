@@ -12,6 +12,7 @@ import androidx.room.TypeConverters
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.converter.RoomTypeConverter
 import com.example.taxishare.data.local.room.dao.LocationDAO
+import com.example.taxishare.data.local.room.dao.MyLocationDAO
 import com.example.taxishare.data.local.room.entity.LocationModel
 
 @Database(entities = [LocationModel::class], version = 1)
@@ -19,6 +20,7 @@ import com.example.taxishare.data.local.room.entity.LocationModel
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun locationDao(): LocationDAO
+    abstract fun myLocationDao() : MyLocationDAO
 
     companion object {
         @Volatile
