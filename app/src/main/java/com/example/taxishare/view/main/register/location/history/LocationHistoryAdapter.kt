@@ -12,13 +12,15 @@ import android.view.animation.Animation
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
+import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.view.main.register.location.LocationLongClickListener
 import com.example.taxishare.view.main.register.location.LocationSelectionListener
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.item_history_location.view.*
-import kotlinx.android.synthetic.main.location_viewholder.view.*
+import org.jetbrains.anko.sdk27.coroutines.onLongClick
 import java.lang.ref.WeakReference
 
 
@@ -27,6 +29,7 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
 
     private val locationList: MutableList<Location> = mutableListOf()
     private lateinit var onSelectionListener: LocationSelectionListener
+    private lateinit var onLocationLongClickListener: LocationLongClickListener
     private lateinit var mapRef: WeakReference<LocationHistoryViewHolder>
     private lateinit var googleMap: GoogleMap
 
@@ -65,7 +68,7 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
         // 구글 맵 초기화
         with(googleMap) {
             // 위치 설정 및 줌정도 설정
-            moveCamera(CameraUpdateFactory.newLatLngZoom(curLatLng, 13f))
+            moveCamera(CameraUpdateFactory.newLatLngZoom(curLatLng, Constant.MAP_ZOOM_IN))
             // addMarker
             addMarker(
                 MarkerOptions().position(curLatLng)
@@ -93,6 +96,11 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
                 removeView(holderHistory)
             }
         }
+        holderHistory.itemView.onLongClick {
+            if (::onLocationLongClickListener.isInitialized) {
+                onLocationLongClickListener.locationLongClicked(locationList[position])
+            }
+        }
         holderHistory.itemView.btn_history_item_select.setOnClickListener {
             if (::onSelectionListener.isInitialized) {
                 onSelectionListener.locationSelected(locationList[position])
@@ -103,12 +111,15 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
     fun setSearchHistoryList(searchHistoryList: MutableList<Location>) {
         locationList.clear()
         locationList.addAll(searchHistoryList)
-        submitList(mutableListOf())
         submitList(searchHistoryList)
     }
 
     fun setOnSelectionListener(onSelectionListener: LocationSelectionListener) {
         this@LocationHistoryAdapter.onSelectionListener = onSelectionListener
+    }
+
+    fun setOnLocationLongClickListener(locationLongClickListener: LocationLongClickListener) {
+        this@LocationHistoryAdapter.onLocationLongClickListener = locationLongClickListener
     }
 
     inner class LocationHistoryViewHolder(private val viewHolder: View) : RecyclerView.ViewHolder(viewHolder) {
@@ -124,11 +135,11 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
 
     private fun addView(curHolderHistory: LocationHistoryViewHolder, position: Int) {
         setMapLocation(position)
-        curHolderHistory.itemView.search_list_constraint.addView(mapView)
+        curHolderHistory.itemView.search_list_linear.addView(mapView)
         mapView.startAnimation(animation)
     }
 
     private fun removeView(preHolderHistory: LocationHistoryViewHolder?) {
-        preHolderHistory?.itemView?.search_list_constraint?.removeView(mapView)
+        preHolderHistory?.itemView?.search_list_linear?.removeView(mapView)
     }
 }

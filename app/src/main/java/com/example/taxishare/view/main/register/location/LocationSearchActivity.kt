@@ -3,14 +3,17 @@ package com.example.taxishare.view.main.register.location
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.local.room.AppDatabase
+import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.repo.MyLocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.view.main.register.location.dialog.MyLocationRegisterDialog
 import com.example.taxishare.view.main.register.location.history.LocationHistoryFragment
 import com.example.taxishare.view.main.register.location.search.LocationSearchFragment
 import com.google.android.gms.common.ConnectionResult
@@ -21,11 +24,12 @@ import java.util.concurrent.TimeUnit
 
 
 class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleApiClient.OnConnectionFailedListener,
-    LocationSelectionListener {
+    LocationSelectionListener, LocationLongClickListener {
 
     private val locationHistoryFragment: LocationHistoryFragment by lazy {
         LocationHistoryFragment.newInstance().apply {
             setLocationSelectedListener(this@LocationSearchActivity)
+            setLocationItemLongClickListener(this@LocationSearchActivity)
         }
     }
 
@@ -34,7 +38,6 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
             setLocationSelectedListener(this@LocationSearchActivity)
         }
     }
-
 
     private val presenter: LocationSearchPresenter by lazy {
         LocationSearchPresenter(
@@ -48,7 +51,6 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
         setContentView(R.layout.activity_location_search)
 
         initView()
-        initListener()
     }
 
     override fun locationSelected(location: Location) {
@@ -64,6 +66,15 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
         presenter.onDestroy()
     }
 
+    override fun locationLongClicked(selectedLocation: Location) {
+        MyLocationRegisterDialog.newInstance(
+            MyLocationRepositoryImpl.getInstance(
+                AppDatabase.getInstance(this),
+                TypeMapper
+            ), selectedLocation
+        ).show(supportFragmentManager, "TAG")
+    }
+
     @SuppressWarnings("all")
     private fun initView() {
         et_search_location.hint = intent.getStringExtra(Constant.LOCATION_SEARCH_HINT)
@@ -73,22 +84,16 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
             .subscribe({
                 // 검색창이 빈 경우에 기록 화면 보여주기
                 if (it.isEmpty()) {
-                    Log.d("Test", "1\n$it")
                     changeFragment(locationHistoryFragment)
+                } else if (it.length > 1) {
+                    changeFragment(locationSearchFragment)
+                    presenter.searchLocation(it.toString())
                 }
-                // 검색어가 입력되었을 때는 검색 화면 보여주기
-                changeFragment(locationSearchFragment)
-                presenter.searchLocation(it.toString())
-
             }, {
                 it.printStackTrace()
             })
 
         changeFragment(locationHistoryFragment)
-    }
-
-    private fun initListener() {
-
     }
 
     private fun changeFragment(fragment: Fragment) =

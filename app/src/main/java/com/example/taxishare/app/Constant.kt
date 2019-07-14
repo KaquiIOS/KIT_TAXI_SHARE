@@ -31,5 +31,7 @@ class Constant {
         // AppDatabase Name
         const val ROOM_DB_NAME = "db.db"
 
+        // Map Zoom degree
+        const val MAP_ZOOM_IN = 15.0f
     }
 }
