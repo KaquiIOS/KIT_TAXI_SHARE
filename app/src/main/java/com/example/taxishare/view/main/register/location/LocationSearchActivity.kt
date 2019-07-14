@@ -75,11 +75,10 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
                 if (it.isEmpty()) {
                     Log.d("Test", "1\n$it")
                     changeFragment(locationHistoryFragment)
+                } else if (it.length > 1) {
+                    changeFragment(locationSearchFragment)
+                    presenter.searchLocation(it.toString())
                 }
-                // 검색어가 입력되었을 때는 검색 화면 보여주기
-                changeFragment(locationSearchFragment)
-                presenter.searchLocation(it.toString())
-
             }, {
                 it.printStackTrace()
             })

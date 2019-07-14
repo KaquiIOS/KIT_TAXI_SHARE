@@ -27,8 +27,7 @@ data class Location(
     val jibunAddress: String
 ) : Serializable {
     override fun toString(): String {
-        // FIXME : toString 변경하기
-        return super.toString()
+        return "latitude : $latitude\nlongitude : $longitude\nname : $locationName\nroadAddress : $roadAddress\njibunAddress : $jibunAddress"
     }
 
     companion object {

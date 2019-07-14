@@ -67,16 +67,15 @@ class LocationSearchAdapter :
 
     fun setSearchResultList(resultList: MutableList<Location>) {
         locationSearchResultList.clear()
+        locationSearchResultList.addAll(resultList)
 
         flag = resultList.isEmpty()
 
         if(flag) {
-            locationSearchResultList.add(Location(0.0,0.0,"","",""))
+            resultList.add(Location(0.0,0.0,"","",""))
         }
 
-        locationSearchResultList.addAll(resultList)
-        submitList(mutableListOf())
-        submitList(locationSearchResultList)
+        submitList(resultList)
     }
 
     fun setLocationSelectionListener(locationSelectionListener: LocationSelectionListener) {
