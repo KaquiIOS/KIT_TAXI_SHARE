@@ -4,7 +4,7 @@
 
 package com.example.taxishare.data.model
 
-data class UserSaveLocation(
+data class MyLocation(
     val saveName : String,
     val latitude: Double,
     val longitude: Double,

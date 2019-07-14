@@ -8,8 +8,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import java.util.*
 
-@Entity(tableName = "mylocation")
-data class UserSaveLocationModel(
+// 동일 장소에 대해서 데이터 중복을 허용하는 정책
+@Entity(tableName = "mylocation", primaryKeys = ["name"])
+data class MyLocationModel(
     @ColumnInfo(name = "name")
     val saveName: String,
     @ColumnInfo(name = "latitude")
