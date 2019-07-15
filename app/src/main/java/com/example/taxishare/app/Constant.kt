@@ -8,7 +8,7 @@ class Constant {
         const val TIME_LIMIT : Long = 2L
         const val ALL_SIGN_UP_REQUEST_CHECKED = 63
         const val BASE_URL : String = "http://kittaxishare.cafe24app.com/"
-        const val REGISTER_TAXI_TITLE_MIN_LENGTH = 3
+        const val REGISTER_TAXI_TITLE_MIN_LENGTH = 2
 
         private const val DATE_FORMAT : String = "yyyy-MM-dd hh:mm"
 

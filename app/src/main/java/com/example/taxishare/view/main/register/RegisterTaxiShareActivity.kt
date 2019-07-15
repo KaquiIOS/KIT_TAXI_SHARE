@@ -43,7 +43,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
     override fun changeTitleEditTextState(isMatched: Boolean) {
         text_input_layout_taxi_register_title.error =
             if (isMatched) null
-            else resources.getString(R.string.common_nickname_pattern_not_match)
+            else resources.getString(R.string.taxi_share_title_pattern_not_match)
     }
 
     override fun changeSignUpButtonState(canActivate: Boolean) {
@@ -120,7 +120,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
                 }
         }
 
-        text_view_taxi_register_content.doAfterTextChanged {
+        text_input_taxi_content.doAfterTextChanged {
             presenter.setContent(it.toString())
         }
 
@@ -132,7 +132,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
             presenter.registerTaxiShare()
         }
 
-        tb_register_taxi.navigationClicks().subscribe {
+        tb_register_taxi.setNavigationOnClickListener {
             finish()
         }
     }
