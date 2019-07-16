@@ -15,13 +15,14 @@ import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.LocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.main.register.location.LocationSearchActivity
-import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.itemSelections
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_register_taxi_share.*
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
@@ -62,6 +63,24 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
         text_view_register_start_location.text = location
     }
 
+    override fun taxiRegisterTaskNotOver() {
+        toast(resources.getString(R.string.taxi_share_register_not_finish))
+    }
+
+    override fun taxiRegisterTaskSuccess() {
+        toast(resources.getString(R.string.taxi_share_register_success))
+        finish()
+    }
+
+    override fun taxiRegisterTaskFail() {
+        toast(resources.getString(R.string.taxi_share_register_fail))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
     override fun openDateTimePicker() {
 
         val calendar: Calendar = Calendar.getInstance()
@@ -89,7 +108,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
     @SuppressWarnings("all")
     private fun initListener() {
         text_input_taxi_register_title.textChanges().skipInitialValue().subscribe {
-            presenter.checkTitleLength(it.length)
+            presenter.checkTitleLength(it.toString())
         }
 
         text_view_taxi_register_start_time.clicks().subscribe {
@@ -128,9 +147,11 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
             presenter.setMemberNum(spn_taxi_register_member_num.selectedItem.toString())
         }
 
-        btn_taxi_register_post.clicks().subscribe {
-            presenter.registerTaxiShare()
-        }
+        btn_taxi_register_post.clicks()
+            .debounce(250, TimeUnit.MILLISECONDS)
+            .subscribe {
+                presenter.registerTaxiShare()
+            }
 
         tb_register_taxi.setNavigationOnClickListener {
             finish()

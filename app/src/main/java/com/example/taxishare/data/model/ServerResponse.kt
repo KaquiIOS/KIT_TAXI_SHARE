@@ -27,9 +27,11 @@ enum class ServerResponse(val code: Int, val description: String) {
     /* SignUpRequest */
     SIGN_UP_REQUEST_SUCCESS(1801, "SignUpRequestSuccess"),
     SIGN_UP_REQUEST_FAIL(1802, "SignUpRequestFail"),
-    SIGN_UP_ALREADY_REQUESTED(1803, "AlreadyRequested");
+    SIGN_UP_ALREADY_REQUESTED(1803, "AlreadyRequested"),
 
-    /* */
+    /* TaxiRegisterRequest */
+    TAXI_SHARE_REGISTER_REQUEST_SUCCESS(1901, "TaxiShareRegisterSuccess"),
+    TAXI_SHARE_REGISTER_REQUEST_FAIL(1902, "TaxiShareRegisterFail");
 
     companion object{
         fun fromServerResponseCode(code : Int) = values().first { it.code == code }

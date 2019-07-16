@@ -138,4 +138,7 @@
     <string name="location_dialog_title">새로 등록할 지역의 이름을 입력해주세요 !</string>
     <string name="location_dialog_hint">여기다 입력해주세요 !</string>
     <string name="taxi_share_title_pattern_not_match">제목 형식이 맞지않습니다</string>
+    <string name="taxi_share_register_not_finish">게시글 등록이 끝나지 않았습니다 !</string>
+    <string name="taxi_share_register_success">등록 성공</string>
+    <string name="taxi_share_register_fail">등록 실패</string>
 </resources>

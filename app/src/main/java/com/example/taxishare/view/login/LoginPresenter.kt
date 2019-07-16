@@ -1,5 +1,6 @@
 package com.example.taxishare.view.login
 
+import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.request.LoginRequest
 import com.example.taxishare.data.repo.ServerRepository
@@ -26,7 +27,10 @@ class LoginPresenter(
         preLoginRequestDisposable = serverRepoImpl.loginRequest(LoginRequest(id, pw))
             .subscribe({
                 when (it) {
-                    ServerResponse.LOGIN_SUCCESS -> loginView.loginSuccess()
+                    ServerResponse.LOGIN_SUCCESS -> {
+                        Constant.USER_ID = id
+                        loginView.loginSuccess()
+                    }
                     ServerResponse.NOT_VALIDATED_USER -> loginView.notValidatedUserMessage()
                     ServerResponse.LOGIN_FAIL -> loginView.loginFail()
                     else -> loginView.loginFail()

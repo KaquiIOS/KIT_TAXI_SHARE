@@ -15,5 +15,7 @@ interface RegisterTaxiShareView {
     fun changeEndLocation(location: String)
 
     fun openDateTimePicker()
-
+    fun taxiRegisterTaskNotOver()
+    fun taxiRegisterTaskSuccess()
+    fun taxiRegisterTaskFail()
 }

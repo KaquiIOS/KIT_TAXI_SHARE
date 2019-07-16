@@ -6,10 +6,7 @@ package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
-import com.example.taxishare.data.remote.apis.server.response.DuplicateIdExistCheckResponse
-import com.example.taxishare.data.remote.apis.server.response.DuplicateNicknameExistCheckResponse
-import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
-import com.example.taxishare.data.remote.apis.server.response.SignUpRequestResponse
+import com.example.taxishare.data.remote.apis.server.response.*
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -33,4 +30,6 @@ interface ServerAPI {
     @GET("getSearchPlacesInfo")
     fun getSearchPlacesInfo(@Query("query") query : String) : Observable<MutableList<Location>>
 
+    @POST("registerTaxiShareInfo")
+    fun registerTaxiShareInfo(@Body serverRequest: Map<String, String>) : Observable<TaxiShareRegisterResponse>
 }

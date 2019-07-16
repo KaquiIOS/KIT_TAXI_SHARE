@@ -7,6 +7,7 @@ package com.example.taxishare.data.repo
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
 import com.example.taxishare.data.remote.apis.server.request.ServerRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
@@ -55,4 +56,10 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
         serverClient.getSearchPlacesInfo(searchPlacesRequest)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    override fun registerTaxiShare(registerTaxiShareRequest: RegisterTaxiShareRequest): Observable<ServerResponse>
+        =serverClient.registerTaxiShareInfo(registerTaxiShareRequest)
+        .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }
