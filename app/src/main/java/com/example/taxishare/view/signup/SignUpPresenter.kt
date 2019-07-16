@@ -5,7 +5,6 @@
 package com.example.taxishare.view.signup
 
 import com.example.taxishare.data.model.ServerResponse
-import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.DuplicateIdExistCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.DuplicateNicknameCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest

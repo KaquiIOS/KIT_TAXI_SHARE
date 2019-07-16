@@ -6,13 +6,12 @@ package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.ServerResponse
-import com.example.taxishare.data.model.TaxiShareInfo
-import com.example.taxishare.data.remote.apis.server.request.*
+import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
+import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
+import com.example.taxishare.data.remote.apis.server.request.ServerRequest
+import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
 import com.example.taxishare.data.remote.apis.server.response.*
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

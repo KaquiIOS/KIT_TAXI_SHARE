@@ -18,7 +18,6 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_mylocation_register.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
 

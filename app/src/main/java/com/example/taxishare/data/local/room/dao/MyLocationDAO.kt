@@ -4,7 +4,10 @@
 
 package com.example.taxishare.data.local.room.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.taxishare.data.local.room.entity.MyLocationModel
 import io.reactivex.Completable
 import io.reactivex.Observable

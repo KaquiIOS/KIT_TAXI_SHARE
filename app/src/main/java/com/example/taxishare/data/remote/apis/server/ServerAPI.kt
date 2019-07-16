@@ -5,7 +5,6 @@
 package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.response.*
 import io.reactivex.Observable
 import retrofit2.http.Body

@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.AppDatabase
@@ -137,10 +136,6 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
                         putExtra(resources.getString(R.string.intent_request_code), Constant.REGISTER_END_LOCATION_CODE)
                     }
                 }
-        }
-
-        text_input_taxi_content.doAfterTextChanged {
-            presenter.setContent(it.toString())
         }
 
         spn_taxi_register_member_num.itemSelections().skipInitialValue().subscribe {
