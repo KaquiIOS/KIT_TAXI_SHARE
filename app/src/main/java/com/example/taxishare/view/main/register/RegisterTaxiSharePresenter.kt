@@ -7,19 +7,23 @@ package com.example.taxishare.view.main.register
 import android.util.Log
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.entity.LocationModel
+import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.model.ServerResponse
+import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
 import com.example.taxishare.data.repo.LocationRepository
-import com.example.taxishare.data.repo.LocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepository
-import com.example.taxishare.data.repo.ServerRepositoryImpl
+import io.reactivex.disposables.Disposable
 import java.util.*
 
 
 class RegisterTaxiSharePresenter(
-    val view: RegisterTaxiShareView,
-    val serverRepoImpl: ServerRepository,
-    val localRepoImpl: LocationRepository
+    private val view: RegisterTaxiShareView,
+    private val serverRepoImpl: ServerRepository,
+    private val localRepoImpl: LocationRepository
 ) {
+
+    private lateinit var taxiRegisterDispose: Disposable
 
     private lateinit var startDateTime: Date
     private lateinit var startLocation: Location
@@ -27,20 +31,22 @@ class RegisterTaxiSharePresenter(
     private var isTitleChecked: Boolean = false
     private var memberNum: Int = 2
     private var content: String = ""
+    private var title = ""
 
 
     private fun isAllRequestDataValidated() =
         ::startDateTime.isInitialized && ::startLocation.isInitialized && ::endLocation.isInitialized && isTitleChecked
 
 
-    fun checkTitleLength(strLength: Int) {
-        isTitleChecked = strLength > Constant.REGISTER_TAXI_TITLE_MIN_LENGTH
+    fun checkTitleLength(title: String) {
+        isTitleChecked = title.length > Constant.REGISTER_TAXI_TITLE_MIN_LENGTH
+        this@RegisterTaxiSharePresenter.title = title
         view.changeTitleEditTextState(isTitleChecked)
     }
 
     fun setStartDateTime(startDateTime: Date) {
         this.startDateTime = startDateTime
-        view.changeStartDateTime(Constant.DATE_FORMATTER.format(startDateTime))
+        view.changeStartDateTime(TypeMapper.dateToString(startDateTime))
         view.changeSignUpButtonState(isAllRequestDataValidated())
     }
 
@@ -67,7 +73,27 @@ class RegisterTaxiSharePresenter(
     }
 
     fun registerTaxiShare() {
-        // TODO : 글 등록하기
+
+        if (!::taxiRegisterDispose.isInitialized || taxiRegisterDispose.isDisposed) {
+            taxiRegisterDispose = serverRepoImpl.registerTaxiShare(
+                RegisterTaxiShareRequest(
+                    title, content, startDateTime, memberNum, startLocation, endLocation, Date()
+                )
+            ).subscribe({
+                when(it.code) {
+                    1901 -> view.taxiRegisterTaskSuccess()
+                    else -> view.taxiRegisterTaskFail()
+                }
+            }, {
+                it.printStackTrace()
+            })
+        } else {
+            view.taxiRegisterTaskNotOver()
+        }
+    }
+
+    fun onDestroy() {
+        disposeAllTask()
     }
 
     private fun saveSelectedLocationToLocalDB(location: Location) {
@@ -80,5 +106,10 @@ class RegisterTaxiSharePresenter(
                 it.printStackTrace()
             })
         }
+    }
+
+    private fun disposeAllTask() {
+        if (::taxiRegisterDispose.isInitialized && !taxiRegisterDispose.isDisposed)
+            taxiRegisterDispose.dispose()
     }
 }

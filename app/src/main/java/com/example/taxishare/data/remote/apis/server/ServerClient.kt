@@ -8,14 +8,8 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
-import com.example.taxishare.data.remote.apis.server.request.LoginRequest
-import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
-import com.example.taxishare.data.remote.apis.server.request.ServerRequest
-import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
-import com.example.taxishare.data.remote.apis.server.response.DuplicateIdExistCheckResponse
-import com.example.taxishare.data.remote.apis.server.response.DuplicateNicknameExistCheckResponse
-import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
-import com.example.taxishare.data.remote.apis.server.response.SignUpRequestResponse
+import com.example.taxishare.data.remote.apis.server.request.*
+import com.example.taxishare.data.remote.apis.server.response.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -75,4 +69,8 @@ class ServerClient private constructor() {
     fun getSearchPlacesInfo(searchPlacesRequest: SearchPlacesRequest) : Observable<MutableList<Location>> =
         retrofit.create(ServerAPI::class.java)
             .getSearchPlacesInfo(searchPlacesRequest.query)
+
+    fun registerTaxiShareInfo(registerTaxiShareRequest: RegisterTaxiShareRequest) : Observable<TaxiShareRegisterResponse> =
+        retrofit.create(ServerAPI::class.java)
+            .registerTaxiShareInfo(registerTaxiShareRequest.getRequest())
 }

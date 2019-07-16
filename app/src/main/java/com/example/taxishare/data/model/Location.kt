@@ -27,7 +27,11 @@ data class Location(
     val jibunAddress: String
 ) : Serializable {
     override fun toString(): String {
-        return "latitude : $latitude\nlongitude : $longitude\nname : $locationName\nroadAddress : $roadAddress\njibunAddress : $jibunAddress"
+        return "{latitude : $latitude," +
+                "longitude : $longitude," +
+                "name : $locationName," +
+                "roadAddress : $roadAddress," +
+                "jibunAddress : $jibunAddress}"
     }
 
     companion object {

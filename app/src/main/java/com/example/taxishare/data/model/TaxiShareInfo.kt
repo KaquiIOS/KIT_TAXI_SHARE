@@ -5,12 +5,15 @@
 package com.example.taxishare.data.model
 
 import androidx.recyclerview.widget.DiffUtil
+import java.util.*
 
 data class TaxiShareInfo(
     val id : String,
+    val uid : String,
     val title: String, val limit: Int,
     val description: String, val startLocation: Location,
-    val endLocation: Location
+    val endLocation: Location,
+    val registerDate : Date
 ) {
     companion object {
         val DIFF_UTIL: DiffUtil.ItemCallback<TaxiShareInfo> = object : DiffUtil.ItemCallback<TaxiShareInfo>() {
