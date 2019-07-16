@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_taxi_share_pos_top"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="@dimen/main_toolbar_size"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_taxi_share_pos_start"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="@dimen/start_default"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_taxi_share_pos_end"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_end="@dimen/start_default"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_taxi_share_pos_bottom"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_end="@dimen/start_default"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_taxi_share_pos_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_taxi_share_location_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_taxi_share_location_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85"/>
+
+
+    <TextView
+            android:id="@+id/tv_taxi_share_post_pop_up"
+            android:text="@string/taxi_share_post_pop_up"
+            android:layout_width="20dp"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_pos_end"/>
+
+    <TextView
+            android:id="@+id/tv_taxi_share_post_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_pos_start"
+            app:layout_constraintEnd_toStartOf="@id/tv_taxi_share_post_pop_up"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+            android:id="@+id/tv_taxi_share_post_major"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_pos_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_post_nickname"
+            app:layout_constraintEnd_toStartOf="@id/tv_taxi_share_post_pop_up"/>
+
+
+    <TextView
+            android:id="@+id/tv_taxi_share_post_start_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:textColor="@color/common_black"
+            android:hint="@string/register_start_location_hint"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_location_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_location_end"
+            app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_post_major"/>
+
+    <ImageView
+            android:id="@+id/iv_taxi_share_post_start_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dot_departure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_taxi_share_post_start_location"
+            app:layout_constraintBottom_toBottomOf="@id/tv_taxi_share_post_start_location"
+            app:layout_constraintEnd_toStartOf="@id/guide_taxi_share_location_start"/>
+
+    <View
+            android:id="@+id/divider_taxi_share_post_taxi_location"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/common_gray"
+            android:layout_marginTop="@dimen/default_gutter"
+            app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_post_start_location"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_location_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_location_end"/>
+
+    <TextView
+            android:id="@+id/tv_taxi_share_post_end_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="@dimen/default_gutter"
+            android:textColor="@color/common_black"
+            android:hint="@string/register_end_location_hint"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_location_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_location_end"
+            app:layout_constraintTop_toTopOf="@id/divider_taxi_share_post_taxi_location"/>
+
+    <ImageView
+            android:id="@+id/iv_taxi_share_post_end_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dot_arrive"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_taxi_share_post_end_location"
+            app:layout_constraintBottom_toBottomOf="@id/tv_taxi_share_post_end_location"
+            app:layout_constraintEnd_toStartOf="@id/tv_taxi_share_post_end_location"/>
+
+    <ImageView
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:rotation="90"
+            android:src="@drawable/ic_location_link"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_location_start"
+            app:layout_constraintTop_toBottomOf="@id/iv_taxi_share_post_start_location"
+            app:layout_constraintBottom_toTopOf="@id/iv_taxi_share_post_end_location"/>
+
+
+    <TextView
+            android:id="@+id/tv_taxi_share_post_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_pos_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_post_end_location"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_pos_end"/>
+
+    <TextView
+            android:id="@+id/tv_taxi_share_post_participants_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_pos_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_pos_end"
+            app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_post_title"/>
+
+    <Button
+            android:id="@+id/btn_taxi_share_post_participate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/taxi_share_post_participate"
+            app:layout_constraintBottom_toBottomOf="@id/guide_taxi_share_pos_bottom"
+            app:layout_constraintStart_toStartOf="@id/guide_taxi_share_pos_start"
+            app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_pos_end"
+            app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_post_participants_num"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

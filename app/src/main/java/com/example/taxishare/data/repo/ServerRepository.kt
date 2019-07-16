@@ -6,10 +6,8 @@ package com.example.taxishare.data.repo
 
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
-import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
-import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
-import com.example.taxishare.data.remote.apis.server.request.ServerRequest
-import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
+import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.remote.apis.server.request.*
 import io.reactivex.Observable
 
 interface ServerRepository {
@@ -19,4 +17,5 @@ interface ServerRepository {
     fun signUpRequest(signUpRequest: SignUpRequest) : Observable<ServerResponse>
     fun getSearchPlacesInfo(searchPlacesRequest: SearchPlacesRequest) : Observable<MutableList<Location>>
     fun registerTaxiShare(registerTaxiShareRequest: RegisterTaxiShareRequest) : Observable<ServerResponse>
+    fun getTaxiShareList(taxiShareListGetRequest: TaxiShareListGetRequest) : Observable<MutableList<TaxiShareInfo>>
 }
