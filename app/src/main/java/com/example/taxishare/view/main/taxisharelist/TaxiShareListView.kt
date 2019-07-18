@@ -13,5 +13,6 @@ interface TaxiShareListView {
     fun removeTaxiShareInfo(pos : Int)
     fun modifyTaxiShareInfo(pos : Int)
 
-
+    fun loadTaxiShareListNotFinished()
+    fun loadTaxiShareListFail()
 }

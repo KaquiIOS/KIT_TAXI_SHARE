@@ -4,6 +4,7 @@
 
 package com.example.taxishare.data.model
 
+import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -40,4 +41,13 @@ data class TaxiShareInfo(
     @SerializedName("participantsNum")
     val participantsNum: Int
     ) {
+    companion object {
+        val DIFF_UTIL: DiffUtil.ItemCallback<TaxiShareInfo> = object : DiffUtil.ItemCallback<TaxiShareInfo>() {
+            override fun areItemsTheSame(oldItem: TaxiShareInfo, newItem: TaxiShareInfo): Boolean =
+                oldItem == newItem
+
+            override fun areContentsTheSame(oldItem: TaxiShareInfo, newItem: TaxiShareInfo): Boolean =
+                oldItem == newItem
+        }
+    }
 }

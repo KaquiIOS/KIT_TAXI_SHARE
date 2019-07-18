@@ -144,4 +144,8 @@
 
     <string name="taxi_share_post_pop_up">&#8942;</string>
     <string name="taxi_share_post_participate">참여하기</string>
+
+    <string name="taxi_share_pop_up_modify">수정하기</string>
+    <string name="taxi_share_pop_up_remove">삭제하기</string>
+
 </resources>
