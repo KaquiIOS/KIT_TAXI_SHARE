@@ -10,6 +10,8 @@ import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.local.room.entity.MyLocationModel
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.MyLocation
+import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.model.TaxiShareInfoModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,5 +56,30 @@ object TypeMapper {
         return convertedList
     }
 
-    fun dateToString(date : Date) : String = DATE_FORMAT.format(date)
+    fun dateToString(date: Date): String = DATE_FORMAT.format(date)
+
+    fun taxiShareInfoModelToData(myTaxiShareInfoModelList: MutableList<TaxiShareInfoModel>): MutableList<TaxiShareInfo> {
+        val convertedList : MutableList<TaxiShareInfo> = mutableListOf()
+
+        myTaxiShareInfoModelList.forEach {
+            with(it) {
+                convertedList.add(
+                    TaxiShareInfo(
+                        id,
+                        uid,
+                        title,
+                        Date(startDate),
+                        startLocation,
+                        endLocation,
+                        limit,
+                        nickname,
+                        major,
+                        participantsNum
+                    )
+                )
+            }
+        }
+
+        return convertedList
+    }
 }

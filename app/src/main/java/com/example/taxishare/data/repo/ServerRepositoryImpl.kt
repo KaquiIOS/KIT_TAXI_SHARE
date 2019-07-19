@@ -5,6 +5,7 @@
 package com.example.taxishare.data.repo
 
 import android.util.Log
+import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
@@ -64,10 +65,7 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
 
     override fun getTaxiShareList(taxiShareListGetRequest: TaxiShareListGetRequest): Observable<MutableList<TaxiShareInfo>> =
         serverClient.getTaxiShareInfo(taxiShareListGetRequest.nextPageNum)
-            .map {
-                Log.d("TEST", it.toString())
-                it
-            }
+            .map { TypeMapper.taxiShareInfoModelToData(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 }

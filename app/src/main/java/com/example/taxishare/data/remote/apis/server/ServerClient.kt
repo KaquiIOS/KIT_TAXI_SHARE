@@ -6,7 +6,7 @@ package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.model.TaxiShareInfoModel
 import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
 import com.example.taxishare.data.remote.apis.server.request.ServerRequest
@@ -74,7 +74,7 @@ class ServerClient private constructor() {
         retrofit.create(ServerAPI::class.java)
             .registerTaxiShareInfo(registerTaxiShareRequest.getRequest())
 
-    fun getTaxiShareInfo(nextPageNum: Int): Observable<MutableList<TaxiShareInfo>> =
+    fun getTaxiShareInfo(nextPageNum: Int): Observable<MutableList<TaxiShareInfoModel>> =
         retrofit.create(ServerAPI::class.java)
             .getTaxiShareInfo(nextPageNum)
 

@@ -12,7 +12,9 @@ import com.example.taxishare.R
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 
 class TaxiShareListFragment : Fragment(), TaxiShareListView {
@@ -95,12 +97,15 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     private fun initListener() {
         taxiShareListAdapter.setTaxiShareInfoItemClickListener(object : TaxiShareInfoItemClickListener{
             override fun onTaxiShareInfoItemClicked(selectedTaxiShareInfo: TaxiShareInfo) {
+                startActivity<TaxiShareInfoDetailActivity>(
+                    getString(R.string.taxi_share_detail_info) to selectedTaxiShareInfo
+                )
                 // 상세 화면 보여주기
             }
         })
         taxiShareListAdapter.setTaxiShareInfoModifyClickListener(object : TaxiShareInfoModifyClickListener{
             override fun onTaxiShareInfoModifyClicked(selectedTaxiShareInfo: TaxiShareInfo, pos : Int) {
-                // 상제 화면 보여주기
+                // 등록 화면 보여주기
             }
         })
         taxiShareListAdapter.setTaxiShareInfoRemoveClickListener(object : TaxiShareInfoRemoveClickListener {

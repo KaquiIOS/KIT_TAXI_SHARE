@@ -11,6 +11,7 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
+import com.example.taxishare.app.Constant
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.TaxiShareInfo
 import kotlinx.android.synthetic.main.item_taxi_share_post.view.*
@@ -40,43 +41,49 @@ class TaxiShareListAdapter :
         with(holder.itemView) {
 
             // btn onClick Listener 작성
-            btn_taxi_share_post_participate.onClick {
-                if(::taxiShareParticipantBtnClickListener.isInitialized) {
+            btn_taxi_share_detail_participate.onClick {
+                if (::taxiShareParticipantBtnClickListener.isInitialized) {
                     taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(id)
                 }
             }
 
-            // PopUp Menu Click Event 처리
-            tv_taxi_share_post_pop_up.onClick {
+            if (Constant.USER_ID == taxiShareInfoList[position].uid) {
 
-                val popupMenu: PopupMenu = PopupMenu(context, tv_taxi_share_post_pop_up)
+                tv_taxi_share_post_pop_up.visibility = View.VISIBLE
 
-                popupMenu.inflate(R.menu.menu_taxi_share_info)
+                // PopUp Menu Click Event 처리
+                tv_taxi_share_post_pop_up.onClick {
 
-                // MenuItemClick Event Listener
-                popupMenu.setOnMenuItemClickListener {
-                    // 삭제
-                    if (it.itemId == R.id.taxi_share_info_remove) {
-                        if (::taxiShareInfoRemoveClickListener.isInitialized) {
-                            taxiShareInfoRemoveClickListener.onTaxiShareInfoRemoveClicked(
-                                taxiShareInfoList[position],
-                                position
-                            )
+                    val popupMenu = PopupMenu(context, tv_taxi_share_post_pop_up)
+
+                    popupMenu.inflate(R.menu.menu_taxi_share_info)
+
+                    // MenuItemClick Event Listener
+                    popupMenu.setOnMenuItemClickListener {
+                        // 삭제
+                        if (it.itemId == R.id.taxi_share_info_remove) {
+                            if (::taxiShareInfoRemoveClickListener.isInitialized) {
+                                taxiShareInfoRemoveClickListener.onTaxiShareInfoRemoveClicked(
+                                    taxiShareInfoList[position],
+                                    position
+                                )
+                            }
+                        } else {
+                            if (::taxiShareInfoModifyClickListener.isInitialized) {
+                                taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
+                                    taxiShareInfoList[position],
+                                    position
+                                )
+                            }
                         }
-                    } else {
-                        if(::taxiShareInfoModifyClickListener.isInitialized) {
-                            taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
-                                taxiShareInfoList[position],
-                                position
-                            )
-                        }
+
+                        false
                     }
 
-                    false
+                    popupMenu.show()
                 }
-
-                popupMenu.show()
             }
+
 
             // 상세화면으로 넘어가는 이벤트
             onClick {
@@ -103,7 +110,7 @@ class TaxiShareListAdapter :
         this@TaxiShareListAdapter.taxiShareInfoRemoveClickListener = taxiShareInfoRemoveClickListener
     }
 
-    fun setTaxiShareInfoList(taxiShareInfoList : MutableList<TaxiShareInfo>) {
+    fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>) {
         this.taxiShareInfoList.clear()
         this.taxiShareInfoList.addAll(taxiShareInfoList)
 
@@ -115,11 +122,11 @@ class TaxiShareListAdapter :
 
             with(taxiShareInfo) {
                 view.tv_taxi_share_post_nickname.text = String.format("%s (%s)", nickname, major)
-                view.tv_taxi_share_post_start_time.text = TypeMapper.dateToString(Date(startDate))
+                view.tv_taxi_share_post_start_time.text = TypeMapper.dateToString(startDate)
                 view.tv_taxi_share_post_start_location.text = startLocation.locationName
                 view.tv_taxi_share_post_end_location.text = endLocation.locationName
                 view.tv_taxi_share_post_title.text = title
-                view.btn_taxi_share_post_participate.text = "현재 참여 $participantsNum 명 참여중($limit)"
+                view.btn_taxi_share_detail_participate.text = "현재 참여 $participantsNum 명 참여중($limit)"
             }
         }
     }
