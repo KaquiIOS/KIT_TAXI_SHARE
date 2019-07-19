@@ -10,7 +10,6 @@ import java.util.*
 
 class RegisterTaxiShareRequest(
     private val title: String,
-    private val content: String,
     private val startDate: Date,
     private val passengerNum: Int,
     private val startLocation: Location,
@@ -21,7 +20,6 @@ class RegisterTaxiShareRequest(
     companion object {
         private const val UID  = "userId"
         private const val TITLE = "title"
-        private const val CONTENT = "content"
         private const val START_DATE = "startDate"
         private const val REGISTER_DATE = "registerDate"
         private const val NUM_OF_PASSENGER = "numOfPassenger"
@@ -33,7 +31,6 @@ class RegisterTaxiShareRequest(
         val params: MutableMap<String, String> = HashMap()
         params[UID] = Constant.USER_ID
         params[TITLE] = title
-        params[CONTENT] = content
         params[START_DATE] = startDate.time.toString()
         params[REGISTER_DATE] = registerDate.time.toString()
         params[NUM_OF_PASSENGER] = passengerNum.toString()

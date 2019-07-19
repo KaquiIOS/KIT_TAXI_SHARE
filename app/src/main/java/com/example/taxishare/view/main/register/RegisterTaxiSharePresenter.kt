@@ -9,7 +9,6 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
 import com.example.taxishare.data.repo.LocationRepository
 import com.example.taxishare.data.repo.ServerRepository
@@ -29,8 +28,7 @@ class RegisterTaxiSharePresenter(
     private lateinit var startLocation: Location
     private lateinit var endLocation: Location
     private var isTitleChecked: Boolean = false
-    private var memberNum: Int = 2
-    private var content: String = ""
+    private var memberNum: Int = 3
     private var title = ""
 
 
@@ -64,10 +62,6 @@ class RegisterTaxiSharePresenter(
         saveSelectedLocationToLocalDB(endLocation)
     }
 
-    fun setContent(content: String) {
-        this.content = content
-    }
-
     fun setMemberNum(memberNum: String) {
         this.memberNum = memberNum.toInt()
     }
@@ -77,7 +71,7 @@ class RegisterTaxiSharePresenter(
         if (!::taxiRegisterDispose.isInitialized || taxiRegisterDispose.isDisposed) {
             taxiRegisterDispose = serverRepoImpl.registerTaxiShare(
                 RegisterTaxiShareRequest(
-                    title, content, startDateTime, memberNum, startLocation, endLocation, Date()
+                    title, startDateTime, memberNum, startLocation, endLocation, Date()
                 )
             ).subscribe({
                 when(it.code) {

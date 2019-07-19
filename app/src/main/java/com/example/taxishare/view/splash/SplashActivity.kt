@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.lottie.LottieDrawable
 import com.example.taxishare.R
 import com.example.taxishare.view.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_splash.*

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/taxi_share_info_remove"
+            android:title="@string/taxi_share_pop_up_remove"
+            android:icon="@drawable/ic_remove_circle_outline_black_24dp"/>
+    <item
+            android:id="@+id/taxi_share_info_modify"
+            android:title="@string/taxi_share_pop_up_modify"
+            android:icon="@drawable/ic_mode_edit_black_24dp"/>
+
+</menu>

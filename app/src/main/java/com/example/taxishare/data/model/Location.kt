@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Location(
+data class Location (
     @Expose
     @SerializedName("latitude")
     val latitude: Double,
@@ -27,11 +27,11 @@ data class Location(
     val jibunAddress: String
 ) : Serializable {
     override fun toString(): String {
-        return "{latitude : $latitude," +
-                "longitude : $longitude," +
-                "name : $locationName," +
-                "roadAddress : $roadAddress," +
-                "jibunAddress : $jibunAddress}"
+        return "{\"latitude\" : $latitude," +
+                "\"longitude\" : $longitude," +
+                "\"name\" : \"$locationName\"," +
+                "\"road_address\" : \"$roadAddress\"," +
+                "\"jibun_address\" : \"$jibunAddress\"}"
     }
 
     companion object {

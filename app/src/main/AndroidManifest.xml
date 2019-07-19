@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="com.example.taxishare">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-
 
     <application
             android:name=".app.AppInitializer"
@@ -17,9 +15,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity
+                android:name=".view.main.taxisharelist.detail.TaxiShareInfoDetailActivity"
+                android:label="@string/title_activity_taxi_share_info_detail"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
-                   android:value="AIzaSyCIpEXk966QUDB_PswHP96bJIsW82tPPJ0"/>
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyCIpEXk966QUDB_PswHP96bJIsW82tPPJ0"/>
 
         <activity android:name=".view.main.register.location.LocationSearchActivity">
         </activity>

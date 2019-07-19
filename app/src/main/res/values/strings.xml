@@ -141,4 +141,15 @@
     <string name="taxi_share_register_not_finish">게시글 등록이 끝나지 않았습니다 !</string>
     <string name="taxi_share_register_success">등록 성공</string>
     <string name="taxi_share_register_fail">등록 실패</string>
+
+    <string name="taxi_share_post_pop_up">&#8942;</string>
+    <string name="taxi_share_post_participate">참여하기</string>
+
+    <string name="taxi_share_pop_up_modify">수정하기</string>
+    <string name="taxi_share_pop_up_remove">삭제하기</string>
+    <string name="title_activity_taxi_share_info_detail">TaxiShareInfoDetailActivity</string>
+
+    <string name="taxi_share_detail_top">상세보기</string>
+    <string name="taxi_share_detail_info">taxiShareInfo</string>
+
 </resources>
