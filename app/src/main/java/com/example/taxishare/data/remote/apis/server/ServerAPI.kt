@@ -38,8 +38,8 @@ interface ServerAPI {
     fun registerTaxiShareInfo(@Body serverRequest: Map<String, String>): Observable<TaxiShareRegisterResponse>
 
     @POST("registerComment")
-    fun registerComment(@Body serverRequest: Map<String, String>) : Observable<RegisterCommentResponse>
+    fun registerComment(@Body serverRequest: Map<String, String>): Observable<RegisterCommentResponse>
 
     @GET("loadComments")
-    fun loadComments(@Query("id") id : String) : Observable<MutableList<CommentModel>>
+    fun loadComments(@Query("id") id: String, @Query("commentId") commentId: String): Observable<MutableList<CommentModel>>
 }

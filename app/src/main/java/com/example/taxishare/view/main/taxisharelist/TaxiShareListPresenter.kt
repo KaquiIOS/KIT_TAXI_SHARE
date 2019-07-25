@@ -25,7 +25,7 @@ class TaxiShareListPresenter(
             loadTaxiShareInfoDisposable = serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum))
                 .subscribe({
                     if(it.size > 0) {
-                        it[it.size - 1]
+                        nextPageNum = it[it.size - 1].id.toInt()
                         view.setTaxiShareList(it)
                     } else {
                         view.showLastPageOfTaxiShareListMessage()

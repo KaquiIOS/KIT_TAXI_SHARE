@@ -5,12 +5,10 @@
 package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.model.CommentModel
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfoModel
-import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
-import com.example.taxishare.data.remote.apis.server.request.SearchPlacesRequest
-import com.example.taxishare.data.remote.apis.server.request.ServerRequest
-import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
+import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.*
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -77,5 +75,14 @@ class ServerClient private constructor() {
     fun getTaxiShareInfo(nextPageNum: Int): Observable<MutableList<TaxiShareInfoModel>> =
         retrofit.create(ServerAPI::class.java)
             .getTaxiShareInfo(nextPageNum)
+
+
+    fun registerComment(registerCommentRequest: RegisterCommentRequest) : Observable<RegisterCommentResponse> =
+        retrofit.create(ServerAPI::class.java)
+            .registerComment(registerCommentRequest.getRequest())
+
+    fun loadComments(id : String, commentId : String) : Observable<MutableList<CommentModel>> =
+        retrofit.create(ServerAPI::class.java)
+            .loadComments(id, commentId)
 
 }

@@ -16,7 +16,6 @@ import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.TaxiShareInfo
 import kotlinx.android.synthetic.main.item_taxi_share_post.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import java.util.*
 
 // ListAdapter 사용
 class TaxiShareListAdapter :

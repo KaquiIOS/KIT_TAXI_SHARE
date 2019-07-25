@@ -4,8 +4,8 @@
 
 package com.example.taxishare.data.repo
 
-import android.util.Log
 import com.example.taxishare.data.mapper.TypeMapper
+import com.example.taxishare.data.model.Comment
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
@@ -66,6 +66,18 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
     override fun getTaxiShareList(taxiShareListGetRequest: TaxiShareListGetRequest): Observable<MutableList<TaxiShareInfo>> =
         serverClient.getTaxiShareInfo(taxiShareListGetRequest.nextPageNum)
             .map { TypeMapper.taxiShareInfoModelToData(it) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    override fun registerComment(registerCommentRequest: RegisterCommentRequest): Observable<ServerResponse> =
+        serverClient.registerComment(registerCommentRequest)
+            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    override fun loadComments(id: String, commentId : String): Observable<MutableList<Comment>> =
+        serverClient.loadComments(id, commentId)
+            .map { TypeMapper.commentModelToComment(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 }

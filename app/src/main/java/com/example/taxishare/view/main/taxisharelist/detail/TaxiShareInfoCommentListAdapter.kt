@@ -4,7 +4,5 @@
 
 package com.example.taxishare.view.main.taxisharelist.detail
 
-import androidx.recyclerview.widget.ListAdapter
-
 class TaxiShareInfoCommentListAdapter {
 }
