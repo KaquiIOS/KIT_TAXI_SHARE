@@ -24,13 +24,18 @@ class TaxiShareListPresenter(
 
             loadTaxiShareInfoDisposable = serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum))
                 .subscribe({
-                    view.setTaxiShareList(it)
+                    if(it.size > 0) {
+                        it[it.size - 1]
+                        view.setTaxiShareList(it)
+                    } else {
+                        view.showLastPageOfTaxiShareListMessage()
+                    }
                 }, {
-                    view.loadTaxiShareListFail()
+                    view.showLoadTaxiShareListFailMessage()
                     it.printStackTrace()
                 })
         } else {
-            view.loadTaxiShareListNotFinished()
+            view.showLoadTaxiShareListNotFinishedMessage()
         }
     }
 }
