@@ -4,6 +4,7 @@
 
 package com.example.taxishare.data.remote.apis.server
 
+import com.example.taxishare.data.model.CommentModel
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfoModel
 import com.example.taxishare.data.remote.apis.server.response.*
@@ -35,4 +36,10 @@ interface ServerAPI {
 
     @POST("registerTaxiShareInfo")
     fun registerTaxiShareInfo(@Body serverRequest: Map<String, String>): Observable<TaxiShareRegisterResponse>
+
+    @POST("registerComment")
+    fun registerComment(@Body serverRequest: Map<String, String>) : Observable<RegisterCommentResponse>
+
+    @GET("loadComments")
+    fun loadComments(@Query("id") id : String) : Observable<MutableList<CommentModel>>
 }
