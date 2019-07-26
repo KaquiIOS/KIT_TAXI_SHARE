@@ -151,5 +151,6 @@
 
     <string name="taxi_share_detail_top">상세보기</string>
     <string name="taxi_share_detail_info">taxiShareInfo</string>
+    <string name="taxi_share_detail_comment_hint">댓글을 입력하세요</string>
 
 </resources>
