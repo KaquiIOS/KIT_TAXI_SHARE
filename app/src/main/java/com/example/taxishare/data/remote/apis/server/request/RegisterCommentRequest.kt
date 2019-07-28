@@ -8,9 +8,9 @@ class RegisterCommentRequest(private val id: String, private val uid: String, pr
     ServerRequest.PostRequest {
 
     companion object {
-        private const val ID: String = "ID"
-        private const val UID: String = "UID"
-        private const val CONTENT : String = "CONTENT"
+        private const val ID: String = "id"
+        private const val UID: String = "uid"
+        private const val CONTENT : String = "content"
     }
 
     override fun getRequest(): Map<String, String> {

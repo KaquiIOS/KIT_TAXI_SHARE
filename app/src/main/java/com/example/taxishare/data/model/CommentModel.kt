@@ -9,10 +9,10 @@ import com.google.gson.annotations.SerializedName
 
 data class CommentModel(
     @Expose
-    @SerializedName("id")
+    @SerializedName("postId")
     val id: Int,
     @Expose
-    @SerializedName("uid")
+    @SerializedName("stdId")
     val uid: Int,
     @Expose
     @SerializedName("commentId")
@@ -21,7 +21,7 @@ data class CommentModel(
     @SerializedName("commentDate")
     val commentDate: Long,
     @Expose
-    @SerializedName("content")
+    @SerializedName("commentContent")
     val content: String
 ) {
 }

@@ -66,8 +66,7 @@
             android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guide_comment_end"
-            app:layout_constraintBottom_toBottomOf="@id/guide_comment_top"/>
+            app:layout_constraintEnd_toEndOf="@id/guide_comment_end"/>
 
     <!-- match_constraint : 0dp -->
 
