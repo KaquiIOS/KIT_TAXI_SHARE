@@ -11,6 +11,7 @@ import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.*
+import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -69,9 +70,9 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    override fun registerComment(registerCommentRequest: RegisterCommentRequest): Observable<ServerResponse> =
+    override fun registerComment(registerCommentRequest: RegisterCommentRequest): Observable<Comment> =
         serverClient.registerComment(registerCommentRequest)
-            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .map { TypeMapper.registerCommentResponseToComment(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 

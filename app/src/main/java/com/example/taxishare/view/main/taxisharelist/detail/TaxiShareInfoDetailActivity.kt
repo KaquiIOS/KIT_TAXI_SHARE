@@ -41,7 +41,11 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
     }
 
     override fun addComments(commentList: MutableList<Comment>) {
-        adapter.addComments(commentList)
+        adapter.setComments(commentList)
+    }
+
+    override fun insertComment(comment: Comment) {
+        adapter.insertComment(comment)
     }
 
     override fun registerCommentSuccess() {

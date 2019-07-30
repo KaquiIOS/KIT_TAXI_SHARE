@@ -12,7 +12,7 @@ interface TaxiShareInfoDetailView {
     fun changeRegisterButtonState(isActivated : Boolean)
 
     fun addComments(commentList : MutableList<Comment>)
-
+    fun insertComment(comment : Comment)
 
     fun registerCommentSuccess()
     fun registerCommentFail()

@@ -10,6 +10,21 @@ import com.google.gson.annotations.SerializedName
 data class RegisterCommentResponse(
     @Expose
     @SerializedName("responseCode")
-    val responseCode: Int
+    val responseCode: Int,
+    @Expose
+    @SerializedName("postId")
+    val id: Int,
+    @Expose
+    @SerializedName("stdId")
+    val uid: Int,
+    @Expose
+    @SerializedName("commentId")
+    val commentId: Int,
+    @Expose
+    @SerializedName("commentDate")
+    val commentDate: Long,
+    @Expose
+    @SerializedName("commentContent")
+    val content: String
 ) {
 }

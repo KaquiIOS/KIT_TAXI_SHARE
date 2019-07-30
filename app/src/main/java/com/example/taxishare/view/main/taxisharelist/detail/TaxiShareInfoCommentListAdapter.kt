@@ -65,9 +65,14 @@ class TaxiShareInfoCommentListAdapter :
         }
     }
 
-    fun addComments(commentList: MutableList<Comment>) {
+    fun insertComment(comment: Comment) {
+        this.commentList.add(0, comment)
+        submitList(ArrayList(this.commentList))
+    }
+
+    fun setComments(commentList: MutableList<Comment>) {
         this.commentList.addAll(commentList)
-        submitList(ArrayList(commentList))
+        submitList(ArrayList(this.commentList))
     }
 
     fun setOnBottomReachedListener(onBottomReachedListener: OnBottomReachedListener) {

@@ -25,7 +25,12 @@ class TaxiShareInfoDetailPresenter(
             registerCommentDisposable =
                 serverRepo.registerComment(RegisterCommentRequest(id, uid, content))
                     .subscribe({
-                        view.registerCommentSuccess()
+                        if(it.commentId == -1) {
+                            view.registerCommentFail()
+                        } else {
+                            view.insertComment(it)
+                            view.registerCommentSuccess()
+                        }
                     }, {
                         it.printStackTrace()
                         view.registerCommentFail()
