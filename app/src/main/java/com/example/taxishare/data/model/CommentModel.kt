@@ -22,6 +22,9 @@ data class CommentModel(
     val commentDate: Long,
     @Expose
     @SerializedName("commentContent")
-    val content: String
+    val content: String,
+    @Expose
+    @SerializedName("nickname")
+    val nickname: String
 ) {
 }

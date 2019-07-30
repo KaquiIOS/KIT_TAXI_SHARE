@@ -37,5 +37,8 @@ data class TaxiShareInfoModel(
     val major: String,
     @Expose
     @SerializedName("participantsNum")
-    val participantsNum: Int
+    val participantsNum: Int,
+    @Expose
+    @SerializedName("isParticipate")
+    val isParticipate : Int
 )

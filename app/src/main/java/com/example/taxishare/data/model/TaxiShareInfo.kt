@@ -18,7 +18,8 @@ data class TaxiShareInfo(
     val limit: Int,
     val nickname: String,
     val major: String,
-    val participantsNum: Int
+    val participantsNum: Int,
+    val isParticipated : Boolean
 ) : Serializable {
     companion object {
         val DIFF_UTIL: DiffUtil.ItemCallback<TaxiShareInfo> = object : DiffUtil.ItemCallback<TaxiShareInfo>() {

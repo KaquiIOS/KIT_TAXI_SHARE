@@ -124,6 +124,9 @@
                     android:id="@+id/tv_taxi_share_detail_leader"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/common_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="@id/guide_taxi_share_detail_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_detail_end"/>
@@ -133,6 +136,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_detail_leader"
                     app:layout_constraintStart_toStartOf="@id/guide_taxi_share_detail_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_detail_end"/>
@@ -142,6 +146,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/common_black"
                     app:layout_constraintStart_toStartOf="@id/guide_taxi_share_detail_start"
                     app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_detail_start_time"
                     app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_detail_end"/>
@@ -218,6 +224,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/taxi_share_post_participate"
+                    android:background="@drawable/button_background_selector"
                     app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_detail_end_location"
                     app:layout_constraintStart_toStartOf="@id/guide_taxi_share_detail_start"
                     app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_detail_end"/>

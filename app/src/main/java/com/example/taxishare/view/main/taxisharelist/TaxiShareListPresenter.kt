@@ -4,6 +4,7 @@
 
 package com.example.taxishare.view.main.taxisharelist
 
+import com.example.taxishare.app.Constant
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareListGetRequest
 import com.example.taxishare.data.repo.ServerRepository
 import io.reactivex.disposables.Disposable
@@ -22,18 +23,19 @@ class TaxiShareListPresenter(
 
             if (isLatest) nextPageNum = -1
 
-            loadTaxiShareInfoDisposable = serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum))
-                .subscribe({
-                    if(it.size > 0) {
-                        nextPageNum = it[it.size - 1].id.toInt()
-                        view.setTaxiShareList(it)
-                    } else {
-                        view.showLastPageOfTaxiShareListMessage()
-                    }
-                }, {
-                    view.showLoadTaxiShareListFailMessage()
-                    it.printStackTrace()
-                })
+            loadTaxiShareInfoDisposable =
+                serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum, Constant.USER_ID.toInt()))
+                    .subscribe({
+                        if (it.size > 0) {
+                            nextPageNum = it[it.size - 1].id.toInt()
+                            view.setTaxiShareList(it)
+                        } else {
+                            view.showLastPageOfTaxiShareListMessage()
+                        }
+                    }, {
+                        view.showLoadTaxiShareListFailMessage()
+                        it.printStackTrace()
+                    })
         } else {
             view.showLoadTaxiShareListNotFinishedMessage()
         }

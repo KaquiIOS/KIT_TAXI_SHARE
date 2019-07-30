@@ -65,7 +65,7 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
             .observeOn(AndroidSchedulers.mainThread())
 
     override fun getTaxiShareList(taxiShareListGetRequest: TaxiShareListGetRequest): Observable<MutableList<TaxiShareInfo>> =
-        serverClient.getTaxiShareInfo(taxiShareListGetRequest.nextPageNum)
+        serverClient.getTaxiShareInfo(taxiShareListGetRequest.nextPageNum, taxiShareListGetRequest.uid)
             .map { TypeMapper.taxiShareInfoModelToData(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

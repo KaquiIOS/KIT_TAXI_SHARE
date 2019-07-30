@@ -32,7 +32,7 @@ interface ServerAPI {
     fun getSearchPlacesInfo(@Query("query") query: String): Observable<MutableList<Location>>
 
     @GET("loadTaxiShareInfo")
-    fun getTaxiShareInfo(@Query("nextPageNum") nextPageNum: Int): Observable<MutableList<TaxiShareInfoModel>>
+    fun getTaxiShareInfo(@Query("nextPageNum") nextPageNum: Int, @Query("uid") uid : Int): Observable<MutableList<TaxiShareInfoModel>>
 
     @POST("registerTaxiShareInfo")
     fun registerTaxiShareInfo(@Body serverRequest: Map<String, String>): Observable<TaxiShareRegisterResponse>

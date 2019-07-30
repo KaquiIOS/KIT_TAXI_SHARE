@@ -72,7 +72,8 @@ object TypeMapper {
                         limit,
                         nickname,
                         major,
-                        participantsNum
+                        participantsNum,
+                        (isParticipate == 1)
                     )
                 )
             }
@@ -91,7 +92,8 @@ object TypeMapper {
                         uid,
                         commentId,
                         dateToString(Date(commentDate)),
-                        content
+                        content,
+                        nickname
                     )
                 )
             }
@@ -102,7 +104,7 @@ object TypeMapper {
 
     fun registerCommentResponseToComment(response : RegisterCommentResponse) : Comment {
         with(response) {
-            return Comment(uid, commentId, dateToString(Date(commentDate)), content)
+            return Comment(uid, commentId, dateToString(Date(commentDate)), content, nickname)
         }
     }
 }

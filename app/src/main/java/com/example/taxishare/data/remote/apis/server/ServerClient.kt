@@ -72,9 +72,9 @@ class ServerClient private constructor() {
         retrofit.create(ServerAPI::class.java)
             .registerTaxiShareInfo(registerTaxiShareRequest.getRequest())
 
-    fun getTaxiShareInfo(nextPageNum: Int): Observable<MutableList<TaxiShareInfoModel>> =
+    fun getTaxiShareInfo(nextPageNum: Int, uid : Int): Observable<MutableList<TaxiShareInfoModel>> =
         retrofit.create(ServerAPI::class.java)
-            .getTaxiShareInfo(nextPageNum)
+            .getTaxiShareInfo(nextPageNum, uid)
 
 
     fun registerComment(registerCommentRequest: RegisterCommentRequest) : Observable<RegisterCommentResponse> =

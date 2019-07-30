@@ -4,4 +4,4 @@
 
 package com.example.taxishare.data.remote.apis.server.request
 
-data class TaxiShareListGetRequest(val nextPageNum : Int)
+data class TaxiShareListGetRequest(val nextPageNum : Int, val uid : Int)

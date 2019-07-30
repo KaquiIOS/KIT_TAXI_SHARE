@@ -82,7 +82,7 @@ class TaxiShareInfoCommentListAdapter :
     inner class CommentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(comment: Comment) {
             with(comment) {
-                view.tv_comment_name.text = uid.toString()
+                view.tv_comment_name.text = nickname
                 view.tv_comment_content.text = content
                 view.tv_comment_time.text = commentDate
             }

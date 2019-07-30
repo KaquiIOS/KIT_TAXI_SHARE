@@ -38,9 +38,9 @@ class TaxiShareListAdapter :
         holder.bind(taxiShareInfoList[position])
 
         with(holder.itemView) {
-
+            
             // btn onClick Listener 작성
-            btn_taxi_share_detail_participate.onClick {
+            btn_taxi_share_post_participate.onClick {
                 if (::taxiShareParticipantBtnClickListener.isInitialized) {
                     taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(id)
                 }
@@ -125,7 +125,13 @@ class TaxiShareListAdapter :
                 view.tv_taxi_share_post_start_location.text = startLocation.locationName
                 view.tv_taxi_share_post_end_location.text = endLocation.locationName
                 view.tv_taxi_share_post_title.text = title
-                view.btn_taxi_share_detail_participate.text = "현재 참여 $participantsNum 명 참여중($limit)"
+
+                if(isParticipated) {
+                    view.btn_taxi_share_post_participate.text = "이미 참여중인 글입니다."
+                    view.btn_taxi_share_post_participate.isEnabled = false
+                } else {
+                    view.btn_taxi_share_post_participate.text = "현재 참여 $participantsNum 명 참여중($limit)"
+                }
             }
         }
     }

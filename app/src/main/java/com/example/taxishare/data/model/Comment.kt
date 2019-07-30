@@ -11,7 +11,8 @@ data class Comment(
     val uid: Int,
     val commentId: Int,
     val commentDate: String,
-    val content: String
+    val content: String,
+    val nickname : String
 ) : Serializable {
     companion object {
         val DIFF_UTIL: DiffUtil.ItemCallback<Comment> = object : DiffUtil.ItemCallback<Comment>() {

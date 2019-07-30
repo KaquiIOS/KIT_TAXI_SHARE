@@ -89,6 +89,13 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             tv_taxi_share_detail_start_location.text = startLocation.locationName
             tv_taxi_share_detail_end_location.text = endLocation.locationName
             tv_taxi_share_detail_title.text = title
+
+            if(isParticipated) {
+                btn_taxi_share_detail_participate.text = "이미 참여중인 글입니다."
+                btn_taxi_share_detail_participate.isEnabled = false
+            } else {
+                btn_taxi_share_detail_participate.text = "현재 참여 $participantsNum 명 참여중($limit)"
+            }
         }
 
         rcv_taxi_share_detail_comments.apply {
