@@ -12,6 +12,7 @@ import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
+import com.example.taxishare.extension.uiSubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -31,54 +32,49 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
     override fun loginRequest(loginRequest: ServerRequest.PostRequest): Observable<ServerResponse> =
         serverClient.loginRequest(loginRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-
+            .uiSubscribe()
 
     override fun isSameIdExist(serverRequest: ServerRequest.PostRequest): Observable<ServerResponse> =
         serverClient.isSameIdExist(serverRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
 
     override fun isSameNicknameExist(serverRequest: ServerRequest.PostRequest): Observable<ServerResponse> =
         serverClient.isSameNicknameExist(serverRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
 
     override fun signUpRequest(signUpRequest: SignUpRequest): Observable<ServerResponse> =
         serverClient.signUpRequest(signUpRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
 
     override fun getSearchPlacesInfo(searchPlacesRequest: SearchPlacesRequest): Observable<MutableList<Location>> =
         serverClient.getSearchPlacesInfo(searchPlacesRequest)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
 
     override fun registerTaxiShare(registerTaxiShareRequest: RegisterTaxiShareRequest): Observable<ServerResponse> =
         serverClient.registerTaxiShareInfo(registerTaxiShareRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
 
     override fun getTaxiShareList(taxiShareListGetRequest: TaxiShareListGetRequest): Observable<MutableList<TaxiShareInfo>> =
         serverClient.getTaxiShareInfo(taxiShareListGetRequest.nextPageNum, taxiShareListGetRequest.uid)
             .map { TypeMapper.taxiShareInfoModelToData(it) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
 
     override fun registerComment(registerCommentRequest: RegisterCommentRequest): Observable<Comment> =
         serverClient.registerComment(registerCommentRequest)
             .map { TypeMapper.registerCommentResponseToComment(it) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
 
     override fun loadComments(id: String, commentId : String): Observable<MutableList<Comment>> =
         serverClient.loadComments(id, commentId)
             .map { TypeMapper.commentModelToComment(it) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .uiSubscribe()
+
+    override fun participateTaxiShare(participateTaxiShareRequest: ParticipateTaxiShareRequest): Observable<ServerResponse> =
+        serverClient.participateTaxiShare(participateTaxiShareRequest)
+            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .uiSubscribe()
 }

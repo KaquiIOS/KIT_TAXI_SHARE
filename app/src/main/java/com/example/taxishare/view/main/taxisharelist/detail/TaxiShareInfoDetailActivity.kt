@@ -2,6 +2,7 @@ package com.example.taxishare.view.main.taxisharelist.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
@@ -101,6 +102,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         rcv_taxi_share_detail_comments.apply {
             adapter = this@TaxiShareInfoDetailActivity.adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         }
     }
 

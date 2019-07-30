@@ -5,6 +5,7 @@
 package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.data.model.TaxiShareInfoModel
+import com.example.taxishare.data.remote.apis.server.response.ParticipateTaxiShareResponse
 import com.example.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
 import io.reactivex.Observable
 import retrofit2.http.Body
@@ -19,4 +20,6 @@ interface TaxiShareInfoAPI {
     @GET("loadTaxiShareInfo")
     fun getTaxiShareInfo(@Query("nextPageNum") nextPageNum: Int, @Query("uid") uid : Int): Observable<MutableList<TaxiShareInfoModel>>
 
+    @POST("participateTaxiShare")
+    fun participateTaxiShare(@Body serverRequest: Map<String, String>) : Observable<ParticipateTaxiShareResponse>
 }

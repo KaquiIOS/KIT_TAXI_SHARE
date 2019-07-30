@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
@@ -95,6 +96,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         with(rcv_taxi_list) {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         }
     }
 
