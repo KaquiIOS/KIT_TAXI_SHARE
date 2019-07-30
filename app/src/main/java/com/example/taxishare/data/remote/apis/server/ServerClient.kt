@@ -49,40 +49,40 @@ class ServerClient private constructor() {
     }
 
     fun loginRequest(loginRequest: ServerRequest.PostRequest): Observable<LoginRequestResponse> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(LoginAPI::class.java)
             .loginRequest(loginRequest.getRequest())
 
     fun isSameIdExist(serverRequest: ServerRequest.PostRequest): Observable<DuplicateIdExistCheckResponse> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(SignUpAPI::class.java)
             .checkSameIdExist(serverRequest.getRequest())
 
     fun isSameNicknameExist(serverRequest: ServerRequest.PostRequest): Observable<DuplicateNicknameExistCheckResponse> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(SignUpAPI::class.java)
             .checkSameNickNameExist(serverRequest.getRequest())
 
     fun signUpRequest(signUpRequest: SignUpRequest): Observable<SignUpRequestResponse> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(SignUpAPI::class.java)
             .signUpRequest(signUpRequest.getRequest())
 
     fun getSearchPlacesInfo(searchPlacesRequest: SearchPlacesRequest): Observable<MutableList<Location>> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(PlaceSearchAPI::class.java)
             .getSearchPlacesInfo(searchPlacesRequest.query)
 
     fun registerTaxiShareInfo(registerTaxiShareRequest: RegisterTaxiShareRequest): Observable<TaxiShareRegisterResponse> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(TaxiShareInfoAPI::class.java)
             .registerTaxiShareInfo(registerTaxiShareRequest.getRequest())
 
     fun getTaxiShareInfo(nextPageNum: Int, uid : Int): Observable<MutableList<TaxiShareInfoModel>> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(TaxiShareInfoAPI::class.java)
             .getTaxiShareInfo(nextPageNum, uid)
 
 
     fun registerComment(registerCommentRequest: RegisterCommentRequest) : Observable<RegisterCommentResponse> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(CommentAPI::class.java)
             .registerComment(registerCommentRequest.getRequest())
 
     fun loadComments(id : String, commentId : String) : Observable<MutableList<CommentModel>> =
-        retrofit.create(ServerAPI::class.java)
+        retrofit.create(CommentAPI::class.java)
             .loadComments(id, commentId)
 
 }
