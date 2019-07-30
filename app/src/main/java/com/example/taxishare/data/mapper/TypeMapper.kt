@@ -8,10 +8,8 @@ package com.example.taxishare.data.mapper
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.local.room.entity.MyLocationModel
-import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.MyLocation
-import com.example.taxishare.data.model.TaxiShareInfo
-import com.example.taxishare.data.model.TaxiShareInfoModel
+import com.example.taxishare.data.model.*
+import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -59,7 +57,7 @@ object TypeMapper {
     fun dateToString(date: Date): String = DATE_FORMAT.format(date)
 
     fun taxiShareInfoModelToData(myTaxiShareInfoModelList: MutableList<TaxiShareInfoModel>): MutableList<TaxiShareInfo> {
-        val convertedList : MutableList<TaxiShareInfo> = mutableListOf()
+        val convertedList: MutableList<TaxiShareInfo> = mutableListOf()
 
         myTaxiShareInfoModelList.forEach {
             with(it) {
@@ -74,12 +72,39 @@ object TypeMapper {
                         limit,
                         nickname,
                         major,
-                        participantsNum
+                        participantsNum,
+                        (isParticipate == 1)
                     )
                 )
             }
         }
 
         return convertedList
+    }
+
+    fun commentModelToComment(commentList: MutableList<CommentModel>): MutableList<Comment> {
+        val convertedList: MutableList<Comment> = mutableListOf()
+
+        commentList.forEach {
+            with(it) {
+                convertedList.add(
+                    Comment(
+                        uid,
+                        commentId,
+                        dateToString(Date(commentDate)),
+                        content,
+                        nickname
+                    )
+                )
+            }
+        }
+
+        return convertedList
+    }
+
+    fun registerCommentResponseToComment(response : RegisterCommentResponse) : Comment {
+        with(response) {
+            return Comment(uid, commentId, dateToString(Date(commentDate)), content, nickname)
+        }
     }
 }

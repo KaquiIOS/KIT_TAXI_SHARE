@@ -60,12 +60,16 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         Log.d("Test", "modifyTaxiShareInfo")
     }
 
-    override fun loadTaxiShareListNotFinished() {
+    override fun showLoadTaxiShareListNotFinishedMessage() {
         toast("로드 안끝남")
     }
 
-    override fun loadTaxiShareListFail() {
+    override fun showLoadTaxiShareListFailMessage() {
         toast("로드 실패")
+    }
+
+    override fun showLastPageOfTaxiShareListMessage() {
+        toast("마지막 페이지입니다")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
