@@ -16,4 +16,7 @@ interface TaxiShareListView {
     fun showLoadTaxiShareListNotFinishedMessage()
     fun showLoadTaxiShareListFailMessage()
     fun showLastPageOfTaxiShareListMessage()
+    fun showParticipateTaxiShareSuccess(postId : String)
+    fun showParticipateTaxiShareFail()
+    fun showParticipateTaxiShareNotFinish()
 }

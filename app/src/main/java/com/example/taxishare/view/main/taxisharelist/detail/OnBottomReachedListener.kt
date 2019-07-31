@@ -5,5 +5,5 @@
 package com.example.taxishare.view.main.taxisharelist.detail
 
 interface OnBottomReachedListener {
-    fun onBottomReached(lastNumOfItem : Int)
+    fun onBottomReached()
 }

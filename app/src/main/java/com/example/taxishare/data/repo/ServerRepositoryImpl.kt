@@ -77,4 +77,9 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
         serverClient.participateTaxiShare(participateTaxiShareRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
             .uiSubscribe()
+
+    override fun removeComment(removeCommentRequest: RemoveCommentRequest): Observable<ServerResponse> =
+        serverClient.removeComment(removeCommentRequest)
+            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .uiSubscribe()
 }

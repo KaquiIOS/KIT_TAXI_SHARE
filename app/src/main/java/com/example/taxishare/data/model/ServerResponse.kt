@@ -38,7 +38,12 @@ enum class ServerResponse(val code: Int, val description: String) {
 
     /* ParticipateTaxiShareRequest */
     PARTICIPATE_TAXI_SHARE_SUCCESS(2011, "ParticipateTaxiShareSuccess"),
-    PARTICIPATE_TAXI_SHARE_FAIL(2012, "ParticipateTaxiShareFail");
+    PARTICIPATE_TAXI_SHARE_FAIL(2012, "ParticipateTaxiShareFail"),
+
+    /* CommentRemoveRequest */
+    COMMENT_REMOVE_SUCCESS(2021, "CommentRemoveSuccess"),
+    COMMENT_REMOVE_FAIL(2022, "CommentRemoveFail");
+
 
     companion object{
         fun fromServerResponseCode(code : Int) = values().first { it.code == code }

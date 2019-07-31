@@ -73,6 +73,19 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         toast("마지막 페이지입니다")
     }
 
+    override fun showParticipateTaxiShareSuccess(postId: String) {
+        toast("택시 합승에 참여하였습니다")
+        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId)
+    }
+
+    override fun showParticipateTaxiShareFail() {
+        toast("택시 합승에 실패하였습니다")
+    }
+
+    override fun showParticipateTaxiShareNotFinish() {
+        toast("택시 합승을 요청중입니다")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -121,8 +134,8 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             }
         })
         taxiShareListAdapter.setTaxiShareParticipantsClickListener(object : TaxiShareParticipantBtnClickListener{
-            override fun onParticipantsButtonClicked(postId: Int) {
-
+            override fun onParticipantsButtonClicked(postId: String) {
+                presenter.participateTaxiShare(postId)
             }
         })
     }

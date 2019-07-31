@@ -88,4 +88,9 @@ class ServerClient private constructor() {
     fun participateTaxiShare(participateTaxiShareRequest: ParticipateTaxiShareRequest): Observable<ParticipateTaxiShareResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .participateTaxiShare(participateTaxiShareRequest.getRequest())
+
+
+    fun removeComment(removeCommentRequest: RemoveCommentRequest) : Observable<RemoveCommentResponse> =
+        retrofit.create(CommentAPI::class.java)
+            .removeComment(removeCommentRequest.getRequest())
 }

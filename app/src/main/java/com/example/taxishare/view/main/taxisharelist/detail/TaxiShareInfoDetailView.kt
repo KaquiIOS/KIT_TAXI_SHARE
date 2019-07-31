@@ -22,4 +22,8 @@ interface TaxiShareInfoDetailView {
     fun loadCommentSuccess()
     fun loadCommentFail()
     fun loadCommentNotFinished()
+
+    fun removeCommentSuccess(commentId : Int)
+    fun removeCommentFail()
+    fun removeCommentNotFinished()
 }

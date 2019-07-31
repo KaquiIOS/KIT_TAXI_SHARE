@@ -8,19 +8,19 @@ import com.example.taxishare.app.Constant
 import java.util.HashMap
 
 class ParticipateTaxiShareRequest(
-    private val postId : Int
+    private val postId : String
 ) : ServerRequest.PostRequest {
 
     companion object {
-        private const val UID  = "userId"
-        private const val POST_ID = "id"
+        private const val UID  = "uid"
+        private const val POST_ID = "postId"
     }
 
     override fun getRequest(): Map<String, String> {
         val params: MutableMap<String, String> = HashMap()
 
         params[UID] = Constant.USER_ID
-        params[POST_ID] = postId.toString()
+        params[POST_ID] = postId
 
         return params
     }

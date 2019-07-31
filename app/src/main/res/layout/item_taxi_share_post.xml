@@ -168,7 +168,6 @@
             android:layout_marginBottom="8dp"
             android:text="@string/taxi_share_post_participate"
             android:background="@drawable/button_background_selector"
-            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="@id/guide_comment_bottom"
             app:layout_constraintStart_toStartOf="@id/guide_comment_start"
             app:layout_constraintEnd_toEndOf="@id/guide_comment_end"
