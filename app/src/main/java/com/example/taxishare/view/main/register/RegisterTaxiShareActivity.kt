@@ -40,6 +40,12 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
         initView()
         initListener()
+
+        presenter.setPreviousInfo(intent.getSerializableExtra(resources.getString(R.string.taxi_share_detail_info)) as TaxiShareInfo?)
+    }
+
+    override fun setTitle(title: String) {
+        text_input_taxi_register_title.setText(title)
     }
 
     override fun changeTitleEditTextState(isMatched: Boolean) {
@@ -78,6 +84,20 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
     override fun taxiRegisterTaskFail() {
         toast(resources.getString(R.string.taxi_share_register_fail))
+    }
+
+    override fun taxiModifyTaskNotOver() {
+        toast("수정 요청중입니다")
+    }
+
+    override fun taxiModifyTaskSuccess(taxiShareInfo: TaxiShareInfo) {
+        toast("수정을 성공했습니다")
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_ASHARE_STR, taxiShareInfo) })
+        finish()
+    }
+
+    override fun taxiModifyTaskFail() {
+        toast("수정 실패")
     }
 
     override fun onDestroy() {

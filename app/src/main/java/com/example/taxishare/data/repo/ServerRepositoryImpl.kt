@@ -12,12 +12,9 @@ import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
-import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
 import com.example.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
 import com.example.taxishare.extension.uiSubscribe
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepository {
 
@@ -85,6 +82,11 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
 
     override fun removeTaxiShare(removeTaxiShareRequest: TaxiShareRemoveRequest): Observable<ServerResponse> =
         serverClient.removeTaxiSharePost(removeTaxiShareRequest)
+            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .uiSubscribe()
+
+    override fun updateTaxiShare(updateTaxiShareModifyRequest: TaxiShareModifyRequest): Observable<ServerResponse> =
+        serverClient.updateTaxiSharePost(updateTaxiShareModifyRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
             .uiSubscribe()
 }

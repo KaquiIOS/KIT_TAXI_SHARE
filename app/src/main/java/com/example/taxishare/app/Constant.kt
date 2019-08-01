@@ -30,8 +30,10 @@ class Constant {
         const val REGISTER_END_LOCATION_CODE : Int = 4002
 
         const val REGISTER_TAXI_SHARE : Int = 5001
-        const val REGISTER_TAXI_SHARE_STR : String = "taxiShareInfo"
+        const val REGISTER_TAXI_SHARE_STR : String = "taxiShareInfoRegister"
 
+        const val MODIFY_TAXI_SHARE : Int = 6002
+        const val MODIFY_TAXI_ASHARE_STR : String = "taxiShareInfoModify"
 
         // Debounce Time
         const val EDIT_TEXT_DEBOUNCE_TIME : Long = 500

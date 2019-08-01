@@ -27,4 +27,5 @@ interface ServerRepository {
     fun participateTaxiShare(participateTaxiShareRequest: ParticipateTaxiShareRequest) : Observable<ServerResponse>
     fun removeComment(removeCommentRequest: RemoveCommentRequest) : Observable<ServerResponse>
     fun removeTaxiShare(removeTaxiShareRequest : TaxiShareRemoveRequest) : Observable<ServerResponse>
+    fun updateTaxiShare(updateTaxiShareModifyRequest: TaxiShareModifyRequest) : Observable<ServerResponse>
 }

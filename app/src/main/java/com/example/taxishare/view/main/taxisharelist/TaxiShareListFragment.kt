@@ -1,5 +1,6 @@
 package com.example.taxishare.view.main.taxisharelist
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,13 +11,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
+import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TestInterface
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 
 
@@ -112,6 +116,15 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         presenter.loadTaxiShareInfoList(true)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constant.MODIFY_TAXI_SHARE && data != null) {
+            taxiShareListAdapter.updateTaxiShareInfo(
+                data.getSerializableExtra(Constant.MODIFY_TAXI_ASHARE_STR) as TaxiShareInfo
+            )
+        }
+    }
+
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
         taxiShareListAdapter.addTaxiShareInfo(taxiShareInfo, isVisible)
     }
@@ -133,7 +146,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private fun initListener() {
-        taxiShareListAdapter.setTaxiShareInfoItemClickListener(object : TaxiShareInfoItemClickListener{
+        taxiShareListAdapter.setTaxiShareInfoItemClickListener(object : TaxiShareInfoItemClickListener {
             override fun onTaxiShareInfoItemClicked(selectedTaxiShareInfo: TaxiShareInfo) {
                 startActivity<TaxiShareInfoDetailActivity>(
                     getString(R.string.taxi_share_detail_info) to selectedTaxiShareInfo
@@ -141,17 +154,20 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                 // 상세 화면 보여주기
             }
         })
-        taxiShareListAdapter.setTaxiShareInfoModifyClickListener(object : TaxiShareInfoModifyClickListener{
-            override fun onTaxiShareInfoModifyClicked(selectedTaxiShareInfo: TaxiShareInfo, pos : Int) {
-                // 등록 화면 보여주기
+        taxiShareListAdapter.setTaxiShareInfoModifyClickListener(object : TaxiShareInfoModifyClickListener {
+            override fun onTaxiShareInfoModifyClicked(selectedTaxiShareInfo: TaxiShareInfo, pos: Int) {
+                this@TaxiShareListFragment.startActivityForResult<RegisterTaxiShareActivity>(
+                    Constant.MODIFY_TAXI_SHARE,
+                    getString(R.string.taxi_share_detail_info) to selectedTaxiShareInfo
+                )
             }
         })
         taxiShareListAdapter.setTaxiShareInfoRemoveClickListener(object : TaxiShareInfoRemoveClickListener {
-            override fun onTaxiShareInfoRemoveClicked(postId : String) {
+            override fun onTaxiShareInfoRemoveClicked(postId: String) {
                 presenter.removeTaxiShareInfo(postId)
             }
         })
-        taxiShareListAdapter.setTaxiShareParticipantsClickListener(object : TaxiShareParticipantBtnClickListener{
+        taxiShareListAdapter.setTaxiShareParticipantsClickListener(object : TaxiShareParticipantBtnClickListener {
             override fun onParticipantsButtonClicked(postId: String) {
                 presenter.participateTaxiShare(postId)
             }

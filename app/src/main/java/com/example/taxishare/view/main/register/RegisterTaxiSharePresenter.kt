@@ -12,6 +12,7 @@ import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
+import com.example.taxishare.data.remote.apis.server.request.TaxiShareModifyRequest
 import com.example.taxishare.data.repo.LocationRepository
 import com.example.taxishare.data.repo.ServerRepository
 import io.reactivex.disposables.Disposable
@@ -33,6 +34,8 @@ class RegisterTaxiSharePresenter(
     private var memberNum: Int = 3
     private var title = ""
 
+    private var isModify: Boolean = false
+    private var preTaxiShareInfo: TaxiShareInfo? = null
 
     private fun isAllRequestDataValidated() =
         ::startDateTime.isInitialized && ::startLocation.isInitialized && ::endLocation.isInitialized && isTitleChecked
@@ -68,8 +71,78 @@ class RegisterTaxiSharePresenter(
         this.memberNum = memberNum.toInt()
     }
 
+    fun setPreviousInfo(taxiShareInfo: TaxiShareInfo?) {
+
+        if (taxiShareInfo != null) {
+
+            preTaxiShareInfo = taxiShareInfo
+
+            isModify = true
+            with(taxiShareInfo) {
+                setStartDateTime(this.startDate)
+                setStartLocation(this.startLocation)
+                setEndLocation(this.endLocation)
+                setMemberNum(this.limit.toString())
+                this@RegisterTaxiSharePresenter.title = this.title
+                view.setTitle(this.title)
+                isAllRequestDataValidated()
+            }
+        }
+    }
+
     fun registerTaxiShare() {
 
+        if (isModify) {
+            modifyTaxiShareInfo()
+        } else {
+            registerNewTaxiShareInfo()
+        }
+    }
+
+    fun onDestroy() {
+        disposeAllTask()
+    }
+
+    private fun modifyTaxiShareInfo() {
+        if (!::taxiRegisterDispose.isInitialized || taxiRegisterDispose.isDisposed) {
+            taxiRegisterDispose = serverRepoImpl.updateTaxiShare(
+                TaxiShareModifyRequest(
+                    preTaxiShareInfo!!.id,
+                    title,
+                    startDateTime,
+                    startLocation,
+                    endLocation,
+                    memberNum
+                )
+            ).subscribe({
+                if(it == ServerResponse.TAXISHARE_MODIFY_SUCCESS) {
+                    view.taxiModifyTaskSuccess(
+                        TaxiShareInfo(
+                            preTaxiShareInfo!!.id,
+                            Constant.CURRENT_USER.studentId.toString(),
+                            title,
+                            startDateTime,
+                            startLocation,
+                            endLocation,
+                            memberNum,
+                            Constant.CURRENT_USER.nickname,
+                            Constant.CURRENT_USER.major,
+                            preTaxiShareInfo!!.participantsNum,
+                            true
+                    ))
+                } else {
+                    view.taxiModifyTaskFail()
+                }
+            }, {
+                it.printStackTrace()
+                view.taxiModifyTaskFail()
+            })
+        } else {
+            view.taxiModifyTaskNotOver()
+        }
+    }
+
+    private fun registerNewTaxiShareInfo() {
         if (!::taxiRegisterDispose.isInitialized || taxiRegisterDispose.isDisposed) {
             taxiRegisterDispose = serverRepoImpl.registerTaxiShare(
                 RegisterTaxiShareRequest(
@@ -100,10 +173,6 @@ class RegisterTaxiSharePresenter(
         } else {
             view.taxiRegisterTaskNotOver()
         }
-    }
-
-    fun onDestroy() {
-        disposeAllTask()
     }
 
     private fun saveSelectedLocationToLocalDB(location: Location) {

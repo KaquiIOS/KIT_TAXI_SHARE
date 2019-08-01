@@ -69,6 +69,15 @@ class TaxiShareListAdapter :
                                 )
                             }
                         }
+
+                        else if(it.itemId == R.id.taxi_share_info_modify) {
+                            if(::taxiShareInfoModifyClickListener.isInitialized) {
+                                taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
+                                    taxiShareInfoList[holder.adapterPosition], holder.adapterPosition
+                                )
+                            }
+                        }
+
                         false
                     }
                     popupMenu.show()
@@ -147,6 +156,14 @@ class TaxiShareListAdapter :
         }
     }
 
+    fun updateTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
+        val idx = findTaxiShareInfoWithPostId(taxiShareInfo.id)
+        if(idx != -1) {
+            taxiShareInfoList[idx] = taxiShareInfo
+            submitList(ArrayList(taxiShareInfoList))
+        }
+    }
+
 
     inner class TaxiShareInfoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(taxiShareInfo: TaxiShareInfo) {
@@ -158,7 +175,7 @@ class TaxiShareListAdapter :
                 view.tv_taxi_share_post_end_location.text = endLocation.locationName
                 view.tv_taxi_share_post_title.text = title
 
-                if (Constant.USER_ID == uid) {
+                if (Constant.CURRENT_USER.studentId == uid.toInt()) {
                     view.btn_taxi_share_post_participate.text = "내가 작성한 글입니다"
                     view.btn_taxi_share_post_participate.isEnabled = false
                 } else if (isParticipated) {
