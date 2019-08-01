@@ -10,5 +10,17 @@ import com.google.gson.annotations.SerializedName
 data class LoginRequestResponse(
     @Expose
     @SerializedName("responseCode")
-    val responseCode : Int
+    val responseCode: Int,
+
+    @Expose
+    @SerializedName("id")
+    val id: Int,
+
+    @Expose
+    @SerializedName("nickname")
+    val nickname: String,
+
+    @Expose
+    @SerializedName("major")
+    val major: String
 )

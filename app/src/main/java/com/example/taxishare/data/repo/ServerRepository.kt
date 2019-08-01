@@ -9,11 +9,12 @@ import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.*
+import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
 import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
 import io.reactivex.Observable
 
 interface ServerRepository {
-    fun loginRequest(loginRequest : ServerRequest.PostRequest) : Observable<ServerResponse>
+    fun loginRequest(loginRequest : ServerRequest.PostRequest) : Observable<LoginRequestResponse>
     fun isSameIdExist(serverRequest: ServerRequest.PostRequest): Observable<ServerResponse>
     fun isSameNicknameExist(serverRequest: ServerRequest.PostRequest) : Observable<ServerResponse>
     fun signUpRequest(signUpRequest: SignUpRequest) : Observable<ServerResponse>

@@ -11,6 +11,7 @@ import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.*
+import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
 import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
 import com.example.taxishare.extension.uiSubscribe
 import io.reactivex.Observable
@@ -29,9 +30,8 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
             }
     }
 
-    override fun loginRequest(loginRequest: ServerRequest.PostRequest): Observable<ServerResponse> =
+    override fun loginRequest(loginRequest: ServerRequest.PostRequest): Observable<LoginRequestResponse> =
         serverClient.loginRequest(loginRequest)
-            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
             .uiSubscribe()
 
     override fun isSameIdExist(serverRequest: ServerRequest.PostRequest): Observable<ServerResponse> =

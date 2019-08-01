@@ -1,11 +1,13 @@
 package com.example.taxishare.app
 
+import com.example.taxishare.data.model.User
 import java.text.SimpleDateFormat
 import java.util.*
 
 class Constant {
     companion object {
 
+        lateinit var CURRENT_USER : User
         lateinit var USER_ID : String
 
         const val TIME_LIMIT : Long = 2L
