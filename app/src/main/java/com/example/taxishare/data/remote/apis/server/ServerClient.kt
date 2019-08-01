@@ -93,4 +93,8 @@ class ServerClient private constructor() {
     fun removeComment(removeCommentRequest: RemoveCommentRequest) : Observable<RemoveCommentResponse> =
         retrofit.create(CommentAPI::class.java)
             .removeComment(removeCommentRequest.getRequest())
+
+    fun removeTaxiSharePost(taxiShareRemoveRequest: TaxiShareRemoveRequest) : Observable<TaxiShareRemoveResponse> =
+        retrofit.create(TaxiShareInfoAPI::class.java)
+            .removeTaxiShare(taxiShareRemoveRequest.getRequest())
 }

@@ -42,7 +42,10 @@ enum class ServerResponse(val code: Int, val description: String) {
 
     /* CommentRemoveRequest */
     COMMENT_REMOVE_SUCCESS(2021, "CommentRemoveSuccess"),
-    COMMENT_REMOVE_FAIL(2022, "CommentRemoveFail");
+    COMMENT_REMOVE_FAIL(2022, "CommentRemoveFail"),
+
+    TAXISHARE_REMOVE_SUCCESS(2031, "TaxiShareRemoveSuccess"),
+    TAXISHARE_REMOVE_FAIL(2032, "TaxiShareRemoveFail");
 
 
     companion object{

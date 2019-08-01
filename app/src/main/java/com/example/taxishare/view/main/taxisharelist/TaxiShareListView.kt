@@ -19,4 +19,7 @@ interface TaxiShareListView {
     fun showParticipateTaxiShareSuccess(postId : String)
     fun showParticipateTaxiShareFail()
     fun showParticipateTaxiShareNotFinish()
+    fun showRemoveTaxiShareSuccess(postId: Int)
+    fun showRemoveTaxiShareFail()
+    fun showRemoveTaxiShareNotFinish()
 }

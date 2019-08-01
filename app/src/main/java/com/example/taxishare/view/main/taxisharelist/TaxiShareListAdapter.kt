@@ -63,8 +63,7 @@ class TaxiShareListAdapter :
                         if (it.itemId == R.id.taxi_share_info_remove) {
                             if (::taxiShareInfoRemoveClickListener.isInitialized) {
                                 taxiShareInfoRemoveClickListener.onTaxiShareInfoRemoveClicked(
-                                    taxiShareInfoList[position],
-                                    position
+                                    taxiShareInfoList[holder.adapterPosition].id
                                 )
                             }
                         }
@@ -107,21 +106,38 @@ class TaxiShareListAdapter :
         submitList(taxiShareInfoList)
     }
 
-    fun changeTaxiShareParticipateInfo(postId: String) {
-        //this.taxiShareInfoList[postId].isParticipated = true
-
+    private fun findTaxiShareInfoWithPostId(postId: String) : Int {
         var idx : Int = -1
 
         for(i in taxiShareInfoList.indices) {
             if(postId == taxiShareInfoList[i].id) {
-                taxiShareInfoList[i].isParticipated = true
                 idx = i
                 break
             }
         }
 
-        notifyItemChanged(idx)
+        return idx
     }
+
+    fun changeTaxiShareParticipateInfo(postId: String) {
+        //this.taxiShareInfoList[postId].isParticipated = true
+
+        val idx : Int = findTaxiShareInfoWithPostId(postId)
+
+        if(idx != -1)
+            notifyItemChanged(idx)
+    }
+
+    fun removeTaxiShare(postId: String) {
+
+        val idx : Int = findTaxiShareInfoWithPostId(postId)
+
+        if(idx != -1) {
+            taxiShareInfoList.removeAt(idx)
+            notifyItemRemoved(idx)
+        }
+    }
+
 
     inner class TaxiShareInfoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(taxiShareInfo: TaxiShareInfo) {

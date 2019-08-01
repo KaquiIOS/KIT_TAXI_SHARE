@@ -8,7 +8,9 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.request.ParticipateTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareListGetRequest
+import com.example.taxishare.data.remote.apis.server.request.TaxiShareRemoveRequest
 import com.example.taxishare.data.repo.ServerRepository
+import com.example.taxishare.view.main.taxisharelist.detail.TestInterface
 import io.reactivex.disposables.Disposable
 
 class TaxiShareListPresenter(
@@ -19,6 +21,27 @@ class TaxiShareListPresenter(
     private var nextPageNum: Int = -1
     private lateinit var loadTaxiShareInfoDisposable: Disposable
     private lateinit var participateTaxiShareDisposable: Disposable
+    private lateinit var removeTaxiShareDisposable: Disposable
+
+
+    fun removeTaxiShareInfo(postId: String) {
+
+        if (!::removeTaxiShareDisposable.isInitialized || removeTaxiShareDisposable.isDisposed) {
+            removeTaxiShareDisposable = serverRepo.removeTaxiShare(TaxiShareRemoveRequest(postId))
+                .subscribe({
+                    if(it == ServerResponse.TAXISHARE_REMOVE_SUCCESS) {
+                        view.showRemoveTaxiShareSuccess(postId .toInt())
+                    } else {
+                        view.showRemoveTaxiShareFail()
+                    }
+                }, {
+                    it.printStackTrace()
+                    view.showRemoveTaxiShareFail()
+                })
+        } else {
+            view.showRemoveTaxiShareNotFinish()
+        }
+    }
 
     fun participateTaxiShare(postId : String) {
 

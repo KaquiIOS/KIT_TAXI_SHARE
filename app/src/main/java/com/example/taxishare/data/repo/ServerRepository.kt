@@ -24,4 +24,5 @@ interface ServerRepository {
     fun loadComments(id : String, commentId : String) : Observable<MutableList<Comment>>
     fun participateTaxiShare(participateTaxiShareRequest: ParticipateTaxiShareRequest) : Observable<ServerResponse>
     fun removeComment(removeCommentRequest: RemoveCommentRequest) : Observable<ServerResponse>
+    fun removeTaxiShare(removeTaxiShareRequest : TaxiShareRemoveRequest) : Observable<ServerResponse>
 }

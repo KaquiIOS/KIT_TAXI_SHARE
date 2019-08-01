@@ -7,6 +7,7 @@ package com.example.taxishare.data.remote.apis.server
 import com.example.taxishare.data.model.TaxiShareInfoModel
 import com.example.taxishare.data.remote.apis.server.response.ParticipateTaxiShareResponse
 import com.example.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
+import com.example.taxishare.data.remote.apis.server.response.TaxiShareRemoveResponse
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,4 +23,7 @@ interface TaxiShareInfoAPI {
 
     @POST("participateTaxiShare")
     fun participateTaxiShare(@Body serverRequest: Map<String, String>) : Observable<ParticipateTaxiShareResponse>
+
+    @POST("removeTaxiShare")
+    fun removeTaxiShare(@Body serverRequest: Map<String, String>) : Observable<TaxiShareRemoveResponse>
 }
