@@ -1,5 +1,6 @@
 package com.example.taxishare.view.main.register
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -10,6 +11,7 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.AppDatabase
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.LocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepositoryImpl
@@ -38,6 +40,12 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
         initView()
         initListener()
+
+        presenter.setPreviousInfo(intent.getSerializableExtra(resources.getString(R.string.taxi_share_detail_info)) as TaxiShareInfo?)
+    }
+
+    override fun setTitle(title: String) {
+        text_input_taxi_register_title.setText(title)
     }
 
     override fun changeTitleEditTextState(isMatched: Boolean) {
@@ -66,13 +74,30 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
         toast(resources.getString(R.string.taxi_share_register_not_finish))
     }
 
-    override fun taxiRegisterTaskSuccess() {
+    override fun taxiRegisterTaskSuccess(taxiShareInfo: TaxiShareInfo) {
         toast(resources.getString(R.string.taxi_share_register_success))
+
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.REGISTER_TAXI_SHARE_STR, taxiShareInfo) })
+
         finish()
     }
 
     override fun taxiRegisterTaskFail() {
         toast(resources.getString(R.string.taxi_share_register_fail))
+    }
+
+    override fun taxiModifyTaskNotOver() {
+        toast("수정 요청중입니다")
+    }
+
+    override fun taxiModifyTaskSuccess(taxiShareInfo: TaxiShareInfo) {
+        toast("수정을 성공했습니다")
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_ASHARE_STR, taxiShareInfo) })
+        finish()
+    }
+
+    override fun taxiModifyTaskFail() {
+        toast("수정 실패")
     }
 
     override fun onDestroy() {

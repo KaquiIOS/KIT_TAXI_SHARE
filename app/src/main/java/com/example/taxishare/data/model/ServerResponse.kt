@@ -45,7 +45,10 @@ enum class ServerResponse(val code: Int, val description: String) {
     COMMENT_REMOVE_FAIL(2022, "CommentRemoveFail"),
 
     TAXISHARE_REMOVE_SUCCESS(2031, "TaxiShareRemoveSuccess"),
-    TAXISHARE_REMOVE_FAIL(2032, "TaxiShareRemoveFail");
+    TAXISHARE_REMOVE_FAIL(2032, "TaxiShareRemoveFail"),
+
+    TAXISHARE_MODIFY_SUCCESS(2041, "TaxiShareRemoveSuccess"),
+    TAXISHARE_MODIFY_FAIL(2042, "TaxiShareRemoveFail");
 
 
     companion object{

@@ -4,6 +4,8 @@
 
 package com.example.taxishare.view.main.register
 
+import com.example.taxishare.data.model.TaxiShareInfo
+
 interface RegisterTaxiShareView {
 
     fun changeSignUpButtonState(canActivate : Boolean)
@@ -13,9 +15,14 @@ interface RegisterTaxiShareView {
 
     fun changeStartLocation(location : String)
     fun changeEndLocation(location: String)
+    fun setTitle(title : String)
 
     fun openDateTimePicker()
     fun taxiRegisterTaskNotOver()
-    fun taxiRegisterTaskSuccess()
+    fun taxiRegisterTaskSuccess(taxiShareInfo : TaxiShareInfo)
     fun taxiRegisterTaskFail()
+
+    fun taxiModifyTaskNotOver()
+    fun taxiModifyTaskSuccess(taxiShareInfo : TaxiShareInfo)
+    fun taxiModifyTaskFail()
 }

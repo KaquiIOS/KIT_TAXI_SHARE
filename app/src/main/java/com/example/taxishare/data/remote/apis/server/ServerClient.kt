@@ -97,4 +97,9 @@ class ServerClient private constructor() {
     fun removeTaxiSharePost(taxiShareRemoveRequest: TaxiShareRemoveRequest) : Observable<TaxiShareRemoveResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .removeTaxiShare(taxiShareRemoveRequest.getRequest())
+
+    fun updateTaxiSharePost(taxiShareModifyRequest: TaxiShareModifyRequest) : Observable<TaxiShareModifyResponse> =
+        retrofit.create(TaxiShareInfoAPI::class.java)
+            .updateTaxiShare(taxiShareModifyRequest.getRequest())
+
 }

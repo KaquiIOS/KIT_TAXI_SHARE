@@ -1,5 +1,5 @@
 /*
- * Created by WonJongSeong on 2019-07-15
+ * Created by WonJongSeong on 2019-08-01
  */
 
 package com.example.taxishare.data.remote.apis.server.response
@@ -7,12 +7,9 @@ package com.example.taxishare.data.remote.apis.server.response
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class TaxiShareRegisterResponse(
+class TaxiShareModifyResponse(
     @Expose
     @SerializedName("responseCode")
-    val responseCode: Int,
-    @Expose
-    @SerializedName("id")
-    val id: String
+    val responseCode: Int
 ) {
 }

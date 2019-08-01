@@ -1,11 +1,13 @@
 package com.example.taxishare.app
 
+import com.example.taxishare.data.model.User
 import java.text.SimpleDateFormat
 import java.util.*
 
 class Constant {
     companion object {
 
+        lateinit var CURRENT_USER : User
         lateinit var USER_ID : String
 
         const val TIME_LIMIT : Long = 2L
@@ -27,6 +29,11 @@ class Constant {
         const val REGISTER_START_LOCATION_CODE : Int = 4001
         const val REGISTER_END_LOCATION_CODE : Int = 4002
 
+        const val REGISTER_TAXI_SHARE : Int = 5001
+        const val REGISTER_TAXI_SHARE_STR : String = "taxiShareInfoRegister"
+
+        const val MODIFY_TAXI_SHARE : Int = 6002
+        const val MODIFY_TAXI_ASHARE_STR : String = "taxiShareInfoModify"
 
         // Debounce Time
         const val EDIT_TEXT_DEBOUNCE_TIME : Long = 500

@@ -6,6 +6,7 @@ package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.data.model.TaxiShareInfoModel
 import com.example.taxishare.data.remote.apis.server.response.ParticipateTaxiShareResponse
+import com.example.taxishare.data.remote.apis.server.response.TaxiShareModifyResponse
 import com.example.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
 import com.example.taxishare.data.remote.apis.server.response.TaxiShareRemoveResponse
 import io.reactivex.Observable
@@ -26,4 +27,7 @@ interface TaxiShareInfoAPI {
 
     @POST("removeTaxiShare")
     fun removeTaxiShare(@Body serverRequest: Map<String, String>) : Observable<TaxiShareRemoveResponse>
+
+    @POST("updateTaxiShare")
+    fun updateTaxiShare(@Body serverRequest: Map<String, String>) : Observable<TaxiShareModifyResponse>
 }

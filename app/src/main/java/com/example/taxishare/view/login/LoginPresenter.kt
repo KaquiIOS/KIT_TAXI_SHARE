@@ -2,6 +2,7 @@ package com.example.taxishare.view.login
 
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.ServerResponse
+import com.example.taxishare.data.model.User
 import com.example.taxishare.data.remote.apis.server.request.LoginRequest
 import com.example.taxishare.data.repo.ServerRepository
 import com.example.taxishare.util.RegularExpressionChecker
@@ -26,13 +27,14 @@ class LoginPresenter(
 
         preLoginRequestDisposable = serverRepoImpl.loginRequest(LoginRequest(id, pw))
             .subscribe({
-                when (it) {
-                    ServerResponse.LOGIN_SUCCESS -> {
+                when (it.responseCode) {
+                    ServerResponse.LOGIN_SUCCESS.code -> {
                         Constant.USER_ID = id
+                        Constant.CURRENT_USER = User(it.id, it.nickname, it.major)
                         loginView.loginSuccess()
                     }
-                    ServerResponse.NOT_VALIDATED_USER -> loginView.notValidatedUserMessage()
-                    ServerResponse.LOGIN_FAIL -> loginView.loginFail()
+                    ServerResponse.NOT_VALIDATED_USER.code -> loginView.notValidatedUserMessage()
+                    ServerResponse.LOGIN_FAIL.code -> loginView.loginFail()
                     else -> loginView.loginFail()
                 }
             }, {
