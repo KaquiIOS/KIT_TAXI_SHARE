@@ -13,6 +13,7 @@ import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
 import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
+import com.example.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
 import com.example.taxishare.extension.uiSubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -53,9 +54,8 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
         serverClient.getSearchPlacesInfo(searchPlacesRequest)
             .uiSubscribe()
 
-    override fun registerTaxiShare(registerTaxiShareRequest: RegisterTaxiShareRequest): Observable<ServerResponse> =
+    override fun registerTaxiShare(registerTaxiShareRequest: RegisterTaxiShareRequest): Observable<TaxiShareRegisterResponse> =
         serverClient.registerTaxiShareInfo(registerTaxiShareRequest)
-            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
             .uiSubscribe()
 
     override fun getTaxiShareList(taxiShareListGetRequest: TaxiShareListGetRequest): Observable<MutableList<TaxiShareInfo>> =

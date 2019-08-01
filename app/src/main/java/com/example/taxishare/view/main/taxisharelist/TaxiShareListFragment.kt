@@ -110,7 +110,10 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         initListener()
 
         presenter.loadTaxiShareInfoList(true)
+    }
 
+    fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
+        taxiShareListAdapter.addTaxiShareInfo(taxiShareInfo, isVisible)
     }
 
     private fun initPresenter() {

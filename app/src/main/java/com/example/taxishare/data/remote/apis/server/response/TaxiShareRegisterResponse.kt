@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName
 data class TaxiShareRegisterResponse(
     @Expose
     @SerializedName("responseCode")
-    val responseCode: Int
+    val responseCode: Int,
+    @Expose
+    @SerializedName("id")
+    val id: String
 ) {
 }

@@ -9,6 +9,8 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.model.ServerResponse
+import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
 import com.example.taxishare.data.repo.LocationRepository
 import com.example.taxishare.data.repo.ServerRepository
@@ -74,8 +76,22 @@ class RegisterTaxiSharePresenter(
                     title, startDateTime, memberNum, startLocation, endLocation, Date()
                 )
             ).subscribe({
-                when(it.code) {
-                    1901 -> view.taxiRegisterTaskSuccess()
+                when (it.responseCode) {
+                    ServerResponse.TAXI_SHARE_REGISTER_REQUEST_SUCCESS.code -> view.taxiRegisterTaskSuccess(
+                        TaxiShareInfo(
+                            it.id,
+                            Constant.CURRENT_USER.studentId.toString(),
+                            title,
+                            startDateTime,
+                            startLocation,
+                            endLocation,
+                            memberNum,
+                            Constant.CURRENT_USER.nickname,
+                            Constant.CURRENT_USER.major,
+                            0,
+                            true
+                        )
+                    )
                     else -> view.taxiRegisterTaskFail()
                 }
             }, {

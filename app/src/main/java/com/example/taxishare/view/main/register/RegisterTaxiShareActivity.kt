@@ -1,5 +1,6 @@
 package com.example.taxishare.view.main.register
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -10,6 +11,7 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.AppDatabase
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.LocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepositoryImpl
@@ -66,8 +68,11 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
         toast(resources.getString(R.string.taxi_share_register_not_finish))
     }
 
-    override fun taxiRegisterTaskSuccess() {
+    override fun taxiRegisterTaskSuccess(taxiShareInfo: TaxiShareInfo) {
         toast(resources.getString(R.string.taxi_share_register_success))
+
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.REGISTER_TAXI_SHARE_STR, taxiShareInfo) })
+
         finish()
     }
 
