@@ -4,8 +4,6 @@
 
 package com.example.taxishare.view.main.taxisharelist
 
-import com.example.taxishare.data.model.TaxiShareInfo
-
 interface TaxiShareInfoRemoveClickListener {
-    fun onTaxiShareInfoRemoveClicked(selectedTaxiShareInfo : TaxiShareInfo, pos : Int)
+    fun onTaxiShareInfoRemoveClicked(postId : String)
 }

@@ -20,6 +20,7 @@ class TaxiShareInfoCommentListAdapter :
     ListAdapter<Comment, TaxiShareInfoCommentListAdapter.CommentViewHolder>(Comment.DIFF_UTIL) {
 
     private lateinit var onBottomReachedListener: OnBottomReachedListener
+    private lateinit var commentRemoveClickListener: CommentItemRemoveClickListener
 
     private val commentList: MutableList<Comment> = mutableListOf()
 
@@ -32,7 +33,7 @@ class TaxiShareInfoCommentListAdapter :
         with(holder.itemView) {
 
             if (position == commentList.size - 1 && ::onBottomReachedListener.isInitialized) {
-                onBottomReachedListener.onBottomReached(commentList[position].commentId)
+                onBottomReachedListener.onBottomReached()
             }
 
             if (Constant.USER_ID == commentList[position].uid.toString()) {
@@ -44,17 +45,14 @@ class TaxiShareInfoCommentListAdapter :
 
                     val popupMenu = PopupMenu(context, tv_comment_pop_up)
 
-                    popupMenu.inflate(R.menu.menu_taxi_share_info)
+                    popupMenu.inflate(R.menu.menu_comment)
 
                     // MenuItemClick Event Listener
                     popupMenu.setOnMenuItemClickListener {
                         // 삭제
-                        if (it.itemId == R.id.taxi_share_info_remove) {
-                            
-                        } else {
-                            // 수정
+                        if (it.itemId == R.id.comment_remove && ::commentRemoveClickListener.isInitialized) {
+                            commentRemoveClickListener.onClick(commentList[holder.adapterPosition].commentId)
                         }
-
                         false
                     }
 
@@ -67,7 +65,7 @@ class TaxiShareInfoCommentListAdapter :
 
     fun insertComment(comment: Comment) {
         this.commentList.add(0, comment)
-        submitList(ArrayList(this.commentList))
+        submitList(ArrayList(commentList))
     }
 
     fun setComments(commentList: MutableList<Comment>) {
@@ -75,8 +73,26 @@ class TaxiShareInfoCommentListAdapter :
         submitList(ArrayList(this.commentList))
     }
 
+    fun removeComment(commentId: Int) {
+
+        val iter = commentList.iterator()
+
+        while (iter.hasNext()) {
+            if (iter.next().commentId == commentId) {
+                iter.remove()
+                break
+            }
+        }
+
+        submitList(ArrayList(commentList))
+    }
+
     fun setOnBottomReachedListener(onBottomReachedListener: OnBottomReachedListener) {
         this@TaxiShareInfoCommentListAdapter.onBottomReachedListener = onBottomReachedListener
+    }
+
+    fun setCommentRemoveClickListener(commentRemoveClickListener: CommentItemRemoveClickListener) {
+        this@TaxiShareInfoCommentListAdapter.commentRemoveClickListener = commentRemoveClickListener
     }
 
     inner class CommentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

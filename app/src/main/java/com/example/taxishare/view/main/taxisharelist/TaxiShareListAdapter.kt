@@ -38,11 +38,11 @@ class TaxiShareListAdapter :
         holder.bind(taxiShareInfoList[position])
 
         with(holder.itemView) {
-            
+
             // btn onClick Listener 작성
             btn_taxi_share_post_participate.onClick {
                 if (::taxiShareParticipantBtnClickListener.isInitialized) {
-                    taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(id)
+                    taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(taxiShareInfoList[position].id)
                 }
             }
 
@@ -63,22 +63,12 @@ class TaxiShareListAdapter :
                         if (it.itemId == R.id.taxi_share_info_remove) {
                             if (::taxiShareInfoRemoveClickListener.isInitialized) {
                                 taxiShareInfoRemoveClickListener.onTaxiShareInfoRemoveClicked(
-                                    taxiShareInfoList[position],
-                                    position
-                                )
-                            }
-                        } else {
-                            if (::taxiShareInfoModifyClickListener.isInitialized) {
-                                taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
-                                    taxiShareInfoList[position],
-                                    position
+                                    taxiShareInfoList[holder.adapterPosition].id
                                 )
                             }
                         }
-
                         false
                     }
-
                     popupMenu.show()
                 }
             }
@@ -116,6 +106,39 @@ class TaxiShareListAdapter :
         submitList(taxiShareInfoList)
     }
 
+    private fun findTaxiShareInfoWithPostId(postId: String) : Int {
+        var idx : Int = -1
+
+        for(i in taxiShareInfoList.indices) {
+            if(postId == taxiShareInfoList[i].id) {
+                idx = i
+                break
+            }
+        }
+
+        return idx
+    }
+
+    fun changeTaxiShareParticipateInfo(postId: String) {
+        //this.taxiShareInfoList[postId].isParticipated = true
+
+        val idx : Int = findTaxiShareInfoWithPostId(postId)
+
+        if(idx != -1)
+            notifyItemChanged(idx)
+    }
+
+    fun removeTaxiShare(postId: String) {
+
+        val idx : Int = findTaxiShareInfoWithPostId(postId)
+
+        if(idx != -1) {
+            taxiShareInfoList.removeAt(idx)
+            notifyItemRemoved(idx)
+        }
+    }
+
+
     inner class TaxiShareInfoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(taxiShareInfo: TaxiShareInfo) {
 
@@ -126,11 +149,14 @@ class TaxiShareListAdapter :
                 view.tv_taxi_share_post_end_location.text = endLocation.locationName
                 view.tv_taxi_share_post_title.text = title
 
-                if(isParticipated) {
+                if (Constant.USER_ID == uid) {
+                    view.btn_taxi_share_post_participate.text = "내가 작성한 글입니다"
+                    view.btn_taxi_share_post_participate.isEnabled = false
+                } else if (isParticipated) {
                     view.btn_taxi_share_post_participate.text = "이미 참여중인 글입니다."
                     view.btn_taxi_share_post_participate.isEnabled = false
                 } else {
-                    view.btn_taxi_share_post_participate.text = "현재 참여 $participantsNum 명 참여중($limit)"
+                    view.btn_taxi_share_post_participate.text = String.format("현재 참여 %d 명 (%d)", participantsNum, limit)
                 }
             }
         }

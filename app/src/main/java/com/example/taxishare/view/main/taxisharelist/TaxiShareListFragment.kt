@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
@@ -13,9 +14,11 @@ import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
+import com.example.taxishare.view.main.taxisharelist.detail.TestInterface
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+
 
 class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
@@ -72,6 +75,32 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         toast("마지막 페이지입니다")
     }
 
+    override fun showParticipateTaxiShareSuccess(postId: String) {
+        toast("택시 합승에 참여하였습니다")
+        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId)
+    }
+
+    override fun showParticipateTaxiShareFail() {
+        toast("택시 합승에 실패하였습니다")
+    }
+
+    override fun showParticipateTaxiShareNotFinish() {
+        toast("택시 합승을 요청중입니다")
+    }
+
+    override fun showRemoveTaxiShareSuccess(postId: Int) {
+        taxiShareListAdapter.removeTaxiShare(postId.toString())
+        toast("택시 합승 글이 삭제되었습니다")
+    }
+
+    override fun showRemoveTaxiShareFail() {
+        toast("택시 합승 글 삭제가 되지 않았습니다")
+    }
+
+    override fun showRemoveTaxiShareNotFinish() {
+        toast("택시 합승 글 삭제를 요청중입니다")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,6 +110,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         initListener()
 
         presenter.loadTaxiShareInfoList(true)
+
     }
 
     private fun initPresenter() {
@@ -95,6 +125,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         with(rcv_taxi_list) {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         }
     }
 
@@ -113,14 +144,13 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             }
         })
         taxiShareListAdapter.setTaxiShareInfoRemoveClickListener(object : TaxiShareInfoRemoveClickListener {
-            override fun onTaxiShareInfoRemoveClicked(selectedTaxiShareInfo: TaxiShareInfo, pos : Int) {
-                // 다이얼로그를 띄워주고 확인/취소에 따라 삭제
-                // -> 몇번 데이터인지 확인
+            override fun onTaxiShareInfoRemoveClicked(postId : String) {
+                presenter.removeTaxiShareInfo(postId)
             }
         })
         taxiShareListAdapter.setTaxiShareParticipantsClickListener(object : TaxiShareParticipantBtnClickListener{
-            override fun onParticipantsButtonClicked(postId: Int) {
-
+            override fun onParticipantsButtonClicked(postId: String) {
+                presenter.participateTaxiShare(postId)
             }
         })
     }

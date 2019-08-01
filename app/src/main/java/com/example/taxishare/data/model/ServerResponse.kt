@@ -34,7 +34,18 @@ enum class ServerResponse(val code: Int, val description: String) {
     TAXI_SHARE_REGISTER_REQUEST_FAIL(1902, "TaxiShareRegisterFail"),
 
     COMMENT_REGISTER_REQUEST_SUCCESS(2001, "CommentRegisterSuccess"),
-    COMMENT_REGISTER_REQUEST_FAIL(2002, "CommentRegisterFail");
+    COMMENT_REGISTER_REQUEST_FAIL(2002, "CommentRegisterFail"),
+
+    /* ParticipateTaxiShareRequest */
+    PARTICIPATE_TAXI_SHARE_SUCCESS(2011, "ParticipateTaxiShareSuccess"),
+    PARTICIPATE_TAXI_SHARE_FAIL(2012, "ParticipateTaxiShareFail"),
+
+    /* CommentRemoveRequest */
+    COMMENT_REMOVE_SUCCESS(2021, "CommentRemoveSuccess"),
+    COMMENT_REMOVE_FAIL(2022, "CommentRemoveFail"),
+
+    TAXISHARE_REMOVE_SUCCESS(2031, "TaxiShareRemoveSuccess"),
+    TAXISHARE_REMOVE_FAIL(2032, "TaxiShareRemoveFail");
 
 
     companion object{

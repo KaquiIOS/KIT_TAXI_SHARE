@@ -6,6 +6,7 @@ package com.example.taxishare.data.remote.apis.server
 
 import com.example.taxishare.data.model.CommentModel
 import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
+import com.example.taxishare.data.remote.apis.server.response.RemoveCommentResponse
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,4 +20,8 @@ interface CommentAPI {
 
     @GET("loadComments")
     fun loadComments(@Query("id") id: String, @Query("commentId") commentId: String): Observable<MutableList<CommentModel>>
+
+    @POST("removeComment")
+    fun removeComment(@Body serverRequest: Map<String, String>) : Observable<RemoveCommentResponse>
+
 }
