@@ -12,7 +12,6 @@ import com.example.taxishare.view.main.mypage.MyPageFragment
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.TaxiShareListFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 

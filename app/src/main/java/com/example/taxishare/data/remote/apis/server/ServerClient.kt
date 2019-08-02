@@ -7,7 +7,6 @@ package com.example.taxishare.data.remote.apis.server
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.CommentModel
 import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfoModel
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.*
@@ -106,5 +105,9 @@ class ServerClient private constructor() {
     fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest) : Observable<LeaveTaxiShareResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .leaveTaxiShare(leaveTaxiShareRequest.getRequest())
+
+    fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest) : Observable<DetailTaxiShareLoadResponse> =
+        retrofit.create(TaxiShareInfoAPI::class.java)
+            .loadDetailTaxiShareInfo(detailTaxiShareLoadRequest.postId, detailTaxiShareLoadRequest.uid.toInt())
 
 }

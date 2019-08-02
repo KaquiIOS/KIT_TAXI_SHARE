@@ -102,7 +102,7 @@ object TypeMapper {
         return convertedList
     }
 
-    fun registerCommentResponseToComment(response : RegisterCommentResponse) : Comment {
+    fun registerCommentResponseToComment(response: RegisterCommentResponse): Comment {
         with(response) {
             return Comment(uid, commentId, dateToString(Date(commentDate)), content, nickname)
         }

@@ -186,7 +186,7 @@ class TaxiShareListAdapter :
                 if (Constant.CURRENT_USER.studentId == uid.toInt()) {
                     changeButtonState(
                         view,
-                        "내가 작성한 글입니다",
+                        String.format("내가 작성한 글입니다 (%d)", participantsNum),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )

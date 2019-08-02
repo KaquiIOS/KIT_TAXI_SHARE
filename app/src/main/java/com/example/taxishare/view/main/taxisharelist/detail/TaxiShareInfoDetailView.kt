@@ -5,6 +5,7 @@
 package com.example.taxishare.view.main.taxisharelist.detail
 
 import com.example.taxishare.data.model.Comment
+import com.example.taxishare.data.model.TaxiShareInfo
 
 interface TaxiShareInfoDetailView {
 
@@ -26,4 +27,21 @@ interface TaxiShareInfoDetailView {
     fun removeCommentSuccess(commentId : Int)
     fun removeCommentFail()
     fun removeCommentNotFinished()
+
+    fun setDetailInfo(taxiShareInfo : TaxiShareInfo)
+    fun failLoadDetailInfo()
+    fun loadDetailInfoNotFinish()
+    fun detailInfoDeleted()
+
+    fun showRemoveTaxiShareSuccess()
+    fun showRemoveTaxiShareFail()
+    fun showRemoveTaxiShareNotFinish()
+
+    fun showParticipateTaxiShareSuccess()
+    fun showParticipateTaxiShareFail()
+    fun showParticipateTaxiShareNotFinish()
+
+    fun showLeaveTaxiShareSuccess()
+    fun showLeaveTaxiShareFail()
+    fun showLeaveTaxiShareNotFinish()
 }

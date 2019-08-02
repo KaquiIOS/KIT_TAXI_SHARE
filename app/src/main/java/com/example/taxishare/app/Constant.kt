@@ -33,7 +33,12 @@ class Constant {
         const val REGISTER_TAXI_SHARE_STR : String = "taxiShareInfoRegister"
 
         const val MODIFY_TAXI_SHARE : Int = 6002
-        const val MODIFY_TAXI_ASHARE_STR : String = "taxiShareInfoModify"
+        const val MODIFY_TAXI_SHARE_STR : String = "taxiShareInfoModify"
+
+        const val TAXISHARE_DETAIL : Int = 7001
+        const val TAXISHARE_DETAIL_STR : String = "taxiShareDetail"
+
+        const val DATA_REMOVED : Int = 10
 
         // Debounce Time
         const val EDIT_TEXT_DEBOUNCE_TIME : Long = 500

@@ -5,7 +5,7 @@
 package com.example.taxishare.data.remote.apis.server.request
 
 import com.example.taxishare.app.Constant
-import java.util.HashMap
+import java.util.*
 
 data class LeaveTaxiShareRequest (
     private val postId : String

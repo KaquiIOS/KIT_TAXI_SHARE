@@ -92,7 +92,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
     override fun taxiModifyTaskSuccess(taxiShareInfo: TaxiShareInfo) {
         toast("수정을 성공했습니다")
-        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_ASHARE_STR, taxiShareInfo) })
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_SHARE_STR, taxiShareInfo) })
         finish()
     }
 

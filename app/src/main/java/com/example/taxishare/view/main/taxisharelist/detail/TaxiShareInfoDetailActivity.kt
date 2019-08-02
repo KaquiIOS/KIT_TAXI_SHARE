@@ -1,6 +1,10 @@
 package com.example.taxishare.view.main.taxisharelist.detail
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +19,7 @@ import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_taxi_share_info_detail.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView {
@@ -31,10 +36,27 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
         initPresenter()
         initAdapter()
+
+        presenter.loadDetailTaxiShareInfo(currentTaxiShareInfo.id, currentTaxiShareInfo.uid)
+
         initView()
         initListener()
 
-        presenter.loadComments(currentTaxiShareInfo.id)
+        presenter.loadComments(currentTaxiShareInfo.id, true)
+    }
+
+    override fun loadDetailInfoNotFinish() {
+        toast("데이터를 불러오는 중입니다.")
+    }
+
+    override fun failLoadDetailInfo() {
+        toast("데이터 불러오기를 실패하였습니다. 이전 데이터를 출력합니다")
+        setViewItem()
+    }
+
+    override fun setDetailInfo(taxiShareInfo: TaxiShareInfo) {
+        currentTaxiShareInfo = taxiShareInfo
+        setViewItem()
     }
 
     override fun changeRegisterButtonState(isActivated: Boolean) {
@@ -90,13 +112,74 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         toast("댓글 삭제중입니다")
     }
 
-    private fun getDetailTaxiShareInfoFromIntent() {
-        currentTaxiShareInfo = intent.getSerializableExtra(getString(R.string.taxi_share_detail_info)) as TaxiShareInfo
+    override fun showParticipateTaxiShareSuccess() {
+        currentTaxiShareInfo.isParticipated = true
+        btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
+        btn_taxi_share_detail_participate.textColor = R.color.light_gray
+        btn_taxi_share_detail_participate.text =
+            String.format("이미 참여중인 글입니다.(%d)", ++currentTaxiShareInfo.participantsNum)
+        toast("택시 합승에 참여하였습니다")
     }
 
+    override fun showParticipateTaxiShareFail() {
+        toast("택시 합승에 실패하였습니다")
+    }
 
-    private fun initView() {
+    override fun showParticipateTaxiShareNotFinish() {
+        toast("택시 합승을 요청중입니다")
+    }
 
+    override fun detailInfoDeleted() {
+        toast("삭제된 글입니다")
+        finish()
+    }
+
+    override fun showLeaveTaxiShareSuccess() {
+        currentTaxiShareInfo.isParticipated = false
+        btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_not_participate_color)
+        btn_taxi_share_detail_participate.textColor = R.color.common_black
+        btn_taxi_share_detail_participate.text =
+            String.format("현재 참여 %d 명 (%d)", --currentTaxiShareInfo.participantsNum, currentTaxiShareInfo.limit)
+        toast("택시 합승을 취소했습니다")
+    }
+
+    override fun showLeaveTaxiShareFail() {
+        toast("택시 합승 취소를 실패했습니다")
+    }
+
+    override fun showLeaveTaxiShareNotFinish() {
+        toast("택시 합승 취소를 요청중입니다")
+    }
+
+    override fun showRemoveTaxiShareSuccess() {
+        toast("택시 합승 삭제를 성공하였습니다.")
+        setTaxiShareInfoDeletedFlag()
+    }
+
+    override fun showRemoveTaxiShareFail() {
+        toast("택시 합승 삭제에 실패하였습니다.")
+    }
+
+    override fun showRemoveTaxiShareNotFinish() {
+        toast("택시 합승 삭제를 요청중입니다.")
+    }
+
+    private fun setReturnTaxiShareInfo() {
+        if (intent.getSerializableExtra(Constant.TAXISHARE_DETAIL_STR) as TaxiShareInfo != currentTaxiShareInfo) {
+            setResult(Activity.RESULT_OK, Intent().putExtra(Constant.TAXISHARE_DETAIL_STR, currentTaxiShareInfo))
+        }
+    }
+
+    private fun setTaxiShareInfoDeletedFlag() {
+        setResult(Constant.DATA_REMOVED, Intent().putExtra("postId", currentTaxiShareInfo.id))
+        finish()
+    }
+
+    private fun getDetailTaxiShareInfoFromIntent() {
+        currentTaxiShareInfo = intent.getSerializableExtra(Constant.TAXISHARE_DETAIL_STR) as TaxiShareInfo
+    }
+
+    private fun setViewItem() {
         with(currentTaxiShareInfo) {
             tv_taxi_share_detail_leader.text = String.format("%s (%s)", nickname, major)
             tv_taxi_share_detail_start_time.text = TypeMapper.dateToString(startDate)
@@ -105,7 +188,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             tv_taxi_share_detail_title.text = title
 
             if (Constant.USER_ID == uid) {
-                btn_taxi_share_detail_participate.text = "내가 작성한 글입니다."
+                btn_taxi_share_detail_participate.text = String.format("내가 작성한 글입니다. (%d)", participantsNum)
                 btn_taxi_share_detail_participate.isEnabled = false
             } else if (isParticipated) {
                 btn_taxi_share_detail_participate.text = "이미 참여중인 글입니다."
@@ -114,6 +197,9 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
                 btn_taxi_share_detail_participate.text = String.format("현재 참여 %d 명 (%d)", participantsNum, limit)
             }
         }
+    }
+
+    private fun initView() {
 
         rcv_taxi_share_detail_comments.apply {
             adapter = this@TaxiShareInfoDetailActivity.adapter
@@ -128,25 +214,24 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
     @SuppressWarnings("all")
     private fun initListener() {
-        // RECYCLERVIEW 초기화
+
+        btn_taxi_share_detail_participate.onClick {
+            if (currentTaxiShareInfo.isParticipated) {
+                presenter.leaveTaxiShare(currentTaxiShareInfo.id)
+            } else {
+                presenter.participateTaxiShare(currentTaxiShareInfo.id)
+            }
+        }
+
         et_taxi_share_detail_comment_input.textChanges().skipInitialValue().subscribe({
             presenter.changeButtonState(it.toString())
         }, {
             it.printStackTrace()
         })
 
-//        rcv_taxi_share_detail_comments.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//                if(!recyclerView.canScrollHorizontally(1)) {
-//                    presenter.loadComments(currentTaxiShareInfo.id)
-//                }
-//            }
-//        })
-
         adapter.setOnBottomReachedListener(object : OnBottomReachedListener {
             override fun onBottomReached() {
-                presenter.loadComments(currentTaxiShareInfo.id)
+                presenter.loadComments(currentTaxiShareInfo.id, false)
             }
         })
 
@@ -164,7 +249,44 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             )
         }
 
+        tb_taxi_share_detail.setNavigationOnClickListener {
+            setReturnTaxiShareInfo()
+            finish()
+        }
 
+        if (Constant.CURRENT_USER.studentId == currentTaxiShareInfo.uid.toInt()) {
+            btn_taxi_share_detail_delete.visibility = View.VISIBLE
+            btn_taxi_share_detail_delete.onClick {
+                // 삭제 작업 수행
+                AlertDialog.Builder(this@TaxiShareInfoDetailActivity)
+                    .setTitle("합승 글 삭제")
+                    .setMessage("글을 삭제하시겠습니까 ?")
+                    .setPositiveButton("확인", ({ _, _ ->
+                        presenter.removeTaxiShare(currentTaxiShareInfo.id)
+                    }))
+                    .setNegativeButton("취소", null)
+                    .setCancelable(false)
+                    .show()
+            }
+
+            btn_taxi_share_detail_edit.visibility = View.VISIBLE
+            btn_taxi_share_detail_edit.onClick {
+                // 수정 작업 수행
+
+            }
+        }
+
+        btn_taxi_share_detail_refresh.onClick {
+            adapter.clear()
+            presenter.loadComments(currentTaxiShareInfo.id, true)
+            presenter.loadDetailTaxiShareInfo(currentTaxiShareInfo.id, currentTaxiShareInfo.uid)
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setReturnTaxiShareInfo()
+        finish()
     }
 
     private fun initAdapter() {

@@ -30,4 +30,7 @@ interface TaxiShareInfoAPI {
 
     @POST("updateTaxiShare")
     fun updateTaxiShare(@Body serverRequest: Map<String, String>) : Observable<TaxiShareModifyResponse>
+
+    @GET("loadDetailTaxiShareInfo")
+    fun loadDetailTaxiShareInfo(@Query("postId") postId : String, @Query("uid") uid : Int) : Observable<DetailTaxiShareLoadResponse>
 }

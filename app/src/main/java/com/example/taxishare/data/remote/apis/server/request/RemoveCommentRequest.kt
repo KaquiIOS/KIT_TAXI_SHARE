@@ -4,7 +4,7 @@
 
 package com.example.taxishare.data.remote.apis.server.request
 
-import java.util.HashMap
+import java.util.*
 
 data class RemoveCommentRequest(val commentId : Int) : ServerRequest.PostRequest {
 
