@@ -28,4 +28,5 @@ interface ServerRepository {
     fun removeComment(removeCommentRequest: RemoveCommentRequest) : Observable<ServerResponse>
     fun removeTaxiShare(removeTaxiShareRequest : TaxiShareRemoveRequest) : Observable<ServerResponse>
     fun updateTaxiShare(updateTaxiShareModifyRequest: TaxiShareModifyRequest) : Observable<ServerResponse>
+    fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest) : Observable<ServerResponse>
 }

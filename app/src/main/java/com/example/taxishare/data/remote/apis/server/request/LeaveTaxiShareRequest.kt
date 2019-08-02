@@ -1,5 +1,5 @@
 /*
- * Created by WonJongSeong on 2019-07-30
+ * Created by WonJongSeong on 2019-08-02
  */
 
 package com.example.taxishare.data.remote.apis.server.request
@@ -7,7 +7,7 @@ package com.example.taxishare.data.remote.apis.server.request
 import com.example.taxishare.app.Constant
 import java.util.HashMap
 
-data class ParticipateTaxiShareRequest(
+data class LeaveTaxiShareRequest (
     private val postId : String
 ) : ServerRequest.PostRequest {
 

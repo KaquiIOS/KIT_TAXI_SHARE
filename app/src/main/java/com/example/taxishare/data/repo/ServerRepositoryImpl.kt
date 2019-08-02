@@ -89,4 +89,9 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
         serverClient.updateTaxiSharePost(updateTaxiShareModifyRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
             .uiSubscribe()
+
+    override fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest): Observable<ServerResponse> =
+        serverClient.leaveTaxiShare(leaveTaxiShareRequest)
+            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .uiSubscribe()
 }

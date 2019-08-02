@@ -1,5 +1,7 @@
 package com.example.taxishare.view.main.taxisharelist
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -81,7 +83,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     override fun showParticipateTaxiShareSuccess(postId: String) {
         toast("택시 합승에 참여하였습니다")
-        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId)
+        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId, true)
     }
 
     override fun showParticipateTaxiShareFail() {
@@ -105,6 +107,19 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         toast("택시 합승 글 삭제를 요청중입니다")
     }
 
+    override fun showLeaveTaxiShareSuccess(postId: Int) {
+        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId.toString(), false)
+        toast("택시 합승을 취소했습니다")
+    }
+
+    override fun showLeaveTaxiShareFail() {
+        toast("택시 합승 취소를 실패했습니다")
+    }
+
+    override fun showLeaveTaxiShareNotFinish() {
+        toast("택시 합승 취소를 요청중입니다")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -123,6 +138,11 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                 data.getSerializableExtra(Constant.MODIFY_TAXI_ASHARE_STR) as TaxiShareInfo
             )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
@@ -168,8 +188,22 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             }
         })
         taxiShareListAdapter.setTaxiShareParticipantsClickListener(object : TaxiShareParticipantBtnClickListener {
-            override fun onParticipantsButtonClicked(postId: String) {
-                presenter.participateTaxiShare(postId)
+            override fun onParticipantsButtonClicked(postId: String, isParticipating : Boolean) {
+                if(isParticipating) {
+                    AlertDialog.Builder(context)
+                        .setTitle("택시 합승을 취소")
+                        .setMessage("택시 합승을 취소하시겠습니까 ?")
+                        .setPositiveButton("확인", ({ _, _ ->
+                            presenter.leaveTaxiShare(postId)
+                        }))
+                        .setNegativeButton("취소",  null)
+                        .setCancelable(false)
+                        .show()
+
+
+                } else {
+                    presenter.participateTaxiShare(postId)
+                }
             }
         })
     }

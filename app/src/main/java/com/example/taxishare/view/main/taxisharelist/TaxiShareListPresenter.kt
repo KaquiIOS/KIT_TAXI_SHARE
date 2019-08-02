@@ -6,11 +6,11 @@ package com.example.taxishare.view.main.taxisharelist
 
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.ServerResponse
+import com.example.taxishare.data.remote.apis.server.request.LeaveTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.ParticipateTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareListGetRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareRemoveRequest
 import com.example.taxishare.data.repo.ServerRepository
-import com.example.taxishare.view.main.taxisharelist.detail.TestInterface
 import io.reactivex.disposables.Disposable
 
 class TaxiShareListPresenter(
@@ -22,7 +22,26 @@ class TaxiShareListPresenter(
     private lateinit var loadTaxiShareInfoDisposable: Disposable
     private lateinit var participateTaxiShareDisposable: Disposable
     private lateinit var removeTaxiShareDisposable: Disposable
+    private lateinit var leaveTaxiShareDisposable: Disposable
 
+
+    fun leaveTaxiShare(postId: String) {
+        if (!::leaveTaxiShareDisposable.isInitialized || leaveTaxiShareDisposable.isDisposed) {
+            leaveTaxiShareDisposable = serverRepo.leaveTaxiShare(LeaveTaxiShareRequest(postId))
+                .subscribe({
+                    if(it == ServerResponse.TAXISHARE_LEAVE_SUCCESS) {
+                        view.showLeaveTaxiShareSuccess(postId .toInt())
+                    } else {
+                        view.showLeaveTaxiShareFail()
+                    }
+                }, {
+                    it.printStackTrace()
+                    view.showLeaveTaxiShareFail()
+                })
+        } else {
+            view.showLeaveTaxiShareNotFinish()
+        }
+    }
 
     fun removeTaxiShareInfo(postId: String) {
 
@@ -84,5 +103,19 @@ class TaxiShareListPresenter(
         } else {
             view.showLoadTaxiShareListNotFinishedMessage()
         }
+    }
+
+    fun onDestroy() {
+        if (::removeTaxiShareDisposable.isInitialized && !removeTaxiShareDisposable.isDisposed)
+            removeTaxiShareDisposable.dispose()
+
+        if (::loadTaxiShareInfoDisposable.isInitialized && !loadTaxiShareInfoDisposable.isDisposed)
+            loadTaxiShareInfoDisposable.dispose()
+
+        if (::participateTaxiShareDisposable.isInitialized && !participateTaxiShareDisposable.isDisposed)
+            participateTaxiShareDisposable.dispose()
+
+        if (::leaveTaxiShareDisposable.isInitialized && !leaveTaxiShareDisposable.isDisposed)
+            leaveTaxiShareDisposable.dispose()
     }
 }
