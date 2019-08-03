@@ -16,6 +16,8 @@ import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.view.main.taxisharelist.detail.OnBottomReachedListener
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_taxi_share_post.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.textColor
@@ -86,7 +88,6 @@ class TaxiShareListAdapter :
                 }
             }
 
-
             // 상세화면으로 넘어가는 이벤트
             onClick {
                 if (::taxiShareInfoItemClickListener.isInitialized) {
@@ -112,11 +113,12 @@ class TaxiShareListAdapter :
         this@TaxiShareListAdapter.taxiShareInfoRemoveClickListener = taxiShareInfoRemoveClickListener
     }
 
-    fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>) {
-        this.taxiShareInfoList.clear()
+    fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
+        if(isRefresh) {
+            this.taxiShareInfoList.clear()
+        }
         this.taxiShareInfoList.addAll(taxiShareInfoList)
-
-        submitList(taxiShareInfoList)
+        submitList(ArrayList(this.taxiShareInfoList))
     }
 
     private fun findTaxiShareInfoWithPostId(postId: String): Int {
@@ -138,7 +140,7 @@ class TaxiShareListAdapter :
 
         if (idx != -1) {
             this.taxiShareInfoList[idx].isParticipated = isParticipate
-            this.taxiShareInfoList[idx].participantsNum = when(isParticipate) {
+            this.taxiShareInfoList[idx].participantsNum = when (isParticipate) {
                 true -> taxiShareInfoList[idx].participantsNum + 1
                 false -> taxiShareInfoList[idx].participantsNum - 1
             }
@@ -198,7 +200,7 @@ class TaxiShareListAdapter :
                 } else if (isParticipated) {
                     changeButtonState(
                         view,
-                        "이미 참여중인 글입니다.",
+                        String.format("이미 참여중인 글입니다.(%d)", participantsNum),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )

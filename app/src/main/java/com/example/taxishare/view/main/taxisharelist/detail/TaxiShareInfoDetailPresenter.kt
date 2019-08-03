@@ -10,6 +10,7 @@ import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.repo.ServerRepository
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import java.util.*
 
 class TaxiShareInfoDetailPresenter(
@@ -26,7 +27,16 @@ class TaxiShareInfoDetailPresenter(
     private lateinit var leaveTaxiShareDisposable: Disposable
     private lateinit var removeTaxiShareDisposable: Disposable
 
+    private lateinit var bottomDetectSubscriber: Disposable
+
     private var nextCommentId: Int = -1
+    private var noCommentExist: Boolean = false
+
+    fun setOnBottomDetectSubscriber(publisher: PublishSubject<Boolean>) {
+        bottomDetectSubscriber = publisher.filter { true }.subscribe {
+            loadComments(nextCommentId.toString(), false)
+        }
+    }
 
     fun loadDetailTaxiShareInfo(postId: String, uid: String) {
         if (!::loadDetailTaxiShareDisposable.isInitialized || loadDetailTaxiShareDisposable.isDisposed) {
@@ -87,21 +97,18 @@ class TaxiShareInfoDetailPresenter(
             else -> nextCommentId
         }
 
-        if (!::loadCommentDisposable.isInitialized || loadCommentDisposable.isDisposed) {
+        if (!noCommentExist && (!::loadCommentDisposable.isInitialized || loadCommentDisposable.isDisposed)) {
             loadCommentDisposable = serverRepo.loadComments(id, nextCommentId.toString())
                 .subscribe({
-                    if (it.size > 0) {
-                        nextCommentId = it[it.size - 1].commentId
-                        view.addComments(it)
-                        view.loadCommentSuccess()
-                    } else {
-                        view.noCommentExist()
-                    }
+                    nextCommentId = it[it.size - 1].commentId
+                    view.addComments(it)
+
+                    noCommentExist = it.size < 5
                 }, {
                     it.printStackTrace()
                     view.loadCommentFail()
                 })
-        } else {
+        } else if (::loadCommentDisposable.isInitialized || !loadCommentDisposable.isDisposed) {
             view.loadCommentNotFinished()
         }
     }

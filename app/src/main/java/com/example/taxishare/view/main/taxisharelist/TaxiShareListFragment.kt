@@ -16,10 +16,12 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.extension.observeBottomDetectionPublisher
+import com.example.taxishare.extension.setOnBottomDetection
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
-import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 
@@ -37,7 +39,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     private lateinit var presenter: TaxiShareListPresenter
     private lateinit var taxiShareListAdapter: TaxiShareListAdapter
-
+    private lateinit var subscribe: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +53,8 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_taxi_share_list, container, false)
 
-    override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>) {
-        taxiShareListAdapter.setTaxiShareInfoList(taxiShareList)
+    override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh : Boolean) {
+        taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
     }
 
     override fun insertTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
@@ -135,10 +137,12 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                 taxiShareListAdapter.removeTaxiShare(data.getStringExtra("postId"))
             } else if (requestCode == Constant.MODIFY_TAXI_SHARE) {
                 taxiShareListAdapter.updateTaxiShareInfo(
-                    data.getSerializableExtra(Constant.MODIFY_TAXI_SHARE_STR) as TaxiShareInfo)
+                    data.getSerializableExtra(Constant.MODIFY_TAXI_SHARE_STR) as TaxiShareInfo
+                )
             } else if (requestCode == Constant.TAXISHARE_DETAIL) {
                 taxiShareListAdapter.updateTaxiShareInfo(
-                    data.getSerializableExtra(Constant.TAXISHARE_DETAIL_STR) as TaxiShareInfo)
+                    data.getSerializableExtra(Constant.TAXISHARE_DETAIL_STR) as TaxiShareInfo
+                )
             }
         }
     }
@@ -146,6 +150,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
+        subscribe.dispose()
     }
 
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
@@ -169,6 +174,13 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private fun initListener() {
+
+        nsc_taxi_list.setOnBottomDetection().apply {
+            subscribe = nsc_taxi_list.observeBottomDetectionPublisher().subscribe {
+                presenter.loadTaxiShareInfoList(false)
+            }
+        }
+
         taxiShareListAdapter.setTaxiShareInfoItemClickListener(object : TaxiShareInfoItemClickListener {
             override fun onTaxiShareInfoItemClicked(selectedTaxiShareInfo: TaxiShareInfo) {
                 this@TaxiShareListFragment.startActivityForResult<TaxiShareInfoDetailActivity>(

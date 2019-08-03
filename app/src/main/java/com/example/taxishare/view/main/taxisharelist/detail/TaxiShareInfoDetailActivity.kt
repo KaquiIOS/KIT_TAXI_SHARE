@@ -16,19 +16,22 @@ import com.example.taxishare.data.model.Comment
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.extension.observeBottomDetectionPublisher
+import com.example.taxishare.extension.setOnBottomDetection
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_taxi_share_info_detail.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.startActivityForResult
 
 class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView {
 
     private lateinit var currentTaxiShareInfo: TaxiShareInfo
     private lateinit var presenter: TaxiShareInfoDetailPresenter
     private lateinit var adapter: TaxiShareInfoCommentListAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -192,12 +195,17 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
             if (Constant.USER_ID == uid) {
                 btn_taxi_share_detail_participate.text = String.format("내가 작성한 글입니다. (%d)", participantsNum)
+                btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
+                btn_taxi_share_detail_participate.textColor = R.color.light_gray
                 btn_taxi_share_detail_participate.isEnabled = false
             } else if (isParticipated) {
-                btn_taxi_share_detail_participate.text = "이미 참여중인 글입니다."
-                btn_taxi_share_detail_participate.isEnabled = false
+                btn_taxi_share_detail_participate.text = String.format("이미 참여중인 글입니다. (%d)", participantsNum)
+                btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
+                btn_taxi_share_detail_participate.textColor = R.color.light_gray
             } else {
                 btn_taxi_share_detail_participate.text = String.format("현재 참여 %d 명 (%d)", participantsNum, limit)
+                btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_not_participate_color)
+                btn_taxi_share_detail_participate.textColor = R.color.common_black
             }
         }
     }
@@ -208,11 +216,14 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             adapter = this@TaxiShareInfoDetailActivity.adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            setOnBottomDetection()
         }
     }
 
     private fun initPresenter() {
-        presenter = TaxiShareInfoDetailPresenter(this, ServerRepositoryImpl.getInstance(ServerClient.getInstance()))
+        presenter = TaxiShareInfoDetailPresenter(this, ServerRepositoryImpl.getInstance(ServerClient.getInstance())).apply {
+            setOnBottomDetectSubscriber(rcv_taxi_share_detail_comments.observeBottomDetectionPublisher())
+        }
     }
 
     @SuppressWarnings("all")
@@ -220,7 +231,15 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
         btn_taxi_share_detail_participate.onClick {
             if (currentTaxiShareInfo.isParticipated) {
-                presenter.leaveTaxiShare(currentTaxiShareInfo.id)
+                AlertDialog.Builder(this@TaxiShareInfoDetailActivity)
+                    .setTitle("택시 합승을 취소")
+                    .setMessage("택시 합승을 취소하시겠습니까 ?")
+                    .setPositiveButton("확인", ({ _, _ ->
+                        presenter.leaveTaxiShare(currentTaxiShareInfo.id)
+                    }))
+                    .setNegativeButton("취소", null)
+                    .setCancelable(false)
+                    .show()
             } else {
                 presenter.participateTaxiShare(currentTaxiShareInfo.id)
             }
@@ -232,9 +251,12 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             it.printStackTrace()
         })
 
-        adapter.setOnBottomReachedListener(object : OnBottomReachedListener {
-            override fun onBottomReached() {
-                presenter.loadComments(currentTaxiShareInfo.id, false)
+        rcv_taxi_share_detail_comments.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(!recyclerView.canScrollVertically(1)) {
+                    presenter.loadComments(currentTaxiShareInfo.id, false)
+                }
             }
         })
 
@@ -291,7 +313,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Constant.MODIFY_TAXI_SHARE && data != null) {
+        if (requestCode == Constant.MODIFY_TAXI_SHARE && data != null) {
             currentTaxiShareInfo = (data.getSerializableExtra(Constant.MODIFY_TAXI_SHARE_STR) as TaxiShareInfo)
             setViewItem()
         }
