@@ -48,8 +48,9 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Constant.REGISTER_TAXI_SHARE && data != null) {
-            val taxiShareInfo : TaxiShareInfo = data.getSerializableExtra(Constant.REGISTER_TAXI_SHARE_STR) as TaxiShareInfo
+        if (requestCode == Constant.REGISTER_TAXI_SHARE && data != null) {
+            val taxiShareInfo: TaxiShareInfo =
+                data.getSerializableExtra(Constant.REGISTER_TAXI_SHARE_STR) as TaxiShareInfo
             taxiShareListFragment.addTaxiShareInfo(taxiShareInfo)
         }
     }

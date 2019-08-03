@@ -16,11 +16,13 @@ import com.example.taxishare.data.model.Comment
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_taxi_share_info_detail.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivityForResult
 
 class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView {
 
@@ -36,12 +38,10 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
         initPresenter()
         initAdapter()
-
-        presenter.loadDetailTaxiShareInfo(currentTaxiShareInfo.id, currentTaxiShareInfo.uid)
-
         initView()
         initListener()
 
+        presenter.loadDetailTaxiShareInfo(currentTaxiShareInfo.id, currentTaxiShareInfo.uid)
         presenter.loadComments(currentTaxiShareInfo.id, true)
     }
 
@@ -114,10 +114,11 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
     override fun showParticipateTaxiShareSuccess() {
         currentTaxiShareInfo.isParticipated = true
+        currentTaxiShareInfo.participantsNum += 1
         btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
         btn_taxi_share_detail_participate.textColor = R.color.light_gray
         btn_taxi_share_detail_participate.text =
-            String.format("이미 참여중인 글입니다.(%d)", ++currentTaxiShareInfo.participantsNum)
+            String.format("이미 참여중인 글입니다.(%d)", currentTaxiShareInfo.participantsNum)
         toast("택시 합승에 참여하였습니다")
     }
 
@@ -131,15 +132,16 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
     override fun detailInfoDeleted() {
         toast("삭제된 글입니다")
-        finish()
+        setTaxiShareInfoDeletedFlag()
     }
 
     override fun showLeaveTaxiShareSuccess() {
         currentTaxiShareInfo.isParticipated = false
+        currentTaxiShareInfo.participantsNum -= 1
         btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_not_participate_color)
         btn_taxi_share_detail_participate.textColor = R.color.common_black
         btn_taxi_share_detail_participate.text =
-            String.format("현재 참여 %d 명 (%d)", --currentTaxiShareInfo.participantsNum, currentTaxiShareInfo.limit)
+            String.format("현재 참여 %d 명 (%d)", currentTaxiShareInfo.participantsNum, currentTaxiShareInfo.limit)
         toast("택시 합승을 취소했습니다")
     }
 
@@ -168,6 +170,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         if (intent.getSerializableExtra(Constant.TAXISHARE_DETAIL_STR) as TaxiShareInfo != currentTaxiShareInfo) {
             setResult(Activity.RESULT_OK, Intent().putExtra(Constant.TAXISHARE_DETAIL_STR, currentTaxiShareInfo))
         }
+        finish()
     }
 
     private fun setTaxiShareInfoDeletedFlag() {
@@ -251,7 +254,6 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
         tb_taxi_share_detail.setNavigationOnClickListener {
             setReturnTaxiShareInfo()
-            finish()
         }
 
         if (Constant.CURRENT_USER.studentId == currentTaxiShareInfo.uid.toInt()) {
@@ -271,8 +273,12 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
             btn_taxi_share_detail_edit.visibility = View.VISIBLE
             btn_taxi_share_detail_edit.onClick {
-                // 수정 작업 수행
 
+                Intent(this@TaxiShareInfoDetailActivity, RegisterTaxiShareActivity::class.java)
+                    .apply {
+                        putExtra(Constant.MODIFY_TAXI_SHARE_STR, currentTaxiShareInfo)
+                        startActivityForResult(this, Constant.MODIFY_TAXI_SHARE)
+                    }
             }
         }
 
@@ -283,10 +289,17 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == Constant.MODIFY_TAXI_SHARE && data != null) {
+            currentTaxiShareInfo = (data.getSerializableExtra(Constant.MODIFY_TAXI_SHARE_STR) as TaxiShareInfo)
+            setViewItem()
+        }
+    }
+
     override fun onBackPressed() {
-        super.onBackPressed()
+        //super.onBackPressed()
         setReturnTaxiShareInfo()
-        finish()
     }
 
     private fun initAdapter() {

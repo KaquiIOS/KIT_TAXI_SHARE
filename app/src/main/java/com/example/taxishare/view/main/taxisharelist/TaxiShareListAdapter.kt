@@ -138,6 +138,10 @@ class TaxiShareListAdapter :
 
         if (idx != -1) {
             this.taxiShareInfoList[idx].isParticipated = isParticipate
+            this.taxiShareInfoList[idx].participantsNum = when(isParticipate) {
+                true -> taxiShareInfoList[idx].participantsNum + 1
+                false -> taxiShareInfoList[idx].participantsNum - 1
+            }
             notifyItemChanged(idx)
         }
     }

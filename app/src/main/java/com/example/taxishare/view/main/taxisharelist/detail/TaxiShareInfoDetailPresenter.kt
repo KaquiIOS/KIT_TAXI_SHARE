@@ -4,6 +4,7 @@
 
 package com.example.taxishare.view.main.taxisharelist.detail
 
+import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.*
@@ -29,7 +30,12 @@ class TaxiShareInfoDetailPresenter(
 
     fun loadDetailTaxiShareInfo(postId: String, uid: String) {
         if (!::loadDetailTaxiShareDisposable.isInitialized || loadDetailTaxiShareDisposable.isDisposed) {
-            loadDetailTaxiShareDisposable = serverRepo.loadDetailTaxiShareInfo(DetailTaxiShareLoadRequest(postId, uid))
+            loadDetailTaxiShareDisposable = serverRepo.loadDetailTaxiShareInfo(
+                DetailTaxiShareLoadRequest(
+                    postId,
+                    Constant.CURRENT_USER.studentId.toString()
+                )
+            )
                 .subscribe({
 
                     if (it.responseCode == ServerResponse.DETAIL_TAXISHARE_LOAD_FAIL.code) {
