@@ -16,8 +16,6 @@ import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.TaxiShareInfo
-import com.example.taxishare.view.main.taxisharelist.detail.OnBottomReachedListener
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_taxi_share_post.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.textColor
