@@ -161,7 +161,7 @@ class RegisterTaxiSharePresenter(
                             memberNum,
                             Constant.CURRENT_USER.nickname,
                             Constant.CURRENT_USER.major,
-                            0,
+                            1,
                             true
                         )
                     )

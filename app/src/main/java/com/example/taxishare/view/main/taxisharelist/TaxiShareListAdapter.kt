@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
@@ -16,6 +18,7 @@ import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.TaxiShareInfo
 import kotlinx.android.synthetic.main.item_taxi_share_post.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.textColor
 
 // ListAdapter 사용
 class TaxiShareListAdapter :
@@ -43,7 +46,8 @@ class TaxiShareListAdapter :
             btn_taxi_share_post_participate.onClick {
                 if (::taxiShareParticipantBtnClickListener.isInitialized) {
                     taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(
-                        taxiShareInfoList[holder.adapterPosition].id
+                        taxiShareInfoList[holder.adapterPosition].id,
+                        taxiShareInfoList[holder.adapterPosition].isParticipated
                     )
                 }
             }
@@ -68,10 +72,8 @@ class TaxiShareListAdapter :
                                     taxiShareInfoList[holder.adapterPosition].id
                                 )
                             }
-                        }
-
-                        else if(it.itemId == R.id.taxi_share_info_modify) {
-                            if(::taxiShareInfoModifyClickListener.isInitialized) {
+                        } else if (it.itemId == R.id.taxi_share_info_modify) {
+                            if (::taxiShareInfoModifyClickListener.isInitialized) {
                                 taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
                                     taxiShareInfoList[holder.adapterPosition], holder.adapterPosition
                                 )
@@ -83,7 +85,6 @@ class TaxiShareListAdapter :
                     popupMenu.show()
                 }
             }
-
 
             // 상세화면으로 넘어가는 이벤트
             onClick {
@@ -110,11 +111,12 @@ class TaxiShareListAdapter :
         this@TaxiShareListAdapter.taxiShareInfoRemoveClickListener = taxiShareInfoRemoveClickListener
     }
 
-    fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>) {
-        this.taxiShareInfoList.clear()
+    fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
+        if(isRefresh) {
+            this.taxiShareInfoList.clear()
+        }
         this.taxiShareInfoList.addAll(taxiShareInfoList)
-
-        submitList(taxiShareInfoList)
+        submitList(ArrayList(this.taxiShareInfoList))
     }
 
     private fun findTaxiShareInfoWithPostId(postId: String): Int {
@@ -130,13 +132,18 @@ class TaxiShareListAdapter :
         return idx
     }
 
-    fun changeTaxiShareParticipateInfo(postId: String) {
-        //this.taxiShareInfoList[postId].isParticipated = true
+    fun changeTaxiShareParticipateInfo(postId: String, isParticipate: Boolean) {
 
         val idx: Int = findTaxiShareInfoWithPostId(postId)
 
-        if (idx != -1)
+        if (idx != -1) {
+            this.taxiShareInfoList[idx].isParticipated = isParticipate
+            this.taxiShareInfoList[idx].participantsNum = when (isParticipate) {
+                true -> taxiShareInfoList[idx].participantsNum + 1
+                false -> taxiShareInfoList[idx].participantsNum - 1
+            }
             notifyItemChanged(idx)
+        }
     }
 
     fun removeTaxiShare(postId: String) {
@@ -158,12 +165,17 @@ class TaxiShareListAdapter :
 
     fun updateTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
         val idx = findTaxiShareInfoWithPostId(taxiShareInfo.id)
-        if(idx != -1) {
+        if (idx != -1) {
             taxiShareInfoList[idx] = taxiShareInfo
             submitList(ArrayList(taxiShareInfoList))
         }
     }
 
+    private fun changeButtonState(view: View, text: String, @DrawableRes id: Int, @ColorRes cId: Int) {
+        view.btn_taxi_share_post_participate.setBackgroundResource(id)
+        view.btn_taxi_share_post_participate.text = text
+        view.btn_taxi_share_post_participate.textColor = cId
+    }
 
     inner class TaxiShareInfoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(taxiShareInfo: TaxiShareInfo) {
@@ -176,13 +188,27 @@ class TaxiShareListAdapter :
                 view.tv_taxi_share_post_title.text = title
 
                 if (Constant.CURRENT_USER.studentId == uid.toInt()) {
-                    view.btn_taxi_share_post_participate.text = "내가 작성한 글입니다"
+                    changeButtonState(
+                        view,
+                        String.format("내가 작성한 글입니다 (%d)", participantsNum),
+                        R.drawable.background_already_participate_color,
+                        R.color.light_gray
+                    )
                     view.btn_taxi_share_post_participate.isEnabled = false
                 } else if (isParticipated) {
-                    view.btn_taxi_share_post_participate.text = "이미 참여중인 글입니다."
-                    view.btn_taxi_share_post_participate.isEnabled = false
+                    changeButtonState(
+                        view,
+                        String.format("이미 참여중인 글입니다.(%d)", participantsNum),
+                        R.drawable.background_already_participate_color,
+                        R.color.light_gray
+                    )
                 } else {
-                    view.btn_taxi_share_post_participate.text = String.format("현재 참여 %d 명 (%d)", participantsNum, limit)
+                    changeButtonState(
+                        view,
+                        String.format("현재 참여 %d 명 (%d)", participantsNum, limit),
+                        R.drawable.background_not_participate_color,
+                        R.color.common_black
+                    )
                 }
             }
         }

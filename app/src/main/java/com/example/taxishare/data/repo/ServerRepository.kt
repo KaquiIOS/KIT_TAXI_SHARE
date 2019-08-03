@@ -9,8 +9,8 @@ import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.*
+import com.example.taxishare.data.remote.apis.server.response.DetailTaxiShareLoadResponse
 import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
-import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
 import com.example.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
 import io.reactivex.Observable
 
@@ -28,4 +28,6 @@ interface ServerRepository {
     fun removeComment(removeCommentRequest: RemoveCommentRequest) : Observable<ServerResponse>
     fun removeTaxiShare(removeTaxiShareRequest : TaxiShareRemoveRequest) : Observable<ServerResponse>
     fun updateTaxiShare(updateTaxiShareModifyRequest: TaxiShareModifyRequest) : Observable<ServerResponse>
+    fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest) : Observable<ServerResponse>
+    fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest) : Observable<DetailTaxiShareLoadResponse>
 }

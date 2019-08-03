@@ -18,7 +18,7 @@ data class TaxiShareInfo(
     val limit: Int,
     val nickname: String,
     val major: String,
-    val participantsNum: Int,
+    var participantsNum: Int,
     var isParticipated : Boolean
 ) : Serializable {
     companion object {

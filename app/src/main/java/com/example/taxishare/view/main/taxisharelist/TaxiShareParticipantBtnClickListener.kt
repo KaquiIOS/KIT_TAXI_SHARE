@@ -5,5 +5,5 @@
 package com.example.taxishare.view.main.taxisharelist
 
 interface TaxiShareParticipantBtnClickListener {
-    fun onParticipantsButtonClicked(postId : String)
+    fun onParticipantsButtonClicked(postId : String, isParticipating : Boolean)
 }

@@ -8,7 +8,7 @@ import com.example.taxishare.data.model.TaxiShareInfo
 
 interface TaxiShareListView {
 
-    fun setTaxiShareList(taxiShareList : MutableList<TaxiShareInfo>)
+    fun setTaxiShareList(taxiShareList : MutableList<TaxiShareInfo>, isRefresh : Boolean)
     fun insertTaxiShareInfo(taxiShareInfo : TaxiShareInfo)
     fun removeTaxiShareInfo(pos : Int)
     fun modifyTaxiShareInfo(pos : Int)
@@ -22,4 +22,7 @@ interface TaxiShareListView {
     fun showRemoveTaxiShareSuccess(postId: Int)
     fun showRemoveTaxiShareFail()
     fun showRemoveTaxiShareNotFinish()
+    fun showLeaveTaxiShareSuccess(postId: Int)
+    fun showLeaveTaxiShareFail()
+    fun showLeaveTaxiShareNotFinish()
 }

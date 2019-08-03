@@ -1,5 +1,6 @@
 package com.example.taxishare.view.main.taxisharelist
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,11 +16,12 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
+import com.example.taxishare.extension.observeBottomDetectionPublisher
+import com.example.taxishare.extension.setOnBottomDetection
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
-import com.example.taxishare.view.main.taxisharelist.detail.TestInterface
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 
@@ -37,7 +39,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     private lateinit var presenter: TaxiShareListPresenter
     private lateinit var taxiShareListAdapter: TaxiShareListAdapter
-
+    private lateinit var subscribe: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +53,8 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_taxi_share_list, container, false)
 
-    override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>) {
-        taxiShareListAdapter.setTaxiShareInfoList(taxiShareList)
+    override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh : Boolean) {
+        taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
     }
 
     override fun insertTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
@@ -81,7 +83,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     override fun showParticipateTaxiShareSuccess(postId: String) {
         toast("택시 합승에 참여하였습니다")
-        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId)
+        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId, true)
     }
 
     override fun showParticipateTaxiShareFail() {
@@ -105,6 +107,19 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         toast("택시 합승 글 삭제를 요청중입니다")
     }
 
+    override fun showLeaveTaxiShareSuccess(postId: Int) {
+        taxiShareListAdapter.changeTaxiShareParticipateInfo(postId.toString(), false)
+        toast("택시 합승을 취소했습니다")
+    }
+
+    override fun showLeaveTaxiShareFail() {
+        toast("택시 합승 취소를 실패했습니다")
+    }
+
+    override fun showLeaveTaxiShareNotFinish() {
+        toast("택시 합승 취소를 요청중입니다")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -117,12 +132,25 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constant.MODIFY_TAXI_SHARE && data != null) {
-            taxiShareListAdapter.updateTaxiShareInfo(
-                data.getSerializableExtra(Constant.MODIFY_TAXI_ASHARE_STR) as TaxiShareInfo
-            )
+        if (data != null) {
+            if (resultCode == Constant.DATA_REMOVED) {
+                taxiShareListAdapter.removeTaxiShare(data.getStringExtra("postId"))
+            } else if (requestCode == Constant.MODIFY_TAXI_SHARE) {
+                taxiShareListAdapter.updateTaxiShareInfo(
+                    data.getSerializableExtra(Constant.MODIFY_TAXI_SHARE_STR) as TaxiShareInfo
+                )
+            } else if (requestCode == Constant.TAXISHARE_DETAIL) {
+                taxiShareListAdapter.updateTaxiShareInfo(
+                    data.getSerializableExtra(Constant.TAXISHARE_DETAIL_STR) as TaxiShareInfo
+                )
+            }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+        subscribe.dispose()
     }
 
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
@@ -146,30 +174,57 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private fun initListener() {
+
+        nsc_taxi_list.setOnBottomDetection().apply {
+            subscribe = nsc_taxi_list.observeBottomDetectionPublisher().subscribe {
+                presenter.loadTaxiShareInfoList(false)
+            }
+        }
+
         taxiShareListAdapter.setTaxiShareInfoItemClickListener(object : TaxiShareInfoItemClickListener {
             override fun onTaxiShareInfoItemClicked(selectedTaxiShareInfo: TaxiShareInfo) {
-                startActivity<TaxiShareInfoDetailActivity>(
-                    getString(R.string.taxi_share_detail_info) to selectedTaxiShareInfo
+                this@TaxiShareListFragment.startActivityForResult<TaxiShareInfoDetailActivity>(
+                    Constant.TAXISHARE_DETAIL,
+                    Constant.TAXISHARE_DETAIL_STR to selectedTaxiShareInfo
                 )
-                // 상세 화면 보여주기
             }
         })
         taxiShareListAdapter.setTaxiShareInfoModifyClickListener(object : TaxiShareInfoModifyClickListener {
             override fun onTaxiShareInfoModifyClicked(selectedTaxiShareInfo: TaxiShareInfo, pos: Int) {
                 this@TaxiShareListFragment.startActivityForResult<RegisterTaxiShareActivity>(
                     Constant.MODIFY_TAXI_SHARE,
-                    getString(R.string.taxi_share_detail_info) to selectedTaxiShareInfo
+                    Constant.MODIFY_TAXI_SHARE_STR to selectedTaxiShareInfo
                 )
             }
         })
         taxiShareListAdapter.setTaxiShareInfoRemoveClickListener(object : TaxiShareInfoRemoveClickListener {
             override fun onTaxiShareInfoRemoveClicked(postId: String) {
-                presenter.removeTaxiShareInfo(postId)
+                AlertDialog.Builder(context)
+                    .setTitle("합승 글 삭제")
+                    .setMessage("글을 삭제하시겠습니까 ?")
+                    .setPositiveButton("확인", ({ _, _ ->
+                        presenter.removeTaxiShareInfo(postId)
+                    }))
+                    .setNegativeButton("취소", null)
+                    .setCancelable(false)
+                    .show()
             }
         })
         taxiShareListAdapter.setTaxiShareParticipantsClickListener(object : TaxiShareParticipantBtnClickListener {
-            override fun onParticipantsButtonClicked(postId: String) {
-                presenter.participateTaxiShare(postId)
+            override fun onParticipantsButtonClicked(postId: String, isParticipating: Boolean) {
+                if (isParticipating) {
+                    AlertDialog.Builder(context)
+                        .setTitle("택시 합승을 취소")
+                        .setMessage("택시 합승을 취소하시겠습니까 ?")
+                        .setPositiveButton("확인", ({ _, _ ->
+                            presenter.leaveTaxiShare(postId)
+                        }))
+                        .setNegativeButton("취소", null)
+                        .setCancelable(false)
+                        .show()
+                } else {
+                    presenter.participateTaxiShare(postId)
+                }
             }
         })
     }

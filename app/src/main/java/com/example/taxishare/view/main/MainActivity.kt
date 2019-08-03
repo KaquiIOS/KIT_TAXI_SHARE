@@ -12,7 +12,6 @@ import com.example.taxishare.view.main.mypage.MyPageFragment
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.TaxiShareListFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 
@@ -49,8 +48,9 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Constant.REGISTER_TAXI_SHARE && data != null) {
-            val taxiShareInfo : TaxiShareInfo = data.getSerializableExtra(Constant.REGISTER_TAXI_SHARE_STR) as TaxiShareInfo
+        if (requestCode == Constant.REGISTER_TAXI_SHARE && data != null) {
+            val taxiShareInfo: TaxiShareInfo =
+                data.getSerializableExtra(Constant.REGISTER_TAXI_SHARE_STR) as TaxiShareInfo
             taxiShareListFragment.addTaxiShareInfo(taxiShareInfo)
         }
     }

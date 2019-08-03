@@ -48,7 +48,14 @@ enum class ServerResponse(val code: Int, val description: String) {
     TAXISHARE_REMOVE_FAIL(2032, "TaxiShareRemoveFail"),
 
     TAXISHARE_MODIFY_SUCCESS(2041, "TaxiShareRemoveSuccess"),
-    TAXISHARE_MODIFY_FAIL(2042, "TaxiShareRemoveFail");
+    TAXISHARE_MODIFY_FAIL(2042, "TaxiShareRemoveFail"),
+
+    TAXISHARE_LEAVE_SUCCESS(2051, "TaxiShareLeaveSuccess"),
+    TAXISHARE_LEAVE_FAIL(2052, "TaxiShareLeaveFail"),
+
+    DETAIL_TAXISHARE_LOAD_SUCCESS(2061, "DetailTaxiShareSuccess"),
+    DETAIL_TAXISHARE_LOAD_FAIL(2062, "DetailTaxiShareFail"),
+    DETAIL_TAXISHARE_DELETED(2063, "DetailTaxiShareDeleted");
 
 
     companion object{

@@ -11,6 +11,7 @@ import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.*
+import com.example.taxishare.data.remote.apis.server.response.DetailTaxiShareLoadResponse
 import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
 import com.example.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
 import com.example.taxishare.extension.uiSubscribe
@@ -65,7 +66,7 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
             .map { TypeMapper.registerCommentResponseToComment(it) }
             .uiSubscribe()
 
-    override fun loadComments(id: String, commentId : String): Observable<MutableList<Comment>> =
+    override fun loadComments(id: String, commentId: String): Observable<MutableList<Comment>> =
         serverClient.loadComments(id, commentId)
             .map { TypeMapper.commentModelToComment(it) }
             .uiSubscribe()
@@ -88,5 +89,14 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
     override fun updateTaxiShare(updateTaxiShareModifyRequest: TaxiShareModifyRequest): Observable<ServerResponse> =
         serverClient.updateTaxiSharePost(updateTaxiShareModifyRequest)
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .uiSubscribe()
+
+    override fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest): Observable<ServerResponse> =
+        serverClient.leaveTaxiShare(leaveTaxiShareRequest)
+            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .uiSubscribe()
+
+    override fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest): Observable<DetailTaxiShareLoadResponse> =
+        serverClient.loadDetailTaxiShareInfo(detailTaxiShareLoadRequest)
             .uiSubscribe()
 }

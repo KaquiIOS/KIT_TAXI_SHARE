@@ -102,4 +102,12 @@ class ServerClient private constructor() {
         retrofit.create(TaxiShareInfoAPI::class.java)
             .updateTaxiShare(taxiShareModifyRequest.getRequest())
 
+    fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest) : Observable<LeaveTaxiShareResponse> =
+        retrofit.create(TaxiShareInfoAPI::class.java)
+            .leaveTaxiShare(leaveTaxiShareRequest.getRequest())
+
+    fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest) : Observable<DetailTaxiShareLoadResponse> =
+        retrofit.create(TaxiShareInfoAPI::class.java)
+            .loadDetailTaxiShareInfo(detailTaxiShareLoadRequest.postId, detailTaxiShareLoadRequest.uid.toInt())
+
 }

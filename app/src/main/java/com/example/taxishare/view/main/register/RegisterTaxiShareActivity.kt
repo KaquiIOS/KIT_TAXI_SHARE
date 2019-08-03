@@ -41,7 +41,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
         initView()
         initListener()
 
-        presenter.setPreviousInfo(intent.getSerializableExtra(resources.getString(R.string.taxi_share_detail_info)) as TaxiShareInfo?)
+        presenter.setPreviousInfo(intent.getSerializableExtra(Constant.MODIFY_TAXI_SHARE_STR) as TaxiShareInfo?)
     }
 
     override fun setTitle(title: String) {
@@ -76,9 +76,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
     override fun taxiRegisterTaskSuccess(taxiShareInfo: TaxiShareInfo) {
         toast(resources.getString(R.string.taxi_share_register_success))
-
         setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.REGISTER_TAXI_SHARE_STR, taxiShareInfo) })
-
         finish()
     }
 
@@ -92,7 +90,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
     override fun taxiModifyTaskSuccess(taxiShareInfo: TaxiShareInfo) {
         toast("수정을 성공했습니다")
-        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_ASHARE_STR, taxiShareInfo) })
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_SHARE_STR, taxiShareInfo) })
         finish()
     }
 

@@ -73,6 +73,11 @@ class TaxiShareInfoCommentListAdapter :
         submitList(ArrayList(this.commentList))
     }
 
+    fun clear() {
+        this.commentList.clear()
+        submitList(ArrayList(commentList))
+    }
+
     fun removeComment(commentId: Int) {
 
         val iter = commentList.iterator()
