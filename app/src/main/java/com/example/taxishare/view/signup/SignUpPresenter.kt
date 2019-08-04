@@ -4,12 +4,15 @@
 
 package com.example.taxishare.view.signup
 
+import android.util.Log
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.request.DuplicateIdExistCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.DuplicateNicknameCheckRequest
 import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
 import com.example.taxishare.data.repo.ServerRepository
 import com.example.taxishare.util.RegularExpressionChecker
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import io.reactivex.disposables.Disposable
 
 class SignUpPresenter(
@@ -25,7 +28,7 @@ class SignUpPresenter(
 
     private var preIdExistCheckDisposable: Disposable? = null
     private var preSignUpRequestDisposable: Disposable? = null
-    private var preNicknameCheckDisposable : Disposable? = null
+    private var preNicknameCheckDisposable: Disposable? = null
 
     private fun isAllRequestDataValidated(): Boolean =
         isIdValidated && isPwValidated && isPwConfirmed && isNicknameValidated && isMajorSelected
@@ -62,7 +65,7 @@ class SignUpPresenter(
 
         preNicknameCheckDisposable = serverClient.isSameNicknameExist(DuplicateNicknameCheckRequest(nickname))
             .subscribe({
-                if(it.code == ServerResponse.SAME_NICKNAME_EXIST.code) {
+                if (it.code == ServerResponse.SAME_NICKNAME_EXIST.code) {
                     isNicknameValidated = false
                     signUpView.sameNicknameExist()
                 } else {
@@ -110,20 +113,30 @@ class SignUpPresenter(
     }
 
     fun signUpRequest(id: String, pw: String, nickname: String, major: String) {
+
         if (preSignUpRequestDisposable != null && preSignUpRequestDisposable!!.isDisposed) {
             preSignUpRequestDisposable?.dispose()
         }
 
-        preSignUpRequestDisposable = serverClient.signUpRequest(SignUpRequest(id, pw, nickname, major))
-            .subscribe({
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            if (!it.isSuccessful) {
+                Log.e("Test", "getInstanceId Failed", it.exception)
+                signUpView.signUpFail()
+                return@addOnCompleteListener
+            }
 
-                when (it.code) {
-                    ServerResponse.SIGN_UP_REQUEST_SUCCESS.code -> signUpView.signUpSuccess()
-                    ServerResponse.SIGN_UP_REQUEST_FAIL.code -> signUpView.signUpFail()
-                    else -> signUpView.signUpFail()
-                }
-            }, {
-                it.stackTrace[0]
-            })
+            preSignUpRequestDisposable =
+                serverClient.signUpRequest(SignUpRequest(id, pw, nickname, major, it.result?.token ?: ""))
+                    .subscribe({
+
+                        when (it.code) {
+                            ServerResponse.SIGN_UP_REQUEST_SUCCESS.code -> signUpView.signUpSuccess()
+                            ServerResponse.SIGN_UP_REQUEST_FAIL.code -> signUpView.signUpFail()
+                            else -> signUpView.signUpFail()
+                        }
+                    }, {
+                        it.stackTrace[0]
+                    })
+        }
     }
 }
