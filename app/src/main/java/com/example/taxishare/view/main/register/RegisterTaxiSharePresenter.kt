@@ -5,6 +5,7 @@
 package com.example.taxishare.view.main.register
 
 import android.util.Log
+import com.example.taxishare.app.AlarmManagerInterface
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.mapper.TypeMapper
@@ -22,7 +23,8 @@ import java.util.*
 class RegisterTaxiSharePresenter(
     private val view: RegisterTaxiShareView,
     private val serverRepoImpl: ServerRepository,
-    private val localRepoImpl: LocationRepository
+    private val localRepoImpl: LocationRepository,
+    private val alarmManger: AlarmManagerInterface
 ) {
 
     private lateinit var taxiRegisterDispose: Disposable
@@ -115,7 +117,7 @@ class RegisterTaxiSharePresenter(
                     memberNum
                 )
             ).subscribe({
-                if(it == ServerResponse.TAXISHARE_MODIFY_SUCCESS) {
+                if (it == ServerResponse.TAXISHARE_MODIFY_SUCCESS) {
                     view.taxiModifyTaskSuccess(
                         TaxiShareInfo(
                             preTaxiShareInfo!!.id,
@@ -129,7 +131,8 @@ class RegisterTaxiSharePresenter(
                             Constant.CURRENT_USER.major,
                             preTaxiShareInfo!!.participantsNum,
                             true
-                    ))
+                        )
+                    )
                 } else {
                     view.taxiModifyTaskFail()
                 }
@@ -150,21 +153,24 @@ class RegisterTaxiSharePresenter(
                 )
             ).subscribe({
                 when (it.responseCode) {
-                    ServerResponse.TAXI_SHARE_REGISTER_REQUEST_SUCCESS.code -> view.taxiRegisterTaskSuccess(
-                        TaxiShareInfo(
-                            it.id,
-                            Constant.CURRENT_USER.studentId.toString(),
-                            title,
-                            startDateTime,
-                            startLocation,
-                            endLocation,
-                            memberNum,
-                            Constant.CURRENT_USER.nickname,
-                            Constant.CURRENT_USER.major,
-                            1,
-                            true
+                    ServerResponse.TAXI_SHARE_REGISTER_REQUEST_SUCCESS.code -> {
+                        view.taxiRegisterTaskSuccess(
+                            TaxiShareInfo(
+                                it.id,
+                                Constant.CURRENT_USER.studentId.toString(),
+                                title,
+                                startDateTime,
+                                startLocation,
+                                endLocation,
+                                memberNum,
+                                Constant.CURRENT_USER.nickname,
+                                Constant.CURRENT_USER.major,
+                                1,
+                                true
+                            )
                         )
-                    )
+                        alarmManger.setOneTimeAlarm(it.id.toInt(), Calendar.getInstance().apply { time = startDateTime })
+                    }
                     else -> view.taxiRegisterTaskFail()
                 }
             }, {

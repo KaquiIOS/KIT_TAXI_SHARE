@@ -1,12 +1,15 @@
 package com.example.taxishare.view.main.register
 
 import android.app.Activity
+import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.taxishare.R
+import com.example.taxishare.app.AlarmManagerImpl
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.AppDatabase
 import com.example.taxishare.data.mapper.TypeMapper
@@ -30,7 +33,8 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
     private val presenter: RegisterTaxiSharePresenter by lazy {
         RegisterTaxiSharePresenter(
             this, ServerRepositoryImpl(ServerClient.getInstance()),
-            LocationRepositoryImpl.getInstance(AppDatabase.getInstance(this), TypeMapper)
+            LocationRepositoryImpl.getInstance(AppDatabase.getInstance(this), TypeMapper),
+            AlarmManagerImpl(getSystemService(Context.ALARM_SERVICE) as AlarmManager, this)
         )
     }
 

@@ -78,6 +78,7 @@ class TaxiShareInfoDetailPresenter(
                         if (it.commentId == -1) {
                             view.registerCommentFail()
                         } else {
+                            nextCommentId = it.commentId
                             view.insertComment(it)
                             view.registerCommentSuccess()
                         }
@@ -100,8 +101,11 @@ class TaxiShareInfoDetailPresenter(
         if (!noCommentExist && (!::loadCommentDisposable.isInitialized || loadCommentDisposable.isDisposed)) {
             loadCommentDisposable = serverRepo.loadComments(id, nextCommentId.toString())
                 .subscribe({
-                    nextCommentId = it[it.size - 1].commentId
-                    view.addComments(it)
+
+                    if(it.size > 0) {
+                        nextCommentId = it[it.size - 1].commentId
+                        view.addComments(it)
+                    }
 
                     noCommentExist = it.size < 5
                 }, {
