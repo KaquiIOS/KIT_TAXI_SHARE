@@ -4,9 +4,10 @@
 
 package com.example.taxishare.view.main.taxisharelist.detail
 
+import com.example.taxishare.app.AlarmManagerInterface
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.ServerResponse
-import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.model.TaxiShareDetailInfo
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.repo.ServerRepository
 import io.reactivex.disposables.Disposable
@@ -15,7 +16,8 @@ import java.util.*
 
 class TaxiShareInfoDetailPresenter(
     private val view: TaxiShareInfoDetailView,
-    private val serverRepo: ServerRepository
+    private val serverRepo: ServerRepository,
+    private val alarmManger: AlarmManagerInterface
 ) {
 
 
@@ -45,25 +47,29 @@ class TaxiShareInfoDetailPresenter(
                     postId,
                     Constant.CURRENT_USER.studentId.toString()
                 )
-            )
-                .subscribe({
+            ).subscribe({
 
-                    if (it.responseCode == ServerResponse.DETAIL_TAXISHARE_LOAD_FAIL.code) {
-                        view.failLoadDetailInfo()
-                    } else if (it.responseCode == ServerResponse.DETAIL_TAXISHARE_DELETED.code) {
-                        view.detailInfoDeleted()
-                    } else {
-                        view.setDetailInfo(with(it) {
-                            TaxiShareInfo(
-                                id, uid, title, Date(startDate), startLocation, endLocation, limit,
-                                nickname, major, participantsNum, (isParticipate == 1)
-                            )
-                        })
-                    }
-                }, {
-                    it.printStackTrace()
+                if (it.responseCode == ServerResponse.DETAIL_TAXISHARE_LOAD_FAIL.code) {
                     view.failLoadDetailInfo()
-                })
+                } else if (it.responseCode == ServerResponse.DETAIL_TAXISHARE_DELETED.code) {
+                    view.detailInfoDeleted()
+                } else {
+                    view.setDetailInfo(with(it) {
+                        TaxiShareDetailInfo(
+                            id, uid, title, Date(startDate), startLocation, endLocation, limit,
+                            nickname, major, participants.size, (isParticipate == 1), participants
+                        )
+                    })
+
+                    if (System.currentTimeMillis() > it.startDate + 1800000) {
+                        view.disableAllComponents()
+                    }
+
+                }
+            }, {
+                it.printStackTrace()
+                view.failLoadDetailInfo()
+            })
         } else {
             view.loadDetailInfoNotFinish()
         }
@@ -102,7 +108,7 @@ class TaxiShareInfoDetailPresenter(
             loadCommentDisposable = serverRepo.loadComments(id, nextCommentId.toString())
                 .subscribe({
 
-                    if(it.size > 0) {
+                    if (it.size > 0) {
                         nextCommentId = it[it.size - 1].commentId
                         view.addComments(it)
                     }
@@ -141,6 +147,7 @@ class TaxiShareInfoDetailPresenter(
             participateTaxiShareDisposable = serverRepo.participateTaxiShare(ParticipateTaxiShareRequest(postId))
                 .subscribe({
                     if (it == ServerResponse.PARTICIPATE_TAXI_SHARE_SUCCESS) {
+                        view.saveCurrentTaxiShareInfo()
                         view.showParticipateTaxiShareSuccess()
                     } else {
                         view.showParticipateTaxiShareFail()
@@ -160,6 +167,7 @@ class TaxiShareInfoDetailPresenter(
                 .subscribe({
                     if (it == ServerResponse.TAXISHARE_LEAVE_SUCCESS) {
                         view.showLeaveTaxiShareSuccess()
+                        view.saveCurrentTaxiShareInfo()
                     } else {
                         view.showLeaveTaxiShareFail()
                     }
@@ -178,6 +186,7 @@ class TaxiShareInfoDetailPresenter(
                 .subscribe({
                     if (it == ServerResponse.TAXISHARE_REMOVE_SUCCESS) {
                         view.showRemoveTaxiShareSuccess()
+                        alarmManger.cancelAlarm(postId.toInt())
                     } else {
                         view.removeCommentFail()
                     }

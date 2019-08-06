@@ -1,6 +1,8 @@
 package com.example.taxishare.view.main.taxisharelist
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
+import com.example.taxishare.app.AlarmManagerImpl
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
@@ -24,6 +27,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
+import java.util.*
 
 
 class TaxiShareListFragment : Fragment(), TaxiShareListView {
@@ -53,7 +57,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_taxi_share_list, container, false)
 
-    override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh : Boolean) {
+    override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
     }
 
@@ -158,7 +162,10 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private fun initPresenter() {
-        presenter = TaxiShareListPresenter(this, ServerRepositoryImpl.getInstance(ServerClient.getInstance()))
+        presenter = TaxiShareListPresenter(
+            this, ServerRepositoryImpl.getInstance(ServerClient.getInstance()),
+            AlarmManagerImpl(context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager, context!!)
+        )
     }
 
     private fun initAdapter() {
@@ -223,7 +230,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                         .setCancelable(false)
                         .show()
                 } else {
-                    presenter.participateTaxiShare(postId)
+                    presenter.participateTaxiShare(postId, Date())
                 }
             }
         })

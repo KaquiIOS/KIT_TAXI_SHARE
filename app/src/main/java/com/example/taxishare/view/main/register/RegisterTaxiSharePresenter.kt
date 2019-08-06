@@ -107,6 +107,9 @@ class RegisterTaxiSharePresenter(
 
     private fun modifyTaxiShareInfo() {
         if (!::taxiRegisterDispose.isInitialized || taxiRegisterDispose.isDisposed) {
+
+            alarmManger.cancelAlarm(preTaxiShareInfo!!.id.toInt())
+
             taxiRegisterDispose = serverRepoImpl.updateTaxiShare(
                 TaxiShareModifyRequest(
                     preTaxiShareInfo!!.id,
@@ -133,6 +136,9 @@ class RegisterTaxiSharePresenter(
                             true
                         )
                     )
+                    alarmManger.setOneTimeAlarm(
+                        preTaxiShareInfo!!.id.toInt(),
+                        Calendar.getInstance().apply { time = startDateTime })
                 } else {
                     view.taxiModifyTaskFail()
                 }
@@ -169,7 +175,9 @@ class RegisterTaxiSharePresenter(
                                 true
                             )
                         )
-                        alarmManger.setOneTimeAlarm(it.id.toInt(), Calendar.getInstance().apply { time = startDateTime })
+                        alarmManger.setOneTimeAlarm(
+                            it.id.toInt(),
+                            Calendar.getInstance().apply { time = startDateTime })
                     }
                     else -> view.taxiRegisterTaskFail()
                 }

@@ -5,15 +5,15 @@
 package com.example.taxishare.view.main.taxisharelist.detail
 
 import com.example.taxishare.data.model.Comment
-import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.model.TaxiShareDetailInfo
 
 interface TaxiShareInfoDetailView {
 
 
-    fun changeRegisterButtonState(isActivated : Boolean)
+    fun changeRegisterButtonState(isActivated: Boolean)
 
-    fun addComments(commentList : MutableList<Comment>)
-    fun insertComment(comment : Comment)
+    fun addComments(commentList: MutableList<Comment>)
+    fun insertComment(comment: Comment)
 
     fun registerCommentSuccess()
     fun registerCommentFail()
@@ -24,11 +24,11 @@ interface TaxiShareInfoDetailView {
     fun loadCommentFail()
     fun loadCommentNotFinished()
 
-    fun removeCommentSuccess(commentId : Int)
+    fun removeCommentSuccess(commentId: Int)
     fun removeCommentFail()
     fun removeCommentNotFinished()
 
-    fun setDetailInfo(taxiShareInfo : TaxiShareInfo)
+    fun setDetailInfo(taxiShareInfo: TaxiShareDetailInfo)
     fun failLoadDetailInfo()
     fun loadDetailInfoNotFinish()
     fun detailInfoDeleted()
@@ -44,4 +44,8 @@ interface TaxiShareInfoDetailView {
     fun showLeaveTaxiShareSuccess()
     fun showLeaveTaxiShareFail()
     fun showLeaveTaxiShareNotFinish()
+
+    fun saveCurrentTaxiShareInfo()
+
+    fun disableAllComponents()
 }

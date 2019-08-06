@@ -22,7 +22,7 @@ class AlarmManagerImpl(
             PendingIntent.getBroadcast(context, postId, it, 0)
         }.apply {
             alarmManager.set(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                AlarmManager.RTC_WAKEUP,
                 date.timeInMillis,
                 this
             )
