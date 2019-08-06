@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
             android:name=".app.AppInitializer"
@@ -32,6 +33,12 @@
             <meta-data android:name="com.google.firebase.messaging.default_notification_color"
                        android:resource="@color/light_gray"/>
         </service>
+
+        <receiver android:name=".app.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLIED"/>
+            </intent-filter>
+        </receiver>
 
         <activity
                 android:name=".view.main.taxisharelist.detail.TaxiShareInfoDetailActivity"

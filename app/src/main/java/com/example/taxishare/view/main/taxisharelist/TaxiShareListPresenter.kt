@@ -4,6 +4,7 @@
 
 package com.example.taxishare.view.main.taxisharelist
 
+import com.example.taxishare.app.AlarmManagerInterface
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.request.LeaveTaxiShareRequest
@@ -12,10 +13,12 @@ import com.example.taxishare.data.remote.apis.server.request.TaxiShareListGetReq
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareRemoveRequest
 import com.example.taxishare.data.repo.ServerRepository
 import io.reactivex.disposables.Disposable
+import java.util.*
 
 class TaxiShareListPresenter(
     private val view: TaxiShareListView,
-    private val serverRepo: ServerRepository
+    private val serverRepo: ServerRepository,
+    private val alarmManager : AlarmManagerInterface
 ) {
 
     private var nextPageNum: Int = -1
@@ -31,6 +34,7 @@ class TaxiShareListPresenter(
                 .subscribe({
                     if (it == ServerResponse.TAXISHARE_LEAVE_SUCCESS) {
                         view.showLeaveTaxiShareSuccess(postId.toInt())
+                        alarmManager.cancelAlarm(postId.toInt())
                     } else {
                         view.showLeaveTaxiShareFail()
                     }
@@ -50,6 +54,7 @@ class TaxiShareListPresenter(
                 .subscribe({
                     if (it == ServerResponse.TAXISHARE_REMOVE_SUCCESS) {
                         view.showRemoveTaxiShareSuccess(postId.toInt())
+                        alarmManager.cancelAlarm(postId.toInt())
                     } else {
                         view.showRemoveTaxiShareFail()
                     }
@@ -62,13 +67,14 @@ class TaxiShareListPresenter(
         }
     }
 
-    fun participateTaxiShare(postId: String) {
+    fun participateTaxiShare(postId: String, date : Date) {
 
         if (!::participateTaxiShareDisposable.isInitialized || participateTaxiShareDisposable.isDisposed) {
             participateTaxiShareDisposable = serverRepo.participateTaxiShare(ParticipateTaxiShareRequest(postId))
                 .subscribe({
                     if (it == ServerResponse.PARTICIPATE_TAXI_SHARE_SUCCESS) {
                         view.showParticipateTaxiShareSuccess(postId)
+                        alarmManager.setOneTimeAlarm(postId.toInt(), Calendar.getInstance().apply { time = date })
                     } else {
                         view.showParticipateTaxiShareFail()
                     }

@@ -200,6 +200,15 @@
                     app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_detail_end"/>
 
             <TextView
+                    android:id="@+id/tv_taxi_share_detail_participants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="참가자 목록(학번)"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="@id/guide_taxi_share_detail_start"
+                    app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_detail_title"/>
+
+            <TextView
                     android:id="@+id/tv_taxi_share_detail_start_location"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -209,7 +218,7 @@
                     android:hint="@string/register_start_location_hint"
                     app:layout_constraintStart_toStartOf="@id/guide_taxi_share_detail_left"
                     app:layout_constraintEnd_toEndOf="@id/guide_taxi_share_detail_right"
-                    app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_detail_title"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_taxi_share_detail_participants"/>
 
             <ImageView
                     android:id="@+id/iv_taxi_share_detail_start_location"

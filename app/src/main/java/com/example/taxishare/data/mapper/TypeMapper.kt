@@ -9,6 +9,7 @@ import com.example.taxishare.app.Constant
 import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.local.room.entity.MyLocationModel
 import com.example.taxishare.data.model.*
+import com.example.taxishare.data.remote.apis.server.response.DetailTaxiShareLoadResponse
 import com.example.taxishare.data.remote.apis.server.response.RegisterCommentResponse
 import java.text.SimpleDateFormat
 import java.util.*
@@ -105,6 +106,16 @@ object TypeMapper {
     fun registerCommentResponseToComment(response: RegisterCommentResponse): Comment {
         with(response) {
             return Comment(uid, commentId, dateToString(Date(commentDate)), content, nickname)
+        }
+    }
+
+    fun detailInfoResponseToDetailInfo(response: DetailTaxiShareLoadResponse): TaxiShareDetailInfo {
+        with(response) {
+            return TaxiShareDetailInfo(
+                id, uid, title, Date(startDate),
+                startLocation, endLocation, limit, nickname, major, participants.size, isParticipate == 1,
+                participants
+            )
         }
     }
 }

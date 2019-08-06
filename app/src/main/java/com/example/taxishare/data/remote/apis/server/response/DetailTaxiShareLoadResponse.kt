@@ -26,13 +26,13 @@ data class DetailTaxiShareLoadResponse(
     val startDate: Long,
     @Expose
     @SerializedName("startLocation")
-    val startLocation : Location,
+    val startLocation: Location,
     @Expose
     @SerializedName("endLocation")
-    val endLocation : Location,
+    val endLocation: Location,
     @Expose
     @SerializedName("maxNum")
-    val limit : Int,
+    val limit: Int,
     @Expose
     @SerializedName("nickname")
     val nickname: String,
@@ -41,9 +41,9 @@ data class DetailTaxiShareLoadResponse(
     val major: String,
     @Expose
     @SerializedName("isParticipate")
-    val isParticipate : Int,
+    val isParticipate: Int,
     @Expose
-    @SerializedName("participantsNum")
-    val participantsNum : Int
+    @SerializedName("participants")
+    val participants: MutableList<String>
 ) {
 }
