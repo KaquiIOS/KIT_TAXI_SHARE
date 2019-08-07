@@ -25,10 +25,6 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
     private var fragmentView: View? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentView = inflater.inflate(R.layout.bottom_sheet_camera_image_pick, container, false)
         return fragmentView

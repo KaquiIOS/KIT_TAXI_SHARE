@@ -181,7 +181,7 @@ class TaxiShareListAdapter :
         fun bind(taxiShareInfo: TaxiShareInfo) {
 
             with(taxiShareInfo) {
-                view.tv_taxi_share_post_nickname.text = String.format("%s (%s)", nickname, major)
+                view.tv_taxi_share_post_nickname.text = String.format(view.resources.getString(R.string.nickname_format), nickname, major)
                 view.tv_taxi_share_post_start_time.text = TypeMapper.dateToString(startDate)
                 view.tv_taxi_share_post_start_location.text = startLocation.locationName
                 view.tv_taxi_share_post_end_location.text = endLocation.locationName
@@ -190,7 +190,7 @@ class TaxiShareListAdapter :
                 if (Constant.CURRENT_USER.studentId == uid.toInt()) {
                     changeButtonState(
                         view,
-                        String.format("내가 작성한 글입니다 (%d)", participantsNum),
+                        String.format(view.resources.getString(R.string.my_taxi_share_title),  participantsNum),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )
@@ -198,14 +198,14 @@ class TaxiShareListAdapter :
                 } else if (isParticipated) {
                     changeButtonState(
                         view,
-                        String.format("이미 참여중인 글입니다.(%d)", participantsNum),
+                        String.format(view.resources.getString(R.string.already_participate_taxi_share_title),  participantsNum),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )
                 } else {
                     changeButtonState(
                         view,
-                        String.format("현재 참여 %d 명 (%d)", participantsNum, limit),
+                        String.format(view.resources.getString(R.string.taxi_share_participants_num), participantsNum, limit),
                         R.drawable.background_not_participate_color,
                         R.color.common_black
                     )

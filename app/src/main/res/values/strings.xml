@@ -152,4 +152,60 @@
     <string name="taxi_share_detail_top">상세보기</string>
     <string name="taxi_share_detail_comment_hint">댓글을 입력하세요</string>
 
+
+    <string name="taxi_share_splash">This is Test Sentence</string>
+    <string name="taxi_share_leave_title">택시 합승 취소</string>
+    <string name="taxi_share_leave_content">택시 합승을 취소하시겠습니까 ?</string>
+    <string name="taxi_share_remove_title">합승 글 삭제</string>
+    <string name="taxi_share_remove_content">합승 글을 삭제하시겠습니까 ?</string>
+    <string name="my_taxi_share_title">내가 작성한 글입니다(현재 참여 인원 : %d명)</string>
+    <string name="already_participate_taxi_share_title">이미 참여중인 글입니다(현재 참여 인원 : %d 명)</string>
+    <string name="taxi_share_participants_num">현재 참여중인 인원은 %d 명 입니다(제한 인원 : %d 명)</string>
+    <string name="nickname_format">%s (%s)</string>
+
+    <string name="leave_taxi_share_fail">택시 합승 취소를 실패했습니다</string>
+    <string name="leave_taxi_share_success">택시 합승을 취소했습니다</string>
+    <string name="leave_taxi_share_waiting">택시 합승 취소를 요청중입니다</string>
+
+    <string name="remove_taxi_share_fail">택시 합승 삭제를 실패했습니다</string>
+    <string name="remove_taxi_share_success">택시 합승 글을 삭제했습니다</string>
+    <string name="remove_taxi_share_waiting">택시 합승 삭제를 요청중입니다</string>
+
+    <string name="participate_taxi_share_fail">택시 합승을 실패했습니다</string>
+    <string name="participate_taxi_share_success">택시 합승을 성공했습니다</string>
+    <string name="participate_taxi_share_waiting">택시 합승을 요청중입니다</string>
+
+    <string name="taxi_share_list_last_page">마지막 페이지입니다</string>
+    <string name="taxi_share_list_load_fail">합승 목록 불러오기를 실패했습니다</string>
+
+    <string name="taxi_share_closed">이미 종료된 글입니다</string>
+    <string name="already_taxi_share_started">이미 출발한 글입니다</string>
+
+    <string name="taxi_share_list_load_not_finish">합승 목록을 불러오는 중입니다</string>
+    <string name="taxi_share_participants_member">현재 참여자 목록 : %s</string>
+
+    <string name="already_removed_taxi_share">삭제된 글입니다</string>
+    <string name="remove_comment_waiting">댓글 삭제중입니다</string>
+    <string name="remove_comment_fail">댓글 삭제를 실패했습니다.</string>
+    <string name="remove_comment_success">댓글 삭제에 성공했습니다</string>
+    <string name="load_comment_waiting">댓글을 불러오는 중입니다</string>
+    <string name="load_comment_fail">댓글 불러오기에 실패했습니다</string>
+    <string name="load_comment_success">댓글을 불러왔습니다</string>
+    <string name="no_comment_exist">댓글이 더 존재하지 않았습니다</string>
+    <string name="register_comment_success">댓글을 등록했습니다</string>
+    <string name="register_comment_fail">댓글 등록을 실패하였습니다</string>
+    <string name="register_comment_waiting">댓글을 등록중입니다</string>
+
+    <string name="modify_taxi_share_success">택시 합승 정보 수정을 성공했습니다</string>
+    <string name="modify_taxi_share_waiting">택시 합승 정보 수정 요청중입니다</string>
+    <string name="modify_taxi_share_fail">택시 합승 정보 수정을 실패했습니다</string>
+
+    <string name="load_detail_taxi_info_fail">데이터 불러오기를 실패했습니다. 이전 화면으로 돌아갑니다</string>
+    <string name="load_detail_taxi_info_waiting">택시 합승 상세 정보를 불러오는 중입니다</string>
+    <string name="load_detail_taxi_info_success">택시 합승 상세 정보를 불러왔습니다.</string>
+
+    <string name="register_taxi_share_info_success">택시 합승 정보 등록을 성공했습니다</string>
+    <string name="register_taxi_share_info_fail">택시 합승 정보 등록을 실패했습니다</string>
+    <string name="register_taxi_share_info_waiting">택시 합승 정보 등록을 요청중입니다</string>
+
 </resources>

@@ -25,6 +25,7 @@ import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
@@ -61,67 +62,55 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
     }
 
-    override fun insertTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
-        Log.d("Test", "InsertTaxiShareInfo")
-    }
-
-    override fun removeTaxiShareInfo(pos: Int) {
-        Log.d("Test", "removeTaxiShareInfo")
-    }
-
-    override fun modifyTaxiShareInfo(pos: Int) {
-        Log.d("Test", "modifyTaxiShareInfo")
-    }
-
     override fun showLoadTaxiShareListNotFinishedMessage() {
-        toast("로드 안끝남")
+        toast(getString(R.string.taxi_share_list_load_not_finish))
     }
 
     override fun showLoadTaxiShareListFailMessage() {
-        toast("로드 실패")
+        toast(getString(R.string.taxi_share_list_load_fail))
     }
 
     override fun showLastPageOfTaxiShareListMessage() {
-        toast("마지막 페이지입니다")
+        toast(getString(R.string.taxi_share_list_last_page))
     }
 
     override fun showParticipateTaxiShareSuccess(postId: String) {
-        toast("택시 합승에 참여하였습니다")
         taxiShareListAdapter.changeTaxiShareParticipateInfo(postId, true)
+        toast(getString(R.string.participate_taxi_share_success))
     }
 
     override fun showParticipateTaxiShareFail() {
-        toast("택시 합승에 실패하였습니다")
+        toast(getString(R.string.participate_taxi_share_fail))
     }
 
     override fun showParticipateTaxiShareNotFinish() {
-        toast("택시 합승을 요청중입니다")
+        toast(getString(R.string.participate_taxi_share_waiting))
     }
 
     override fun showRemoveTaxiShareSuccess(postId: Int) {
         taxiShareListAdapter.removeTaxiShare(postId.toString())
-        toast("택시 합승 글이 삭제되었습니다")
+        toast(getString(R.string.remove_taxi_share_success))
     }
 
     override fun showRemoveTaxiShareFail() {
-        toast("택시 합승 글 삭제가 되지 않았습니다")
+        toast(getString(R.string.remove_taxi_share_fail))
     }
 
     override fun showRemoveTaxiShareNotFinish() {
-        toast("택시 합승 글 삭제를 요청중입니다")
+        toast(getString(R.string.remove_taxi_share_waiting))
     }
 
     override fun showLeaveTaxiShareSuccess(postId: Int) {
         taxiShareListAdapter.changeTaxiShareParticipateInfo(postId.toString(), false)
-        toast("택시 합승을 취소했습니다")
+        toast(getString(R.string.leave_taxi_share_success))
     }
 
     override fun showLeaveTaxiShareFail() {
-        toast("택시 합승 취소를 실패했습니다")
+        toast(getString(R.string.leave_taxi_share_fail))
     }
 
     override fun showLeaveTaxiShareNotFinish() {
-        toast("택시 합승 취소를 요청중입니다")
+        toast(getString(R.string.leave_taxi_share_waiting))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -138,7 +127,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
             if (resultCode == Constant.DATA_REMOVED) {
-                taxiShareListAdapter.removeTaxiShare(data.getStringExtra("postId"))
+                taxiShareListAdapter.removeTaxiShare(data.getStringExtra(Constant.POST_ID))
             } else if (requestCode == Constant.MODIFY_TAXI_SHARE) {
                 taxiShareListAdapter.updateTaxiShareInfo(
                     data.getSerializableExtra(Constant.MODIFY_TAXI_SHARE_STR) as TaxiShareInfo
@@ -182,6 +171,10 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     private fun initListener() {
 
+        btn_taxi_list_reload.onClick {
+            presenter.loadTaxiShareInfoList(true)
+        }
+
         nsc_taxi_list.setOnBottomDetection().apply {
             subscribe = nsc_taxi_list.observeBottomDetectionPublisher().subscribe {
                 presenter.loadTaxiShareInfoList(false)
@@ -207,12 +200,12 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         taxiShareListAdapter.setTaxiShareInfoRemoveClickListener(object : TaxiShareInfoRemoveClickListener {
             override fun onTaxiShareInfoRemoveClicked(postId: String) {
                 AlertDialog.Builder(context)
-                    .setTitle("합승 글 삭제")
-                    .setMessage("글을 삭제하시겠습니까 ?")
-                    .setPositiveButton("확인", ({ _, _ ->
+                    .setTitle(getString(R.string.taxi_share_remove_title))
+                    .setMessage(getString(R.string.taxi_share_remove_content))
+                    .setPositiveButton(getString(R.string.ok), ({ _, _ ->
                         presenter.removeTaxiShareInfo(postId)
                     }))
-                    .setNegativeButton("취소", null)
+                    .setNegativeButton(getString(R.string.cancel), null)
                     .setCancelable(false)
                     .show()
             }
@@ -221,12 +214,12 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             override fun onParticipantsButtonClicked(postId: String, isParticipating: Boolean) {
                 if (isParticipating) {
                     AlertDialog.Builder(context)
-                        .setTitle("택시 합승을 취소")
-                        .setMessage("택시 합승을 취소하시겠습니까 ?")
-                        .setPositiveButton("확인", ({ _, _ ->
+                        .setTitle(getString(R.string.taxi_share_leave_title))
+                        .setMessage(getString(R.string.taxi_share_leave_content))
+                        .setPositiveButton(getString(R.string.ok), ({ _, _ ->
                             presenter.leaveTaxiShare(postId)
                         }))
-                        .setNegativeButton("취소", null)
+                        .setNegativeButton(getString(R.string.cancel), null)
                         .setCancelable(false)
                         .show()
                 } else {

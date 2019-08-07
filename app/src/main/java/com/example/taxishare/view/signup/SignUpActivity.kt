@@ -23,8 +23,6 @@ class SignUpActivity : BaseActivity(), SignUpView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //iv_sign_up_profile_image.clipToOutline = true
-
         initPresenter()
         initView()
         initListener()

@@ -41,6 +41,7 @@ class TaxiShareInfoDetailPresenter(
     }
 
     fun loadDetailTaxiShareInfo(postId: String, uid: String) {
+
         if (!::loadDetailTaxiShareDisposable.isInitialized || loadDetailTaxiShareDisposable.isDisposed) {
             loadDetailTaxiShareDisposable = serverRepo.loadDetailTaxiShareInfo(
                 DetailTaxiShareLoadRequest(
@@ -61,7 +62,7 @@ class TaxiShareInfoDetailPresenter(
                         )
                     })
 
-                    if (System.currentTimeMillis() > it.startDate + 1800000) {
+                    if (System.currentTimeMillis() > it.startDate + Constant.ALARM_NOTIFY_TIME) {
                         view.disableAllComponents()
                     }
 

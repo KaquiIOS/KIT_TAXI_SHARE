@@ -12,13 +12,14 @@ import com.example.taxishare.data.remote.apis.server.request.SignUpRequest
 import com.example.taxishare.data.repo.ServerRepository
 import com.example.taxishare.util.RegularExpressionChecker
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
 import io.reactivex.disposables.Disposable
 
 class SignUpPresenter(
     private val signUpView: SignUpView,
     private val serverClient: ServerRepository
 ) {
+
+    private val TAG: String = SignUpPresenter::class.java.simpleName
 
     private var isIdValidated: Boolean = false
     private var isPwValidated: Boolean = false
@@ -120,7 +121,7 @@ class SignUpPresenter(
 
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             if (!it.isSuccessful) {
-                Log.e("Test", "getInstanceId Failed", it.exception)
+                Log.e(TAG, it.exception?.message)
                 signUpView.signUpFail()
                 return@addOnCompleteListener
             }
@@ -128,7 +129,6 @@ class SignUpPresenter(
             preSignUpRequestDisposable =
                 serverClient.signUpRequest(SignUpRequest(id, pw, nickname, major, it.result?.token ?: ""))
                     .subscribe({
-
                         when (it.code) {
                             ServerResponse.SIGN_UP_REQUEST_SUCCESS.code -> signUpView.signUpSuccess()
                             ServerResponse.SIGN_UP_REQUEST_FAIL.code -> signUpView.signUpFail()

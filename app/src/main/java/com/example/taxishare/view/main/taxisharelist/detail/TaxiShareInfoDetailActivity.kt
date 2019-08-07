@@ -52,11 +52,11 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
     }
 
     override fun loadDetailInfoNotFinish() {
-        toast("데이터를 불러오는 중입니다.")
+        toast(getString(R.string.load_detail_taxi_info_waiting))
     }
 
     override fun failLoadDetailInfo() {
-        toast("데이터 불러오기를 실패하였습니다. 이전 데이터를 출력합니다")
+        toast(getString(R.string.load_detail_taxi_info_fail))
         finish()
         //setViewItem()
     }
@@ -80,43 +80,43 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
     }
 
     override fun registerCommentSuccess() {
-        toast("댓글 등록이 완료되었습니다.")
+        toast(getString(R.string.register_comment_success))
     }
 
     override fun registerCommentFail() {
-        toast("댓글 등록에 실패하였습니다.")
+        toast(getString(R.string.register_comment_fail))
     }
 
     override fun registerCommentNotFinish() {
-        toast("댓글 등록중입니다")
+        toast(getString(R.string.register_comment_waiting))
     }
 
     override fun noCommentExist() {
-        toast("댓글이 더 존재하지 않습니다")
+        toast(getString(R.string.no_comment_exist))
     }
 
     override fun loadCommentSuccess() {
-        toast("댓글을 불러왔습니다.")
+        toast(getString(R.string.load_comment_success))
     }
 
     override fun loadCommentFail() {
-        toast("댓글 불러오기에 실패하였습니다")
+        toast(getString(R.string.load_comment_fail))
     }
 
     override fun loadCommentNotFinished() {
-        toast("댓글을 불러오는 중입니다")
+        toast(getString(R.string.load_comment_waiting))
     }
 
     override fun removeCommentSuccess(commentId: Int) {
         adapter.removeComment(commentId)
-        toast("댓글 삭제에 성공했습니다")
+        toast(getString(R.string.remove_comment_success))
     }
 
     override fun disableAllComponents() {
         btn_taxi_share_detail_participate.isEnabled = false
-        btn_taxi_share_detail_participate.text = String.format("이미 출발한 글입니다")
+        btn_taxi_share_detail_participate.text = getString(R.string.already_taxi_share_started)
         et_taxi_share_detail_comment_input.isEnabled = false
-        et_taxi_share_detail_comment_input.setText(String.format("이미 종료된 글입니다."))
+        et_taxi_share_detail_comment_input.setText(getString(R.string.taxi_share_closed))
         btn_taxi_share_detail_comment_send.isEnabled = false
     }
 
@@ -128,11 +128,11 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
     }
 
     override fun removeCommentFail() {
-        toast("댓글 삭제에 실패했습니다. 다시 시도하여 주십시오")
+        toast(getString(R.string.remove_comment_fail))
     }
 
     override fun removeCommentNotFinished() {
-        toast("댓글 삭제중입니다")
+        toast(getString(R.string.remove_comment_waiting))
     }
 
     override fun saveCurrentTaxiShareInfo() {
@@ -160,24 +160,30 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         currentTaxiShareInfo.participantsNum += 1
         currentTaxiShareInfo.participants.add(currentTaxiShareInfo.uid)
         tv_taxi_share_detail_participants.text =
-            String.format("현재 참여자 목록 : %s", currentTaxiShareInfo.participants.toString())
+            String.format(
+                getString(R.string.taxi_share_participants_member),
+                currentTaxiShareInfo.participants.toString()
+            )
         btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
         btn_taxi_share_detail_participate.textColor = R.color.light_gray
         btn_taxi_share_detail_participate.text =
-            String.format("이미 참여중인 글입니다.(%d)", currentTaxiShareInfo.participantsNum)
-        toast("택시 합승에 참여하였습니다")
+            String.format(
+                getString(R.string.already_participate_taxi_share_title),
+                currentTaxiShareInfo.participantsNum
+            )
+        toast(getString(R.string.participate_taxi_share_success))
     }
 
     override fun showParticipateTaxiShareFail() {
-        toast("택시 합승에 실패하였습니다")
+        toast(getString(R.string.participate_taxi_share_fail))
     }
 
     override fun showParticipateTaxiShareNotFinish() {
-        toast("택시 합승을 요청중입니다")
+        toast(getString(R.string.participate_taxi_share_waiting))
     }
 
     override fun detailInfoDeleted() {
-        toast("삭제된 글입니다")
+        toast(getString(R.string.already_removed_taxi_share))
         setTaxiShareInfoDeletedFlag()
     }
 
@@ -187,71 +193,86 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         currentTaxiShareInfo.participants.remove(currentTaxiShareInfo.uid)
 
         tv_taxi_share_detail_participants.text =
-            String.format("현재 참여자 목록 : %s", currentTaxiShareInfo.participants.toString())
+            String.format(
+                getString(R.string.taxi_share_participants_member),
+                currentTaxiShareInfo.participants.toString()
+            )
         btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_not_participate_color)
         btn_taxi_share_detail_participate.textColor = R.color.common_black
         btn_taxi_share_detail_participate.text =
-            String.format("현재 참여 %d 명 (%d)", currentTaxiShareInfo.participantsNum, currentTaxiShareInfo.limit)
-        toast("택시 합승을 취소했습니다")
+            String.format(
+                getString(R.string.taxi_share_participants_num),
+                currentTaxiShareInfo.participantsNum,
+                currentTaxiShareInfo.limit
+            )
+        toast(getString(R.string.leave_taxi_share_success))
     }
 
     override fun showLeaveTaxiShareFail() {
-        toast("택시 합승 취소를 실패했습니다")
+        toast(getString(R.string.leave_taxi_share_fail))
     }
 
     override fun showLeaveTaxiShareNotFinish() {
-        toast("택시 합승 취소를 요청중입니다")
+        toast(getString(R.string.leave_taxi_share_waiting))
     }
 
     override fun showRemoveTaxiShareSuccess() {
-        toast("택시 합승 삭제를 성공하였습니다.")
         setTaxiShareInfoDeletedFlag()
+        toast(getString(R.string.remove_taxi_share_success))
     }
 
     override fun showRemoveTaxiShareFail() {
-        toast("택시 합승 삭제에 실패하였습니다.")
+        toast(getString(R.string.remove_taxi_share_fail))
     }
 
     override fun showRemoveTaxiShareNotFinish() {
-        toast("택시 합승 삭제를 요청중입니다.")
+        toast(getString(R.string.remove_taxi_share_waiting))
     }
 
     private fun setTaxiShareInfoDeletedFlag() {
-        setResult(Constant.DATA_REMOVED, Intent().putExtra("postId", currentTaxiShareInfo.id))
+        setResult(Constant.DATA_REMOVED, Intent().putExtra(Constant.POST_ID, currentTaxiShareInfo.id))
         finish()
     }
 
     private fun setViewItem() {
         with(currentTaxiShareInfo) {
-            tv_taxi_share_detail_leader.text = String.format("%s (%s)", nickname, major)
+            tv_taxi_share_detail_leader.text = String.format(getString(R.string.nickname_format), nickname, major)
             tv_taxi_share_detail_start_time.text = TypeMapper.dateToString(startDate)
             tv_taxi_share_detail_start_location.text = startLocation.locationName
             tv_taxi_share_detail_end_location.text = endLocation.locationName
             tv_taxi_share_detail_title.text = title
             tv_taxi_share_detail_participants.text =
-                String.format("현재 참여자 목록 : %s", participants.toString())
+                String.format(getString(R.string.taxi_share_participants_member), participants.toString())
 
             Calendar.getInstance().apply {
                 time = currentTaxiShareInfo.startDate
                 add(Calendar.MINUTE, 30)
             }.apply {
                 if (after(this)) {
-                    et_taxi_share_detail_comment_input.setText(String.format("이미 종료된 글입니다."))
+                    et_taxi_share_detail_comment_input.setText(getString(R.string.taxi_share_closed))
                     btn_taxi_share_detail_comment_send.isEnabled = false
                 }
             }
 
+            // String.format(view.resources.getString(R.string.taxi_share_participants_num), participantsNum, limit)
+            // String.format(view.resources.getString(R.string.already_participate_taxi_share_title),  participantsNum)
+            // String.format(view.resources.getString(R.string.my_taxi_share_title),  participantsNum)
+
+
             if (Constant.USER_ID == uid) {
-                btn_taxi_share_detail_participate.text = String.format("내가 작성한 글입니다. (%d)", participantsNum)
+                btn_taxi_share_detail_participate.text =
+                    String.format(resources.getString(R.string.my_taxi_share_title), participantsNum)
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
                 btn_taxi_share_detail_participate.textColor = R.color.light_gray
                 btn_taxi_share_detail_participate.isEnabled = false
             } else if (isParticipated) {
-                btn_taxi_share_detail_participate.text = String.format("이미 참여중인 글입니다. (%d)", participantsNum)
+                btn_taxi_share_detail_participate.text =
+                    String.format(resources.getString(R.string.already_participate_taxi_share_title), participantsNum)
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
                 btn_taxi_share_detail_participate.textColor = R.color.light_gray
             } else {
-                btn_taxi_share_detail_participate.text = String.format("현재 참여 %d 명 (%d)", participantsNum, limit)
+                btn_taxi_share_detail_participate.text =
+                    String.format(resources.getString(R.string.taxi_share_participants_num), participantsNum, limit)
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_not_participate_color)
                 btn_taxi_share_detail_participate.textColor = R.color.common_black
             }
@@ -287,12 +308,12 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         btn_taxi_share_detail_participate.onClick {
             if (currentTaxiShareInfo.isParticipated) {
                 AlertDialog.Builder(this@TaxiShareInfoDetailActivity)
-                    .setTitle("택시 합승을 취소")
-                    .setMessage("택시 합승을 취소하시겠습니까 ?")
-                    .setPositiveButton("확인", ({ _, _ ->
+                    .setTitle(getString(R.string.taxi_share_leave_title))
+                    .setMessage(getString(R.string.taxi_share_leave_content))
+                    .setPositiveButton(getString(R.string.ok), ({ _, _ ->
                         presenter.leaveTaxiShare(currentTaxiShareInfo.id)
                     }))
-                    .setNegativeButton("취소", null)
+                    .setNegativeButton(getString(R.string.cancel), null)
                     .setCancelable(false)
                     .show()
             } else {
@@ -338,12 +359,12 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             btn_taxi_share_detail_delete.onClick {
                 // 삭제 작업 수행
                 AlertDialog.Builder(this@TaxiShareInfoDetailActivity)
-                    .setTitle("합승 글 삭제")
-                    .setMessage("글을 삭제하시겠습니까 ?")
-                    .setPositiveButton("확인", ({ _, _ ->
+                    .setTitle(getString(R.string.taxi_share_remove_title))
+                    .setMessage(getString(R.string.taxi_share_remove_content))
+                    .setPositiveButton(getString(R.string.ok), ({ _, _ ->
                         presenter.removeTaxiShare(currentTaxiShareInfo.id)
                     }))
-                    .setNegativeButton("취소", null)
+                    .setNegativeButton(getString(R.string.cancel), null)
                     .setCancelable(false)
                     .show()
             }
@@ -391,7 +412,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             )
             setViewItem()
 
-            if (System.currentTimeMillis() > temp.startDate.time + 1800000) {
+            if (System.currentTimeMillis() > temp.startDate.time + Constant.ALARM_NOTIFY_TIME) {
                 disableAllComponents()
             } else {
                 enableAllComponents()

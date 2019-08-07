@@ -75,31 +75,31 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
     }
 
     override fun taxiRegisterTaskNotOver() {
-        toast(resources.getString(R.string.taxi_share_register_not_finish))
+        toast(resources.getString(R.string.register_taxi_share_info_waiting))
     }
 
     override fun taxiRegisterTaskSuccess(taxiShareInfo: TaxiShareInfo) {
-        toast(resources.getString(R.string.taxi_share_register_success))
+        toast(resources.getString(R.string.register_taxi_share_info_success))
         setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.REGISTER_TAXI_SHARE_STR, taxiShareInfo) })
         finish()
     }
 
     override fun taxiRegisterTaskFail() {
-        toast(resources.getString(R.string.taxi_share_register_fail))
+        toast(resources.getString(R.string.register_taxi_share_info_fail))
     }
 
     override fun taxiModifyTaskNotOver() {
-        toast("수정 요청중입니다")
+        toast(getString(R.string.modify_taxi_share_waiting))
     }
 
     override fun taxiModifyTaskSuccess(taxiShareInfo: TaxiShareInfo) {
-        toast("수정을 성공했습니다")
+        toast(getString(R.string.modify_taxi_share_success))
         setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_SHARE_STR, taxiShareInfo) })
         finish()
     }
 
     override fun taxiModifyTaskFail() {
-        toast("수정 실패")
+        toast(getString(R.string.modify_taxi_share_fail))
     }
 
     override fun onDestroy() {
