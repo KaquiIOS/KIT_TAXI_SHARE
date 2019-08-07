@@ -48,5 +48,9 @@ class Constant {
 
         // Map Zoom degree
         const val MAP_ZOOM_IN = 15.0f
+
+        // POST ID
+        const val POST_ID = "postId"
+        const val ALARM_NOTIFY_TIME : Long = 1800000
     }
 }

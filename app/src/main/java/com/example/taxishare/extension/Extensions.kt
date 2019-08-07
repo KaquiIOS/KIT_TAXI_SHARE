@@ -4,6 +4,9 @@
 
 package com.example.taxishare.extension
 
+import android.app.Activity
+import android.content.res.Resources
+import androidx.annotation.StringRes
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable

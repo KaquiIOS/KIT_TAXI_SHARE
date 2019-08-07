@@ -93,7 +93,6 @@ class LoginActivity : BaseActivity(), LoginView {
         })
 
         btn_login_request.clicks().debounce(500, TimeUnit.MILLISECONDS).subscribe({
-            Log.d("Test", "Test")
             presenter.login(text_input_login_id.text.toString(), text_input_login_pw.text.toString())
         }, {
             it.stackTrace[0]
