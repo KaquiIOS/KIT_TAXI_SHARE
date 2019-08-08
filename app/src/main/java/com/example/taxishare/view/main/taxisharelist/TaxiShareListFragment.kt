@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,6 +60,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
+        rcv_taxi_list.scheduleLayoutAnimation()
     }
 
     override fun insertTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
@@ -177,6 +179,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation)
         }
     }
 

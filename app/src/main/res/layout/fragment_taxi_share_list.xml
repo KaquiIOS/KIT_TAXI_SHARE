@@ -61,6 +61,7 @@
             android:id="@+id/nsc_taxi_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/light_gray"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -68,6 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
+                android:layoutAnimation="@anim/layout_animation"
+                android:padding="8dp"
                 app:fastScrollEnabled="false">
 
 
