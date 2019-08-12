@@ -5,13 +5,12 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AnimationUtils
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
@@ -24,6 +23,7 @@ import com.example.taxishare.extension.observeBottomDetectionPublisher
 import com.example.taxishare.extension.setOnBottomDetection
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
+import com.google.android.material.navigation.NavigationView
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -32,7 +32,7 @@ import org.jetbrains.anko.support.v4.toast
 import java.util.*
 
 
-class TaxiShareListFragment : Fragment(), TaxiShareListView {
+class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
         fun newInstance() =
@@ -61,8 +61,11 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
-        rcv_taxi_list.scheduleLayoutAnimation()
+        if (isRefresh) {
+            rcv_taxi_list.scheduleLayoutAnimation()
+        }
     }
+
 
     override fun showLoadTaxiShareListNotFinishedMessage() {
         toast(getString(R.string.taxi_share_list_load_not_finish))
@@ -142,6 +145,42 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         }
     }
 
+    // TODO : OnBackPressed 만 추가 구현
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.nav_home -> {
+                // Handle the camera action
+            }
+            R.id.nav_gallery -> {
+
+            }
+            R.id.nav_slideshow -> {
+
+            }
+            R.id.nav_tools -> {
+
+            }
+            R.id.nav_share -> {
+
+            }
+            R.id.nav_send -> {
+
+            }
+        }
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
@@ -164,15 +203,24 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private fun initView() {
+
+        val toggle = ActionBarDrawerToggle(
+            activity, drawer_layout, tb_taxi_list, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
         with(rcv_taxi_list) {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation)
         }
     }
 
     private fun initListener() {
+
+        nav_view.setNavigationItemSelectedListener(this)
 
         btn_taxi_list_reload.onClick {
             presenter.loadTaxiShareInfoList(true)

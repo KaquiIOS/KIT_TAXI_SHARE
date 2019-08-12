@@ -43,7 +43,7 @@ class TaxiShareListPresenter(
                     view.showLeaveTaxiShareFail()
                 })
         } else {
-            view.showLeaveTaxiShareNotFinish()
+            //view.showLeaveTaxiShareNotFinish()
         }
     }
 
@@ -63,7 +63,7 @@ class TaxiShareListPresenter(
                     view.showRemoveTaxiShareFail()
                 })
         } else {
-            view.showRemoveTaxiShareNotFinish()
+            //view.showRemoveTaxiShareNotFinish()
         }
     }
 
@@ -83,7 +83,7 @@ class TaxiShareListPresenter(
                     view.showParticipateTaxiShareFail()
                 })
         } else {
-            view.showParticipateTaxiShareNotFinish()
+            //view.showParticipateTaxiShareNotFinish()
         }
     }
 
@@ -107,7 +107,7 @@ class TaxiShareListPresenter(
                         it.printStackTrace()
                     })
         } else {
-            view.showLoadTaxiShareListNotFinishedMessage()
+            //view.showLoadTaxiShareListNotFinishedMessage()
         }
     }
 
