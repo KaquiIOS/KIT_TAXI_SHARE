@@ -5,11 +5,12 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,16 +24,14 @@ import com.example.taxishare.extension.observeBottomDetectionPublisher
 import com.example.taxishare.extension.setOnBottomDetection
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
-import com.google.android.material.navigation.NavigationView
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
 
 
-class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNavigationItemSelectedListener {
+class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     companion object {
         fun newInstance() =
@@ -43,15 +42,20 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNa
             }
     }
 
+    private lateinit var alertDialog: AlertDialog
+
     private lateinit var presenter: TaxiShareListPresenter
     private lateinit var taxiShareListAdapter: TaxiShareListAdapter
     private lateinit var subscribe: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        arguments?.let {}
+        alertDialog = with(AlertDialog.Builder(context)) {
+            setCancelable(false)
+            setView(R.layout.loading_dialog_layout)
+            setMessage(R.string.tedpermission_setting)
+        }.create()
     }
 
     override fun onCreateView(
@@ -126,6 +130,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNa
         initView()
         initListener()
 
+        setDialogMessage(R.string.loading_taxi_list)
         presenter.loadTaxiShareInfoList(true)
     }
 
@@ -145,40 +150,24 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNa
         }
     }
 
-    // TODO : OnBackPressed 만 추가 구현
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun showLoadingDialog() {
+        if(!pb_taxi_list.isVisible)
+            pb_taxi_list.visibility = View.VISIBLE
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
+    override fun dismissLoadingDialog() {
+        if(pb_taxi_list.isVisible)
+            pb_taxi_list.visibility = View.GONE
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
+    override fun showMessageDialog() {
+        if (!alertDialog.isShowing)
+            alertDialog.show()
+    }
 
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_tools -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
-            }
-        }
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
+    override fun dismissMessageDialog() {
+        if (alertDialog.isShowing)
+            alertDialog.dismiss()
     }
 
     override fun onDestroy() {
@@ -204,30 +193,18 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNa
 
     private fun initView() {
 
-        val toggle = ActionBarDrawerToggle(
-            activity, drawer_layout, tb_taxi_list, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
         with(rcv_taxi_list) {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            //addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation)
         }
     }
 
     private fun initListener() {
 
-        nav_view.setNavigationItemSelectedListener(this)
-
-        btn_taxi_list_reload.onClick {
-            presenter.loadTaxiShareInfoList(true)
-        }
-
         nsc_taxi_list.setOnBottomDetection().apply {
             subscribe = nsc_taxi_list.observeBottomDetectionPublisher().subscribe {
+                setDialogMessage(R.string.loading_taxi_list)
                 presenter.loadTaxiShareInfoList(false)
             }
         }
@@ -254,6 +231,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNa
                     .setTitle(getString(R.string.taxi_share_remove_title))
                     .setMessage(getString(R.string.taxi_share_remove_content))
                     .setPositiveButton(getString(R.string.ok), ({ _, _ ->
+                        setDialogMessage(R.string.remove_taxi_share_waiting)
                         presenter.removeTaxiShareInfo(postId)
                     }))
                     .setNegativeButton(getString(R.string.cancel), null)
@@ -268,6 +246,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNa
                         .setTitle(getString(R.string.taxi_share_leave_title))
                         .setMessage(getString(R.string.taxi_share_leave_content))
                         .setPositiveButton(getString(R.string.ok), ({ _, _ ->
+                            setDialogMessage(R.string.leave_taxi_share_waiting)
                             presenter.leaveTaxiShare(postId)
                         }))
                         .setNegativeButton(getString(R.string.cancel), null)
@@ -278,5 +257,13 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView, NavigationView.OnNa
                 }
             }
         })
+    }
+
+    fun reloadTaxiShareList() {
+        presenter.loadTaxiShareInfoList(true)
+    }
+
+    private fun setDialogMessage(@StringRes id: Int) {
+        alertDialog.setMessage(getString(id))
     }
 }

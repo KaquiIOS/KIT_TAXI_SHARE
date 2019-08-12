@@ -22,6 +22,7 @@ class TaxiShareListPresenter(
 ) {
 
     private var nextPageNum: Int = -1
+    private var noTaxiItemExist : Boolean = false
     private lateinit var loadTaxiShareInfoDisposable: Disposable
     private lateinit var participateTaxiShareDisposable: Disposable
     private lateinit var removeTaxiShareDisposable: Disposable
@@ -30,6 +31,9 @@ class TaxiShareListPresenter(
 
     fun leaveTaxiShare(postId: String) {
         if (!::leaveTaxiShareDisposable.isInitialized || leaveTaxiShareDisposable.isDisposed) {
+
+            view.showMessageDialog()
+
             leaveTaxiShareDisposable = serverRepo.leaveTaxiShare(LeaveTaxiShareRequest(postId))
                 .subscribe({
                     if (it == ServerResponse.TAXISHARE_LEAVE_SUCCESS) {
@@ -38,18 +42,19 @@ class TaxiShareListPresenter(
                     } else {
                         view.showLeaveTaxiShareFail()
                     }
+                    view.dismissMessageDialog()
                 }, {
                     it.printStackTrace()
                     view.showLeaveTaxiShareFail()
+                    view.dismissMessageDialog()
                 })
-        } else {
-            //view.showLeaveTaxiShareNotFinish()
         }
     }
 
     fun removeTaxiShareInfo(postId: String) {
 
         if (!::removeTaxiShareDisposable.isInitialized || removeTaxiShareDisposable.isDisposed) {
+            view.showMessageDialog()
             removeTaxiShareDisposable = serverRepo.removeTaxiShare(TaxiShareRemoveRequest(postId))
                 .subscribe({
                     if (it == ServerResponse.TAXISHARE_REMOVE_SUCCESS) {
@@ -58,18 +63,19 @@ class TaxiShareListPresenter(
                     } else {
                         view.showRemoveTaxiShareFail()
                     }
+                    view.dismissMessageDialog()
                 }, {
                     it.printStackTrace()
                     view.showRemoveTaxiShareFail()
+                    view.dismissMessageDialog()
                 })
-        } else {
-            //view.showRemoveTaxiShareNotFinish()
         }
     }
 
     fun participateTaxiShare(postId: String, date : Date) {
 
         if (!::participateTaxiShareDisposable.isInitialized || participateTaxiShareDisposable.isDisposed) {
+            view.showMessageDialog()
             participateTaxiShareDisposable = serverRepo.participateTaxiShare(ParticipateTaxiShareRequest(postId))
                 .subscribe({
                     if (it == ServerResponse.PARTICIPATE_TAXI_SHARE_SUCCESS) {
@@ -78,21 +84,24 @@ class TaxiShareListPresenter(
                     } else {
                         view.showParticipateTaxiShareFail()
                     }
+                    view.dismissMessageDialog()
                 }, {
                     it.printStackTrace()
                     view.showParticipateTaxiShareFail()
+                    view.dismissMessageDialog()
                 })
-        } else {
-            //view.showParticipateTaxiShareNotFinish()
         }
     }
 
     fun loadTaxiShareInfoList(isLatest: Boolean) {
 
-        if (!::loadTaxiShareInfoDisposable.isInitialized || loadTaxiShareInfoDisposable.isDisposed) {
+        if (isLatest){
+            nextPageNum = -1
+            noTaxiItemExist = false
+        }
 
-            if (isLatest) nextPageNum = -1
-
+        if (!noTaxiItemExist && (!::loadTaxiShareInfoDisposable.isInitialized || loadTaxiShareInfoDisposable.isDisposed)) {
+            view.showLoadingDialog()
             loadTaxiShareInfoDisposable =
                 serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum, Constant.USER_ID.toInt()))
                     .subscribe({
@@ -100,14 +109,15 @@ class TaxiShareListPresenter(
                             nextPageNum = it[it.size - 1].id.toInt()
                             view.setTaxiShareList(it, isLatest)
                         } else {
+                            noTaxiItemExist = true
                             view.showLastPageOfTaxiShareListMessage()
                         }
+                        view.dismissLoadingDialog()
                     }, {
                         view.showLoadTaxiShareListFailMessage()
+                        view.dismissLoadingDialog()
                         it.printStackTrace()
                     })
-        } else {
-            //view.showLoadTaxiShareListNotFinishedMessage()
         }
     }
 
@@ -123,5 +133,7 @@ class TaxiShareListPresenter(
 
         if (::leaveTaxiShareDisposable.isInitialized && !leaveTaxiShareDisposable.isDisposed)
             leaveTaxiShareDisposable.dispose()
+
+        view.dismissMessageDialog()
     }
 }

@@ -222,4 +222,5 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string name="loading_taxi_list">합승 목록을 불러오는 중입니다</string>
 </resources>
