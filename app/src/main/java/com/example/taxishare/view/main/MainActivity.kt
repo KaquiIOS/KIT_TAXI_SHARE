@@ -2,24 +2,22 @@ package com.example.taxishare.view.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.view.main.mypage.MyPageFragment
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
+import com.example.taxishare.view.main.register.location.LocationSearchActivity
 import com.example.taxishare.view.main.taxisharelist.TaxiShareListFragment
 import com.google.android.material.navigation.NavigationView
-import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivityForResult
@@ -78,46 +76,28 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
             val taxiShareInfo: TaxiShareInfo =
                 data.getSerializableExtra(Constant.REGISTER_TAXI_SHARE_STR) as TaxiShareInfo
             taxiShareListFragment.addTaxiShareInfo(taxiShareInfo)
-        }
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main2, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        } else if (taxiShareListFragment.isVisible && requestCode == Constant.START_LOCATION_SEARCH_CODE && data != null) {
+            val location = data.getSerializableExtra(Constant.LOCATION_SAVE_STR) as Location
+            taxiShareListFragment.setStartLocation(location)
+            nav_view.menu[0].subMenu[0].title = location.locationName
+        } else if (taxiShareListFragment.isVisible && requestCode == Constant.END_LOCATION_SEARCH_CODE && data != null) {
+            val location = data.getSerializableExtra(Constant.LOCATION_SAVE_STR) as Location
+            taxiShareListFragment.setEndLocation(location)
+            nav_view.menu[1].subMenu[0].title = location.locationName
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
+            R.id.nav_start_location -> {
+                startActivityForResult<LocationSearchActivity>(Constant.START_LOCATION_SEARCH_CODE)
             }
-            R.id.nav_gallery -> {
-
+            R.id.nav_end_location -> {
+                startActivityForResult<LocationSearchActivity>(Constant.END_LOCATION_SEARCH_CODE)
             }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_tools -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
+            R.id.nav_start_time -> {
+                // 시간 정하는거 설정
             }
         }
         drawer_layout.closeDrawer(GravityCompat.END)
@@ -147,12 +127,5 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
         myPageFragment = MyPageFragment.newInstance()
 
         changeFragment(taxiShareListFragment)
-
-//        val toggle = ActionBarDrawerToggle(
-//            this, drawer_layout, tb_taxi_list, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-//        )
-//
-//        drawer_layout.addDrawerListener(toggle)
-//        toggle.syncState()
     }
 }

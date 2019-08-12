@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <item android:title="@string/start_location_title">
+        <menu>
+            <item android:id="@+id/nav_start_location"
+                  android:icon="@drawable/ic_local_taxi_black_24dp"
+                  android:title="@string/no_start_location_set"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/end_location_title">
+        <menu>
+            <item android:id="@+id/nav_end_location"
+                  android:icon="@drawable/ic_taxi_stop"
+                  android:title="@string/no_end_location_set"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/start_time_title">
+        <menu>
+            <item android:id="@+id/nav_start_time"
+                  android:icon="@drawable/ic_access_time_black_24dp"
+                  android:title="@string/no_start_time_set"/>
+        </menu>
+    </item>
+</menu>

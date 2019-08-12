@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.example.taxishare.app.AlarmManagerImpl
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
@@ -179,6 +180,22 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
         taxiShareListAdapter.addTaxiShareInfo(taxiShareInfo, isVisible)
     }
+
+    fun setStartLocation(location : Location) {
+        presenter.setStartLocation(location)
+        reloadTaxiShareList()
+    }
+
+    fun setEndLocation(location : Location) {
+        presenter.setEndLocation(location)
+        reloadTaxiShareList()
+    }
+
+    fun setStartTime(startDate: Date) {
+        presenter.setStartTime(startDate)
+        reloadTaxiShareList()
+    }
+
 
     private fun initPresenter() {
         presenter = TaxiShareListPresenter(

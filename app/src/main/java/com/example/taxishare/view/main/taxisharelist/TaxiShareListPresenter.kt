@@ -6,28 +6,45 @@ package com.example.taxishare.view.main.taxisharelist
 
 import com.example.taxishare.app.AlarmManagerInterface
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.remote.apis.server.request.LeaveTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.ParticipateTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareListGetRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareRemoveRequest
 import com.example.taxishare.data.repo.ServerRepository
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import java.util.*
 
 class TaxiShareListPresenter(
     private val view: TaxiShareListView,
     private val serverRepo: ServerRepository,
-    private val alarmManager : AlarmManagerInterface
+    private val alarmManager: AlarmManagerInterface
 ) {
 
     private var nextPageNum: Int = -1
-    private var noTaxiItemExist : Boolean = false
+    private var noTaxiItemExist: Boolean = false
     private lateinit var loadTaxiShareInfoDisposable: Disposable
     private lateinit var participateTaxiShareDisposable: Disposable
     private lateinit var removeTaxiShareDisposable: Disposable
     private lateinit var leaveTaxiShareDisposable: Disposable
 
+    private var startLocation: Location? = null
+    private var endLocation: Location? = null
+    private var startTime: Date? = null
+
+    fun setStartLocation(location: Location) {
+        startLocation = location
+    }
+
+    fun setEndLocation(location: Location) {
+        endLocation = location
+    }
+
+    fun setStartTime(startTime: Date) {
+        this.startTime = startTime
+    }
 
     fun leaveTaxiShare(postId: String) {
         if (!::leaveTaxiShareDisposable.isInitialized || leaveTaxiShareDisposable.isDisposed) {
@@ -72,7 +89,7 @@ class TaxiShareListPresenter(
         }
     }
 
-    fun participateTaxiShare(postId: String, date : Date) {
+    fun participateTaxiShare(postId: String, date: Date) {
 
         if (!::participateTaxiShareDisposable.isInitialized || participateTaxiShareDisposable.isDisposed) {
             view.showMessageDialog()
@@ -95,7 +112,7 @@ class TaxiShareListPresenter(
 
     fun loadTaxiShareInfoList(isLatest: Boolean) {
 
-        if (isLatest){
+        if (isLatest) {
             nextPageNum = -1
             noTaxiItemExist = false
         }
@@ -105,13 +122,32 @@ class TaxiShareListPresenter(
             loadTaxiShareInfoDisposable =
                 serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum, Constant.USER_ID.toInt()))
                     .subscribe({
+
+                        val itr = it.iterator()
+
+                        while(itr.hasNext()) {
+                            val taxiTemp = itr.next()
+                            if(startLocation != null && (startLocation != taxiTemp.startLocation)) {
+                                itr.remove()
+                                continue
+                            }
+                            if(endLocation != null && endLocation != taxiTemp.endLocation) {
+                                itr.remove()
+                                continue
+                            }
+                            if(startTime != null && (startTime != taxiTemp.startDate)) {
+                                itr.remove()
+                                continue
+                            }
+                        }
+
                         if (it.size > 0) {
                             nextPageNum = it[it.size - 1].id.toInt()
-                            view.setTaxiShareList(it, isLatest)
                         } else {
                             noTaxiItemExist = true
                             view.showLastPageOfTaxiShareListMessage()
                         }
+                        view.setTaxiShareList(it, isLatest)
                         view.dismissLoadingDialog()
                     }, {
                         view.showLoadTaxiShareListFailMessage()
