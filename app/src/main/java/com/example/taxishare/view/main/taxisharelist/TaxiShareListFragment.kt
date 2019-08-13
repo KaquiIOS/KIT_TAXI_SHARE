@@ -283,4 +283,9 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     private fun setDialogMessage(@StringRes id: Int) {
         alertDialog.setMessage(getString(id))
     }
+
+    fun resetFilteringSetting() {
+        presenter.resetFilteringSetting()
+        presenter.loadTaxiShareInfoList(true)
+    }
 }

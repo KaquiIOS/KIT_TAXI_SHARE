@@ -13,7 +13,6 @@ import com.example.taxishare.data.remote.apis.server.request.ParticipateTaxiShar
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareListGetRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareRemoveRequest
 import com.example.taxishare.data.repo.ServerRepository
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import java.util.*
 
@@ -124,18 +123,18 @@ class TaxiShareListPresenter(
                     .subscribe({
 
                         val itr = it.iterator()
-
-                        while(itr.hasNext()) {
+                        val temp = startTime
+                        while (itr.hasNext()) {
                             val taxiTemp = itr.next()
-                            if(startLocation != null && (startLocation != taxiTemp.startLocation)) {
+                            if (startLocation != null && (startLocation != taxiTemp.startLocation)) {
                                 itr.remove()
                                 continue
                             }
-                            if(endLocation != null && endLocation != taxiTemp.endLocation) {
+                            if (endLocation != null && endLocation != taxiTemp.endLocation) {
                                 itr.remove()
                                 continue
                             }
-                            if(startTime != null && (startTime != taxiTemp.startDate)) {
+                            if (temp != null && (temp.time >= taxiTemp.startDate.time)) {
                                 itr.remove()
                                 continue
                             }
@@ -155,6 +154,12 @@ class TaxiShareListPresenter(
                         it.printStackTrace()
                     })
         }
+    }
+
+    fun resetFilteringSetting() {
+        startLocation = null
+        endLocation = null
+        startTime = null
     }
 
     fun onDestroy() {

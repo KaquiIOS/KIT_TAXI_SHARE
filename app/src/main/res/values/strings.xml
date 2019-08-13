@@ -231,4 +231,6 @@
     <string name="no_start_location_set">출발 위치 설정</string>
     <string name="no_end_location_set">도착 위치 설정</string>
     <string name="no_start_time_set">출발 시간 설정</string>
+
+    <string name="reset_filtering_setting">검색 조건 초기화하기</string>
 </resources>

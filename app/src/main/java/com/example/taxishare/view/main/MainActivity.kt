@@ -1,16 +1,20 @@
 package com.example.taxishare.view.main
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.view.main.mypage.MyPageFragment
@@ -21,6 +25,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivityForResult
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +33,8 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
     private lateinit var mainPresenter: MainPresenter
     private lateinit var taxiShareListFragment: TaxiShareListFragment
     private lateinit var myPageFragment: MyPageFragment
+
+    private var menuSelection: MenuSelection = MenuSelection.NOT_SELECTED
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,13 +98,16 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_start_location -> {
-                startActivityForResult<LocationSearchActivity>(Constant.START_LOCATION_SEARCH_CODE)
+                menuSelection = MenuSelection.SET_START_LOCATION
             }
             R.id.nav_end_location -> {
-                startActivityForResult<LocationSearchActivity>(Constant.END_LOCATION_SEARCH_CODE)
+                menuSelection = MenuSelection.SET_END_LOCATION
             }
             R.id.nav_start_time -> {
-                // 시간 정하는거 설정
+                menuSelection = MenuSelection.SET_START_TIME
+            }
+            R.id.nav_reset_filtering_options -> {
+                menuSelection = MenuSelection.RESET_FILTERING_SETTING
             }
         }
         drawer_layout.closeDrawer(GravityCompat.END)
@@ -112,6 +122,37 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
         }
     }
 
+    override fun openStartLocationSettingActivity() {
+        startActivityForResult<LocationSearchActivity>(Constant.START_LOCATION_SEARCH_CODE)
+    }
+
+    override fun openEndLocationSettingActivity() {
+        startActivityForResult<LocationSearchActivity>(Constant.END_LOCATION_SEARCH_CODE)
+    }
+
+    override fun openStartTimeSettingActivity() {
+        val calendar: Calendar = Calendar.getInstance()
+
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                Calendar.getInstance().apply {
+                    set(year, month, dayOfMonth, hourOfDay, minute)
+                    taxiShareListFragment.setStartTime(time)
+                    nav_view.menu[2].subMenu[0].title = TypeMapper.dateToString(time)
+                }
+
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    }
+
+    override fun resetFilteringSetting() {
+        nav_view.menu[0].subMenu[0].title = getString(R.string.start_location_title)
+        nav_view.menu[1].subMenu[0].title = getString(R.string.end_location_title)
+        nav_view.menu[2].subMenu[0].title = getString(R.string.start_time_title)
+        if(taxiShareListFragment.isVisible) {
+            taxiShareListFragment.resetFilteringSetting()
+        }
+    }
 
     private fun changeFragment(fragment: Fragment) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -119,7 +160,7 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
     }
 
     private fun initPresenter() {
-        mainPresenter = MainPresenter()
+        mainPresenter = MainPresenter(this)
     }
 
     private fun initView() {
@@ -127,5 +168,17 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
         myPageFragment = MyPageFragment.newInstance()
 
         changeFragment(taxiShareListFragment)
+
+        drawer_layout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerStateChanged(newState: Int) {}
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerOpened(drawerView: View) {
+                menuSelection = MenuSelection.NOT_SELECTED
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                mainPresenter.setFilteringSetting(menuSelection)
+            }
+        })
     }
 }

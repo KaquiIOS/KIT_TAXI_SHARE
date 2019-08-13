@@ -4,5 +4,18 @@
 
 package com.example.taxishare.view.main
 
-class MainPresenter {
+class MainPresenter(private val view: MainView) {
+
+
+    fun setFilteringSetting(menuSelection: MenuSelection) {
+
+        when (menuSelection) {
+            MenuSelection.SET_END_LOCATION -> view.openEndLocationSettingActivity()
+            MenuSelection.SET_START_LOCATION -> view.openStartLocationSettingActivity()
+            MenuSelection.SET_START_TIME -> view.openStartTimeSettingActivity()
+            MenuSelection.RESET_FILTERING_SETTING -> view.resetFilteringSetting()
+            else -> {
+            }
+        }
+    }
 }

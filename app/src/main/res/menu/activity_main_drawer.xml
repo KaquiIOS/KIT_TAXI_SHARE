@@ -20,10 +20,15 @@
     </item>
 
     <item android:title="@string/start_time_title">
+
         <menu>
             <item android:id="@+id/nav_start_time"
                   android:icon="@drawable/ic_access_time_black_24dp"
                   android:title="@string/no_start_time_set"/>
+            <item android:id="@+id/nav_reset_filtering_options"
+                  android:icon="@drawable/ic_refresh_black_24dp"
+                  android:title="@string/reset_filtering_setting"/>
         </menu>
     </item>
+
 </menu>
