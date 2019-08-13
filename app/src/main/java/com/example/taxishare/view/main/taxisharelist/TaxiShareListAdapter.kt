@@ -65,7 +65,7 @@ class TaxiShareListAdapter :
                 }
             }
 
-            if (Constant.USER_ID == taxiShareInfoList[position].uid) {
+            if (Constant.CURRENT_USER.studentId.toString() == taxiShareInfoList[position].uid) {
 
                 tv_taxi_share_post_pop_up.visibility = View.VISIBLE
 

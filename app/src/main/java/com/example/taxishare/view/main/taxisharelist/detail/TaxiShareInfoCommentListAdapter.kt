@@ -36,7 +36,7 @@ class TaxiShareInfoCommentListAdapter :
                 onBottomReachedListener.onBottomReached()
             }
 
-            if (Constant.USER_ID == commentList[position].uid.toString()) {
+            if (Constant.CURRENT_USER.studentId == commentList[position].uid) {
 
                 tv_comment_pop_up.visibility = View.VISIBLE
 

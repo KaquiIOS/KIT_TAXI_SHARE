@@ -119,7 +119,7 @@ class TaxiShareListPresenter(
         if (!noTaxiItemExist && (!::loadTaxiShareInfoDisposable.isInitialized || loadTaxiShareInfoDisposable.isDisposed)) {
             view.showLoadingDialog()
             loadTaxiShareInfoDisposable =
-                serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum, Constant.USER_ID.toInt()))
+                serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum, Constant.CURRENT_USER.studentId))
                     .subscribe({
 
                         val itr = it.iterator()

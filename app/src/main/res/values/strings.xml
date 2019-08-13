@@ -61,7 +61,7 @@
     <string name="login_not_validated_user">메일을 통해 인증을 먼저 해주세요!</string>
 
     <string name="login">로그인 화면입니다 !</string>
-
+    <string name="login_loading_text">로그인 중입니다</string>
 
     <!-- Sign Up -->
     <string-array name="major_list">
