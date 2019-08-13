@@ -104,6 +104,7 @@
     <string name="sign_up_id">아이디</string>
     <string name="sign_up_pw">비밀번호</string>
     <string name="sign_up_confirm_pw">비밀번호 확인</string>
+    <string name="sign_up_loading_message">회원가입을 요청중입니다</string>
     <string name="sign_up_major">학과</string>
     <string name="sign_up_student_id">학번</string>
     <string name="sign_up_ok">회원가입</string>

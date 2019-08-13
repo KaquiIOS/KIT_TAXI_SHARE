@@ -3,6 +3,7 @@ package com.example.taxishare.view.login
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.example.taxishare.R
+import com.example.taxishare.customview.LoadingDialog
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.BaseActivity
@@ -15,13 +16,12 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import java.util.concurrent.TimeUnit
 
 class LoginActivity : BaseActivity(), LoginView {
 
     private lateinit var presenter: LoginPresenter
 
-    private lateinit var alertDialog: AlertDialog
+    private lateinit var alertDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +29,7 @@ class LoginActivity : BaseActivity(), LoginView {
         initPresenter()
         initListener()
 
-        alertDialog = with(AlertDialog.Builder(this)) {
-            setCancelable(false)
-            setView(R.layout.loading_dialog_layout)
-            setMessage(R.string.login_loading_text)
-        }.create()
+        alertDialog = LoadingDialog.newInstance(R.string.login_loading_text)
 
     }
 
@@ -118,12 +114,12 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     override fun showLoginLoadingDialog() {
-        if (!alertDialog.isShowing)
-            alertDialog.show()
+        if (!alertDialog.isVisible)
+            alertDialog.show(supportFragmentManager, "TEST")
     }
 
     override fun dismissLoginLoadingDialog() {
-        if (alertDialog.isShowing)
+        if (alertDialog.isVisible)
             alertDialog.dismiss()
     }
 

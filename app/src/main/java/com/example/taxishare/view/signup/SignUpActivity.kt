@@ -1,9 +1,10 @@
 package com.example.taxishare.view.signup
 
 import android.Manifest
-import android.app.AlertDialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import com.example.taxishare.R
+import com.example.taxishare.customview.LoadingDialog
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.BaseActivity
@@ -20,8 +21,20 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     private lateinit var presenter: SignUpPresenter
 
+    private lateinit var alertDialog : AlertDialog
+
+    private lateinit var loadingDialog: LoadingDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        loadingDialog = LoadingDialog.newInstance(R.string.sign_up_loading_message)
+
+        alertDialog = with(AlertDialog.Builder(this)) {
+            setCancelable(false)
+            setView(R.layout.loading_dialog_layout)
+            setMessage(R.string.login_loading_text)
+        }.create()
 
         initPresenter()
         initView()
@@ -33,6 +46,16 @@ class SignUpActivity : BaseActivity(), SignUpView {
     override fun sameIdExist() {
         text_input_layout_sign_up_std_id.error =
             resources.getString(R.string.sign_up_same_id_exist)
+    }
+
+    override fun showSignUpRequestLoadingDialog() {
+        if (!loadingDialog.isVisible)
+            loadingDialog.show(supportFragmentManager, "Test")
+    }
+
+    override fun dismissSignUpLoadingDialog() {
+        if (loadingDialog.isVisible)
+            loadingDialog.dismiss()
     }
 
     override fun showCheckEmailMessage() {
