@@ -7,6 +7,7 @@ import com.example.taxishare.data.remote.apis.server.request.LoginRequest
 import com.example.taxishare.data.repo.ServerRepository
 import com.example.taxishare.util.RegularExpressionChecker
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 class LoginPresenter(
     private val loginView: LoginView,
@@ -16,30 +17,31 @@ class LoginPresenter(
     private var isIdValidate: Boolean = false
     private var isPwValidate: Boolean = false
 
-    private var preLoginRequestDisposable: Disposable? = null
+    private lateinit var preLoginRequestDisposable: Disposable
 
     /* 로그인 요청 */
     fun login(id: String, pw: String) {
-        // 이전에 로그인 요청이 있었으면 무시하고 다시 요청
-        if (preLoginRequestDisposable != null && preLoginRequestDisposable!!.isDisposed) {
-            preLoginRequestDisposable?.dispose()
-        }
 
-        preLoginRequestDisposable = serverRepoImpl.loginRequest(LoginRequest(id, pw))
-            .subscribe({
-                when (it.responseCode) {
-                    ServerResponse.LOGIN_SUCCESS.code -> {
-                        Constant.USER_ID = id
-                        Constant.CURRENT_USER = User(it.id, it.nickname, it.major)
-                        loginView.loginSuccess()
+        // 이전에 로그인 요청이 있었으면 무시하고 다시 요청
+        if (!::preLoginRequestDisposable.isInitialized || preLoginRequestDisposable.isDisposed) {
+            loginView.showLoginLoadingDialog()
+            preLoginRequestDisposable = serverRepoImpl.loginRequest(LoginRequest(id, pw))
+                .subscribe({
+                    when (it.responseCode) {
+                        ServerResponse.LOGIN_SUCCESS.code -> {
+                            Constant.CURRENT_USER = User(it.id, it.nickname, it.major)
+                            loginView.loginSuccess()
+                        }
+                        ServerResponse.NOT_VALIDATED_USER.code -> loginView.notValidatedUserMessage()
+                        ServerResponse.LOGIN_FAIL.code -> loginView.loginFail()
+                        else -> loginView.loginFail()
                     }
-                    ServerResponse.NOT_VALIDATED_USER.code -> loginView.notValidatedUserMessage()
-                    ServerResponse.LOGIN_FAIL.code -> loginView.loginFail()
-                    else -> loginView.loginFail()
-                }
-            }, {
-                it.stackTrace[0]
-            })
+                    loginView.dismissLoginLoadingDialog()
+                }, {
+                    it.stackTrace[0]
+                    loginView.dismissLoginLoadingDialog()
+                })
+        }
     }
 
     /* 로그인이 가능한 상태인지 확인 */
@@ -57,5 +59,13 @@ class LoginPresenter(
         isPwValidate = RegularExpressionChecker.checkPasswordValidation(pw)
         loginView.changePwEditTextState(isPwValidate)
         changeLoginButtonState()
+    }
+
+    fun onDestroy() {
+
+        if (::preLoginRequestDisposable.isInitialized && !preLoginRequestDisposable.isDisposed)
+            preLoginRequestDisposable.dispose()
+
+        loginView.dismissLoginLoadingDialog()
     }
 }

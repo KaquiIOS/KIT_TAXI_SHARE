@@ -27,9 +27,9 @@ class SignUpPresenter(
     private var isNicknameValidated: Boolean = false
     private var isMajorSelected: Boolean = false
 
-    private var preIdExistCheckDisposable: Disposable? = null
-    private var preSignUpRequestDisposable: Disposable? = null
-    private var preNicknameCheckDisposable: Disposable? = null
+    private lateinit var preIdExistCheckDisposable: Disposable
+    private lateinit var preSignUpRequestDisposable: Disposable
+    private lateinit var preNicknameCheckDisposable: Disposable
 
     private fun isAllRequestDataValidated(): Boolean =
         isIdValidated && isPwValidated && isPwConfirmed && isNicknameValidated && isMajorSelected
@@ -39,9 +39,8 @@ class SignUpPresenter(
 
     private fun checkSameIdExist(stdId: String) {
 
-        if (preIdExistCheckDisposable != null && preIdExistCheckDisposable!!.isDisposed) {
-            preIdExistCheckDisposable?.dispose()
-        }
+        if(::preIdExistCheckDisposable.isInitialized && !preIdExistCheckDisposable.isDisposed)
+            preIdExistCheckDisposable.dispose()
 
         preIdExistCheckDisposable = serverClient.isSameIdExist(DuplicateIdExistCheckRequest(stdId))
             .subscribe({
@@ -60,9 +59,8 @@ class SignUpPresenter(
 
     private fun checkSameNicknameExist(nickname: String) {
 
-        if (preNicknameCheckDisposable != null && preNicknameCheckDisposable!!.isDisposed) {
-            preNicknameCheckDisposable?.dispose()
-        }
+        if(::preNicknameCheckDisposable.isInitialized && !preNicknameCheckDisposable.isDisposed)
+            preNicknameCheckDisposable.dispose()
 
         preNicknameCheckDisposable = serverClient.isSameNicknameExist(DuplicateNicknameCheckRequest(nickname))
             .subscribe({
@@ -115,28 +113,32 @@ class SignUpPresenter(
 
     fun signUpRequest(id: String, pw: String, nickname: String, major: String) {
 
-        if (preSignUpRequestDisposable != null && preSignUpRequestDisposable!!.isDisposed) {
-            preSignUpRequestDisposable?.dispose()
-        }
+        if(!::preSignUpRequestDisposable.isInitialized || preSignUpRequestDisposable.isDisposed) {
 
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
-            if (!it.isSuccessful) {
-                Log.e(TAG, it.exception?.message)
-                signUpView.signUpFail()
-                return@addOnCompleteListener
+            signUpView.showSignUpRequestLoadingDialog()
+
+            FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    Log.e(TAG, it.exception?.message)
+                    signUpView.signUpFail()
+                    signUpView.dismissSignUpLoadingDialog()
+                    return@addOnCompleteListener
+                }
+
+                preSignUpRequestDisposable =
+                    serverClient.signUpRequest(SignUpRequest(id, pw, nickname, major, it.result?.token ?: ""))
+                        .subscribe({
+                            when (it.code) {
+                                ServerResponse.SIGN_UP_REQUEST_SUCCESS.code -> signUpView.signUpSuccess()
+                                ServerResponse.SIGN_UP_REQUEST_FAIL.code -> signUpView.signUpFail()
+                                else -> signUpView.signUpFail()
+                            }
+                            signUpView.dismissSignUpLoadingDialog()
+                        }, {
+                            it.stackTrace[0]
+                            signUpView.dismissSignUpLoadingDialog()
+                        })
             }
-
-            preSignUpRequestDisposable =
-                serverClient.signUpRequest(SignUpRequest(id, pw, nickname, major, it.result?.token ?: ""))
-                    .subscribe({
-                        when (it.code) {
-                            ServerResponse.SIGN_UP_REQUEST_SUCCESS.code -> signUpView.signUpSuccess()
-                            ServerResponse.SIGN_UP_REQUEST_FAIL.code -> signUpView.signUpFail()
-                            else -> signUpView.signUpFail()
-                        }
-                    }, {
-                        it.stackTrace[0]
-                    })
         }
     }
 }

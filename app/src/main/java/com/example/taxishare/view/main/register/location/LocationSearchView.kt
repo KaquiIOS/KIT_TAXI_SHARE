@@ -10,5 +10,5 @@ interface LocationSearchView {
 
     fun displaySearchedLocationList(searchList: MutableList<Location>)
 
-
+    fun locationSaveFinish(location: Location)
 }

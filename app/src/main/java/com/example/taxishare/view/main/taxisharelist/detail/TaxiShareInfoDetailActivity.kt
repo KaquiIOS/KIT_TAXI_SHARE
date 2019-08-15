@@ -259,7 +259,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             // String.format(view.resources.getString(R.string.my_taxi_share_title),  participantsNum)
 
 
-            if (Constant.USER_ID == uid) {
+            if (Constant.CURRENT_USER.studentId.toString() == uid) {
                 btn_taxi_share_detail_participate.text =
                     String.format(resources.getString(R.string.my_taxi_share_title), participantsNum)
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
@@ -345,7 +345,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         btn_taxi_share_detail_comment_send.onClick {
             presenter.registerComment(
                 currentTaxiShareInfo.id,
-                Constant.USER_ID,
+                Constant.CURRENT_USER.studentId.toString(),
                 et_taxi_share_detail_comment_input.text.toString()
             )
         }

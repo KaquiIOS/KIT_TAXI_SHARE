@@ -3,6 +3,7 @@ package com.example.taxishare.view.main.register.location
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.taxishare.R
@@ -11,6 +12,7 @@ import com.example.taxishare.data.local.room.AppDatabase
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.remote.apis.server.ServerClient
+import com.example.taxishare.data.repo.LocationRepositoryImpl
 import com.example.taxishare.data.repo.MyLocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.main.register.location.dialog.MyLocationRegisterDialog
@@ -42,9 +44,12 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
     private val presenter: LocationSearchPresenter by lazy {
         LocationSearchPresenter(
             this,
-            ServerRepositoryImpl.getInstance(ServerClient.getInstance())
+            ServerRepositoryImpl.getInstance(ServerClient.getInstance()),
+            LocationRepositoryImpl.getInstance(AppDatabase.getInstance(applicationContext), TypeMapper)
         )
     }
+
+    private var alertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +59,12 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
     }
 
     override fun locationSelected(location: Location) {
+        presenter.saveSelectedLocation(location)
+    }
+
+    override fun locationSaveFinish(location: Location) {
         setResult(Activity.RESULT_OK, Intent().apply {
-            putExtra(resources.getString(R.string.intent_location), location)
+            putExtra(Constant.LOCATION_SAVE_STR, location)
         }).apply {
             finish()
         }
@@ -77,6 +86,7 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
 
     @SuppressWarnings("all")
     private fun initView() {
+
         et_search_location.hint = intent.getStringExtra(Constant.LOCATION_SEARCH_HINT)
 
         et_search_location.textChanges().skipInitialValue()

@@ -6,6 +6,9 @@ interface LoginView {
     fun changeIdEditTextState(isMatched : Boolean)
     fun changePwEditTextState(isMatched: Boolean)
 
+    fun showLoginLoadingDialog()
+    fun dismissLoginLoadingDialog()
+
     fun loginSuccess()
     fun loginFail()
     fun notValidatedUserMessage()

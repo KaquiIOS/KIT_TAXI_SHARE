@@ -23,4 +23,7 @@ interface SignUpView {
     fun signUpSuccess()
     fun signUpFail()
     fun showCheckEmailMessage()
+
+    fun showSignUpRequestLoadingDialog()
+    fun dismissSignUpLoadingDialog()
 }

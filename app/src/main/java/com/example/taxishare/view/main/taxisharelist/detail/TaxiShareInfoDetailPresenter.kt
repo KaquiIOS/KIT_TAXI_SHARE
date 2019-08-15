@@ -72,7 +72,7 @@ class TaxiShareInfoDetailPresenter(
                 view.failLoadDetailInfo()
             })
         } else {
-            view.loadDetailInfoNotFinish()
+            //view.loadDetailInfoNotFinish()
         }
     }
 
@@ -94,7 +94,7 @@ class TaxiShareInfoDetailPresenter(
                         view.registerCommentFail()
                     })
         } else {
-            view.registerCommentNotFinish()
+            //view.registerCommentNotFinish()
         }
     }
 
@@ -120,7 +120,7 @@ class TaxiShareInfoDetailPresenter(
                     view.loadCommentFail()
                 })
         } else if (::loadCommentDisposable.isInitialized || !loadCommentDisposable.isDisposed) {
-            view.loadCommentNotFinished()
+            //view.loadCommentNotFinished()
         }
     }
 
@@ -138,7 +138,7 @@ class TaxiShareInfoDetailPresenter(
                     view.removeCommentFail()
                 })
         } else {
-            view.removeCommentNotFinished()
+            //view.removeCommentNotFinished()
         }
     }
 
@@ -158,7 +158,7 @@ class TaxiShareInfoDetailPresenter(
                     view.showParticipateTaxiShareFail()
                 })
         } else {
-            view.showParticipateTaxiShareNotFinish()
+            //view.showParticipateTaxiShareNotFinish()
         }
     }
 
@@ -177,7 +177,7 @@ class TaxiShareInfoDetailPresenter(
                     view.showLeaveTaxiShareFail()
                 })
         } else {
-            view.showLeaveTaxiShareNotFinish()
+            //view.showLeaveTaxiShareNotFinish()
         }
     }
 
@@ -196,7 +196,7 @@ class TaxiShareInfoDetailPresenter(
                     view.removeCommentFail()
                 })
         } else {
-            view.showRemoveTaxiShareNotFinish()
+            //view.showRemoveTaxiShareNotFinish()
         }
     }
 

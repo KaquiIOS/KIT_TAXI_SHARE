@@ -1,68 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+
+<androidx.core.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/nsc_taxi_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bnv_main">
+        android:background="@color/light_gray"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/abl_taxi_list"
-            style="@style/MainToolbarStyle">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/ctb_taxi_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tb_taxi_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/main_toolbar_size">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:gravity="center_vertical"
-                            android:text="여긴 택시 쉐어 뷰"
-                            android:textSize="18sp"/>
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                            android:id="@+id/btn_taxi_list_reload"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:src="@drawable/ic_refresh_black_24dp"
-                            android:background="@color/transparent"
-                            android:layout_marginEnd="18dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-            android:id="@+id/nsc_taxi_list"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
+
+        <ProgressBar
+                android:id="@+id/pb_taxi_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_taxi_list"
@@ -71,13 +32,15 @@
                 android:nestedScrollingEnabled="false"
                 android:layoutAnimation="@anim/layout_animation"
                 android:padding="8dp"
-                app:fastScrollEnabled="false">
-
+                android:layout_marginBottom="8dp"
+                app:fastScrollEnabled="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/pb_taxi_list">
 
         </androidx.recyclerview.widget.RecyclerView>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.core.widget.NestedScrollView>

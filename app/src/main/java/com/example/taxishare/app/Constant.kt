@@ -52,5 +52,10 @@ class Constant {
         // POST ID
         const val POST_ID = "postId"
         const val ALARM_NOTIFY_TIME : Long = 1800000
+
+        const val START_LOCATION_SEARCH_CODE : Int = 8001
+        const val END_LOCATION_SEARCH_CODE : Int = 9001
+
+        const val LOCATION_SAVE_STR : String = "location"
     }
 }

@@ -7,6 +7,7 @@ package com.example.taxishare.view.main.taxisharelist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.PopupMenu
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -31,6 +32,8 @@ class TaxiShareListAdapter :
 
     private val taxiShareInfoList: MutableList<TaxiShareInfo> = mutableListOf()
 
+    private var lastPosition = -1
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaxiShareInfoViewHolder =
         TaxiShareInfoViewHolder(
             LayoutInflater.from(parent.context)
@@ -39,6 +42,16 @@ class TaxiShareListAdapter :
 
     override fun onBindViewHolder(holder: TaxiShareInfoViewHolder, position: Int) {
         holder.bind(taxiShareInfoList[position])
+
+        if (position > lastPosition) {
+            holder.itemView.startAnimation(
+                AnimationUtils.loadAnimation(
+                    holder.view.context,
+                    R.anim.recyclerview_fall_down
+                )
+            )
+            lastPosition = position
+        }
 
         with(holder.itemView) {
 
@@ -52,7 +65,7 @@ class TaxiShareListAdapter :
                 }
             }
 
-            if (Constant.USER_ID == taxiShareInfoList[position].uid) {
+            if (Constant.CURRENT_USER.studentId.toString() == taxiShareInfoList[position].uid) {
 
                 tv_taxi_share_post_pop_up.visibility = View.VISIBLE
 
@@ -112,7 +125,7 @@ class TaxiShareListAdapter :
     }
 
     fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
-        if(isRefresh) {
+        if (isRefresh) {
             this.taxiShareInfoList.clear()
         }
         this.taxiShareInfoList.addAll(taxiShareInfoList)
@@ -181,7 +194,8 @@ class TaxiShareListAdapter :
         fun bind(taxiShareInfo: TaxiShareInfo) {
 
             with(taxiShareInfo) {
-                view.tv_taxi_share_post_nickname.text = String.format(view.resources.getString(R.string.nickname_format), nickname, major)
+                view.tv_taxi_share_post_nickname.text =
+                    String.format(view.resources.getString(R.string.nickname_format), nickname, major)
                 view.tv_taxi_share_post_start_time.text = TypeMapper.dateToString(startDate)
                 view.tv_taxi_share_post_start_location.text = startLocation.locationName
                 view.tv_taxi_share_post_end_location.text = endLocation.locationName
@@ -190,7 +204,7 @@ class TaxiShareListAdapter :
                 if (Constant.CURRENT_USER.studentId == uid.toInt()) {
                     changeButtonState(
                         view,
-                        String.format(view.resources.getString(R.string.my_taxi_share_title),  participantsNum),
+                        String.format(view.resources.getString(R.string.my_taxi_share_title), participantsNum),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )
@@ -198,14 +212,21 @@ class TaxiShareListAdapter :
                 } else if (isParticipated) {
                     changeButtonState(
                         view,
-                        String.format(view.resources.getString(R.string.already_participate_taxi_share_title),  participantsNum),
+                        String.format(
+                            view.resources.getString(R.string.already_participate_taxi_share_title),
+                            participantsNum
+                        ),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )
                 } else {
                     changeButtonState(
                         view,
-                        String.format(view.resources.getString(R.string.taxi_share_participants_num), participantsNum, limit),
+                        String.format(
+                            view.resources.getString(R.string.taxi_share_participants_num),
+                            participantsNum,
+                            limit
+                        ),
                         R.drawable.background_not_participate_color,
                         R.color.common_black
                     )

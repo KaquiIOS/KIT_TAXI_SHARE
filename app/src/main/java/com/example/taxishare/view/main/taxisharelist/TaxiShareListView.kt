@@ -22,4 +22,10 @@ interface TaxiShareListView {
     fun showLeaveTaxiShareSuccess(postId: Int)
     fun showLeaveTaxiShareFail()
     fun showLeaveTaxiShareNotFinish()
+
+    fun showMessageDialog()
+    fun dismissMessageDialog()
+
+    fun showLoadingDialog()
+    fun dismissLoadingDialog()
 }

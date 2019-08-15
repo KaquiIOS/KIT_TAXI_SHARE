@@ -5,18 +5,19 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.example.taxishare.app.AlarmManagerImpl
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
@@ -26,7 +27,6 @@ import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
@@ -43,15 +43,20 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             }
     }
 
+    private lateinit var alertDialog: AlertDialog
+
     private lateinit var presenter: TaxiShareListPresenter
     private lateinit var taxiShareListAdapter: TaxiShareListAdapter
     private lateinit var subscribe: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        arguments?.let {}
+        alertDialog = with(AlertDialog.Builder(context)) {
+            setCancelable(false)
+            setView(R.layout.loading_dialog_layout)
+            setMessage(R.string.tedpermission_setting)
+        }.create()
     }
 
     override fun onCreateView(
@@ -61,8 +66,11 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
-        rcv_taxi_list.scheduleLayoutAnimation()
+        if (isRefresh) {
+            rcv_taxi_list.scheduleLayoutAnimation()
+        }
     }
+
 
     override fun showLoadTaxiShareListNotFinishedMessage() {
         toast(getString(R.string.taxi_share_list_load_not_finish))
@@ -123,6 +131,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         initView()
         initListener()
 
+        setDialogMessage(R.string.loading_taxi_list)
         presenter.loadTaxiShareInfoList(true)
     }
 
@@ -142,6 +151,26 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         }
     }
 
+    override fun showLoadingDialog() {
+        if(!pb_taxi_list.isVisible)
+            pb_taxi_list.visibility = View.VISIBLE
+    }
+
+    override fun dismissLoadingDialog() {
+        if(pb_taxi_list.isVisible)
+            pb_taxi_list.visibility = View.GONE
+    }
+
+    override fun showMessageDialog() {
+        if (!alertDialog.isShowing)
+            alertDialog.show()
+    }
+
+    override fun dismissMessageDialog() {
+        if (alertDialog.isShowing)
+            alertDialog.dismiss()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
@@ -151,6 +180,22 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
         taxiShareListAdapter.addTaxiShareInfo(taxiShareInfo, isVisible)
     }
+
+    fun setStartLocation(location : Location) {
+        presenter.setStartLocation(location)
+        reloadTaxiShareList()
+    }
+
+    fun setEndLocation(location : Location) {
+        presenter.setEndLocation(location)
+        reloadTaxiShareList()
+    }
+
+    fun setStartTime(startDate: Date) {
+        presenter.setStartTime(startDate)
+        reloadTaxiShareList()
+    }
+
 
     private fun initPresenter() {
         presenter = TaxiShareListPresenter(
@@ -164,22 +209,19 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private fun initView() {
+
         with(rcv_taxi_list) {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation)
         }
     }
 
     private fun initListener() {
 
-        btn_taxi_list_reload.onClick {
-            presenter.loadTaxiShareInfoList(true)
-        }
-
         nsc_taxi_list.setOnBottomDetection().apply {
             subscribe = nsc_taxi_list.observeBottomDetectionPublisher().subscribe {
+                setDialogMessage(R.string.loading_taxi_list)
                 presenter.loadTaxiShareInfoList(false)
             }
         }
@@ -206,6 +248,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                     .setTitle(getString(R.string.taxi_share_remove_title))
                     .setMessage(getString(R.string.taxi_share_remove_content))
                     .setPositiveButton(getString(R.string.ok), ({ _, _ ->
+                        setDialogMessage(R.string.remove_taxi_share_waiting)
                         presenter.removeTaxiShareInfo(postId)
                     }))
                     .setNegativeButton(getString(R.string.cancel), null)
@@ -220,6 +263,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                         .setTitle(getString(R.string.taxi_share_leave_title))
                         .setMessage(getString(R.string.taxi_share_leave_content))
                         .setPositiveButton(getString(R.string.ok), ({ _, _ ->
+                            setDialogMessage(R.string.leave_taxi_share_waiting)
                             presenter.leaveTaxiShare(postId)
                         }))
                         .setNegativeButton(getString(R.string.cancel), null)
@@ -230,5 +274,18 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                 }
             }
         })
+    }
+
+    fun reloadTaxiShareList() {
+        presenter.loadTaxiShareInfoList(true)
+    }
+
+    private fun setDialogMessage(@StringRes id: Int) {
+        alertDialog.setMessage(getString(id))
+    }
+
+    fun resetFilteringSetting() {
+        presenter.resetFilteringSetting()
+        presenter.loadTaxiShareInfoList(true)
     }
 }

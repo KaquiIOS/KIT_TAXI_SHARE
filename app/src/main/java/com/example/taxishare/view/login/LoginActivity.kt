@@ -1,9 +1,9 @@
 package com.example.taxishare.view.login
 
 import android.os.Bundle
-import android.util.Log
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import com.example.taxishare.R
+import com.example.taxishare.customview.LoadingDialog
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.BaseActivity
@@ -13,21 +13,24 @@ import com.example.taxishare.view.signup.SignUpActivity
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import java.util.concurrent.TimeUnit
 
 class LoginActivity : BaseActivity(), LoginView {
 
     private lateinit var presenter: LoginPresenter
+
+    private lateinit var alertDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initPresenter()
         initListener()
+
+        alertDialog = LoadingDialog.newInstance(R.string.login_loading_text)
+
     }
 
     override fun getLayoutId(): Int = R.layout.activity_login
@@ -46,13 +49,6 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun changeLoginButtonState(canActivate: Boolean) {
         btn_login_request.isEnabled = canActivate
-        if (canActivate) {
-            btn_login_request.backgroundDrawable =
-                ContextCompat.getDrawable(this, R.drawable.background_enable_btn_round_corner)
-        } else {
-            btn_login_request.backgroundDrawable =
-                ContextCompat.getDrawable(this, R.drawable.background_disable_btn_round_corner)
-        }
     }
 
     override fun changeIdEditTextState(isMatched: Boolean) {
@@ -75,8 +71,13 @@ class LoginActivity : BaseActivity(), LoginView {
         presenter = LoginPresenter(this, ServerRepositoryImpl.getInstance(ServerClient.getInstance()))
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
     /*
-     * View Listener 추가 */
+         * View Listener 추가 */
     @SuppressWarnings("all")
     private fun initListener() {
 
@@ -92,7 +93,7 @@ class LoginActivity : BaseActivity(), LoginView {
             it.stackTrace[0]
         })
 
-        btn_login_request.clicks().debounce(500, TimeUnit.MILLISECONDS).subscribe({
+        btn_login_request.clicks().subscribe({
             presenter.login(text_input_login_id.text.toString(), text_input_login_pw.text.toString())
         }, {
             it.stackTrace[0]
@@ -110,6 +111,16 @@ class LoginActivity : BaseActivity(), LoginView {
 
         /* ForgetPassword 요청 */
         btn_login_find_pw.onClick { startActivity<FindPasswordActivity>() }
+    }
+
+    override fun showLoginLoadingDialog() {
+        if (!alertDialog.isVisible)
+            alertDialog.show(supportFragmentManager, "TEST")
+    }
+
+    override fun dismissLoginLoadingDialog() {
+        if (alertDialog.isVisible)
+            alertDialog.dismiss()
     }
 
     private fun isAutoLoginGranted(isGranted: Boolean) {

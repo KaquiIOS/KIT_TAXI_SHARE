@@ -61,7 +61,7 @@
     <string name="login_not_validated_user">메일을 통해 인증을 먼저 해주세요!</string>
 
     <string name="login">로그인 화면입니다 !</string>
-
+    <string name="login_loading_text">로그인 중입니다</string>
 
     <!-- Sign Up -->
     <string-array name="major_list">
@@ -104,6 +104,7 @@
     <string name="sign_up_id">아이디</string>
     <string name="sign_up_pw">비밀번호</string>
     <string name="sign_up_confirm_pw">비밀번호 확인</string>
+    <string name="sign_up_loading_message">회원가입을 요청중입니다</string>
     <string name="sign_up_major">학과</string>
     <string name="sign_up_student_id">학번</string>
     <string name="sign_up_ok">회원가입</string>
@@ -207,5 +208,30 @@
     <string name="register_taxi_share_info_success">택시 합승 정보 등록을 성공했습니다</string>
     <string name="register_taxi_share_info_fail">택시 합승 정보 등록을 실패했습니다</string>
     <string name="register_taxi_share_info_waiting">택시 합승 정보 등록을 요청중입니다</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string name="loading_taxi_list">합승 목록을 불러오는 중입니다</string>
+
+    <string name="start_location_title">출발 위치</string>
+    <string name="end_location_title">도착 위치</string>
+    <string name="start_time_title">출발 시간</string>
+
+    <string name="no_start_location_set">출발 위치 설정</string>
+    <string name="no_end_location_set">도착 위치 설정</string>
+    <string name="no_start_time_set">출발 시간 설정</string>
+
+    <string name="reset_filtering_setting">검색 조건 초기화하기</string>
 </resources>
