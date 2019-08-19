@@ -31,7 +31,7 @@ fun NestedScrollView.setOnBottomDetection() {
                                 _: Int,
                                 oldScrollY: Int ->
 
-        if (v?.getChildAt(v.childCount - 1) != null) {
+        if (v?.getChildAt(v.childCount - 1) != null && v.childCount != 0) {
             if ((scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight)) &&
                 scrollY > oldScrollY
             ) {

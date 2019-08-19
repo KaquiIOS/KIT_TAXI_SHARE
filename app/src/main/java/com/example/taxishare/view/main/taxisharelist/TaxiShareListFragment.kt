@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import android.widget.ProgressBar
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -27,6 +27,7 @@ import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
@@ -44,6 +45,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private lateinit var alertDialog: AlertDialog
+    private lateinit var loadingProgressBar : ProgressBar
 
     private lateinit var presenter: TaxiShareListPresenter
     private lateinit var taxiShareListAdapter: TaxiShareListAdapter
@@ -57,6 +59,8 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             setView(R.layout.loading_dialog_layout)
             setMessage(R.string.tedpermission_setting)
         }.create()
+
+        loadingProgressBar = ProgressBar(activity, null, android.R.attr.progressBarStyleSmall)
     }
 
     override fun onCreateView(
@@ -66,9 +70,9 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
     override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
-        if (isRefresh) {
-            rcv_taxi_list.scheduleLayoutAnimation()
-        }
+//        if (isRefresh) {
+//            rcv_taxi_list.scheduleLayoutAnimation()
+//        }
     }
 
 
@@ -152,13 +156,13 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     override fun showLoadingDialog() {
-        if(!pb_taxi_list.isVisible)
-            pb_taxi_list.visibility = View.VISIBLE
+        if(loadingProgressBar.isVisible)
+            loadingProgressBar.visibility = View.VISIBLE
     }
 
     override fun dismissLoadingDialog() {
-        if(pb_taxi_list.isVisible)
-            pb_taxi_list.visibility = View.GONE
+        if(loadingProgressBar.isVisible)
+            loadingProgressBar.visibility = View.GONE
     }
 
     override fun showMessageDialog() {
@@ -177,23 +181,31 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         subscribe.dispose()
     }
 
+    override fun setBackgroundGray() {
+        nsc_taxi_list.backgroundColor = R.color.light_gray
+    }
+
+    override fun setBackgroundWhite() {
+        nsc_taxi_list.backgroundColor = R.color.common_white
+    }
+
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
         taxiShareListAdapter.addTaxiShareInfo(taxiShareInfo, isVisible)
     }
 
     fun setStartLocation(location : Location) {
         presenter.setStartLocation(location)
-        reloadTaxiShareList()
+        presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }
 
     fun setEndLocation(location : Location) {
         presenter.setEndLocation(location)
-        reloadTaxiShareList()
+        presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }
 
     fun setStartTime(startDate: Date) {
         presenter.setStartTime(startDate)
-        reloadTaxiShareList()
+        presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }
 
 
@@ -213,7 +225,8 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         with(rcv_taxi_list) {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation)
+            //layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation)
+            itemAnimator = null
         }
     }
 

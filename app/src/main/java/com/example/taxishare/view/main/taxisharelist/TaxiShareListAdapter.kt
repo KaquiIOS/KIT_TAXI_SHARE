@@ -7,7 +7,6 @@ package com.example.taxishare.view.main.taxisharelist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.PopupMenu
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -16,14 +15,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.mapper.TypeMapper
+import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import kotlinx.android.synthetic.main.item_taxi_share_post.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.textColor
+import java.util.*
+import kotlin.collections.ArrayList
 
 // ListAdapter 사용
 class TaxiShareListAdapter :
-    ListAdapter<TaxiShareInfo, TaxiShareListAdapter.TaxiShareInfoViewHolder>(TaxiShareInfo.DIFF_UTIL) {
+    ListAdapter<TaxiShareInfo, RecyclerView.ViewHolder>(TaxiShareInfo.DIFF_UTIL) {
 
     private lateinit var taxiShareInfoItemClickListener: TaxiShareInfoItemClickListener
     private lateinit var taxiShareInfoModifyClickListener: TaxiShareInfoModifyClickListener
@@ -34,75 +36,86 @@ class TaxiShareListAdapter :
 
     private var lastPosition = -1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaxiShareInfoViewHolder =
-        TaxiShareInfoViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_taxi_share_post, parent, false)
-        )
 
-    override fun onBindViewHolder(holder: TaxiShareInfoViewHolder, position: Int) {
-        holder.bind(taxiShareInfoList[position])
-
-        if (position > lastPosition) {
-            holder.itemView.startAnimation(
-                AnimationUtils.loadAnimation(
-                    holder.view.context,
-                    R.anim.recyclerview_fall_down
-                )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when (taxiShareInfoList.isEmpty()) {
+            false -> TaxiShareInfoViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_taxi_share_post, parent, false)
             )
-            lastPosition = position
+            else ->  NoTaxiShareInfoViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_no_taxi_share, parent, false)
+            )
         }
 
-        with(holder.itemView) {
+    override fun getItemViewType(position: Int): Int = when (taxiShareInfoList.isEmpty()) {
+        false -> 1
+        else -> 2
+    }
 
-            // btn onClick Listener 작성
-            btn_taxi_share_post_participate.onClick {
-                if (::taxiShareParticipantBtnClickListener.isInitialized) {
-                    taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(
-                        taxiShareInfoList[holder.adapterPosition].id,
-                        taxiShareInfoList[holder.adapterPosition].isParticipated
-                    )
-                }
-            }
+    override fun getItemCount(): Int = when(taxiShareInfoList.isEmpty()) {
+        true -> 1
+        else -> taxiShareInfoList.size
+    }
 
-            if (Constant.CURRENT_USER.studentId.toString() == taxiShareInfoList[position].uid) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-                tv_taxi_share_post_pop_up.visibility = View.VISIBLE
+        if (holder.itemViewType == 1) {
+            (holder as TaxiShareInfoViewHolder).bind(taxiShareInfoList[position])
 
-                // PopUp Menu Click Event 처리
-                tv_taxi_share_post_pop_up.onClick {
 
-                    val popupMenu = PopupMenu(context, tv_taxi_share_post_pop_up)
+            with(holder.itemView) {
 
-                    popupMenu.inflate(R.menu.menu_taxi_share_info)
-
-                    // MenuItemClick Event Listener
-                    popupMenu.setOnMenuItemClickListener {
-                        // 삭제
-                        if (it.itemId == R.id.taxi_share_info_remove) {
-                            if (::taxiShareInfoRemoveClickListener.isInitialized) {
-                                taxiShareInfoRemoveClickListener.onTaxiShareInfoRemoveClicked(
-                                    taxiShareInfoList[holder.adapterPosition].id
-                                )
-                            }
-                        } else if (it.itemId == R.id.taxi_share_info_modify) {
-                            if (::taxiShareInfoModifyClickListener.isInitialized) {
-                                taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
-                                    taxiShareInfoList[holder.adapterPosition], holder.adapterPosition
-                                )
-                            }
-                        }
-
-                        false
+                // btn onClick Listener 작성
+                btn_taxi_share_post_participate.onClick {
+                    if (::taxiShareParticipantBtnClickListener.isInitialized) {
+                        taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(
+                            taxiShareInfoList[holder.adapterPosition].id,
+                            taxiShareInfoList[holder.adapterPosition].isParticipated
+                        )
                     }
-                    popupMenu.show()
                 }
-            }
 
-            // 상세화면으로 넘어가는 이벤트
-            onClick {
-                if (::taxiShareInfoItemClickListener.isInitialized) {
-                    taxiShareInfoItemClickListener.onTaxiShareInfoItemClicked(taxiShareInfoList[position])
+                if (Constant.CURRENT_USER.studentId.toString() == taxiShareInfoList[position].uid) {
+
+                    tv_taxi_share_post_pop_up.visibility = View.VISIBLE
+
+                    // PopUp Menu Click Event 처리
+                    tv_taxi_share_post_pop_up.onClick {
+
+                        val popupMenu = PopupMenu(context, tv_taxi_share_post_pop_up)
+
+                        popupMenu.inflate(R.menu.menu_taxi_share_info)
+
+                        // MenuItemClick Event Listener
+                        popupMenu.setOnMenuItemClickListener {
+                            // 삭제
+                            if (it.itemId == R.id.taxi_share_info_remove) {
+                                if (::taxiShareInfoRemoveClickListener.isInitialized) {
+                                    taxiShareInfoRemoveClickListener.onTaxiShareInfoRemoveClicked(
+                                        taxiShareInfoList[holder.adapterPosition].id
+                                    )
+                                }
+                            } else if (it.itemId == R.id.taxi_share_info_modify) {
+                                if (::taxiShareInfoModifyClickListener.isInitialized) {
+                                    taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
+                                        taxiShareInfoList[holder.adapterPosition], holder.adapterPosition
+                                    )
+                                }
+                            }
+
+                            false
+                        }
+                        popupMenu.show()
+                    }
+                }
+
+                // 상세화면으로 넘어가는 이벤트
+                onClick {
+                    if (::taxiShareInfoItemClickListener.isInitialized) {
+                        taxiShareInfoItemClickListener.onTaxiShareInfoItemClicked(taxiShareInfoList[position])
+                    }
                 }
             }
         }
@@ -128,6 +141,7 @@ class TaxiShareListAdapter :
         if (isRefresh) {
             this.taxiShareInfoList.clear()
         }
+
         this.taxiShareInfoList.addAll(taxiShareInfoList)
         submitList(ArrayList(this.taxiShareInfoList))
     }
@@ -144,6 +158,8 @@ class TaxiShareListAdapter :
 
         return idx
     }
+
+    fun getTaxiShareList() = taxiShareInfoList
 
     fun changeTaxiShareParticipateInfo(postId: String, isParticipate: Boolean) {
 
@@ -189,6 +205,8 @@ class TaxiShareListAdapter :
         view.btn_taxi_share_post_participate.text = text
         view.btn_taxi_share_post_participate.textColor = cId
     }
+
+    inner class NoTaxiShareInfoViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     inner class TaxiShareInfoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(taxiShareInfo: TaxiShareInfo) {

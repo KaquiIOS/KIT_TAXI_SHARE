@@ -234,4 +234,10 @@
     <string name="no_start_time_set">출발 시간 설정</string>
 
     <string name="reset_filtering_setting">검색 조건 초기화하기</string>
+
+    <string name="location_search_hint">장소를 입력해주세요</string>
+    <string name="no_comment_message">댓글이 없습니다</string>
+    <string name="no_search_history_message">검색 기록이 없습니다</string>
+    <string name="no_save_location_message">저장된 장소 목록이 없습니다</string>
+    <string name="no_taxi_share_message">택시 공유 글이 없습니다 ㅠ</string>
 </resources>

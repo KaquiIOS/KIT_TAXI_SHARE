@@ -1,6 +1,8 @@
 package com.example.taxishare.view.main
 
 import android.app.DatePickerDialog
+
+
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -123,11 +125,15 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
     }
 
     override fun openStartLocationSettingActivity() {
-        startActivityForResult<LocationSearchActivity>(Constant.START_LOCATION_SEARCH_CODE)
+        startActivityForResult<LocationSearchActivity>(
+            Constant.START_LOCATION_SEARCH_CODE,
+            Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_departure)
+        )
     }
 
     override fun openEndLocationSettingActivity() {
-        startActivityForResult<LocationSearchActivity>(Constant.END_LOCATION_SEARCH_CODE)
+        startActivityForResult<LocationSearchActivity>(Constant.END_LOCATION_SEARCH_CODE,
+            Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_arrive))
     }
 
     override fun openStartTimeSettingActivity() {
@@ -149,7 +155,7 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
         nav_view.menu[0].subMenu[0].title = getString(R.string.start_location_title)
         nav_view.menu[1].subMenu[0].title = getString(R.string.end_location_title)
         nav_view.menu[2].subMenu[0].title = getString(R.string.start_time_title)
-        if(taxiShareListFragment.isVisible) {
+        if (taxiShareListFragment.isVisible) {
             taxiShareListFragment.resetFilteringSetting()
         }
     }

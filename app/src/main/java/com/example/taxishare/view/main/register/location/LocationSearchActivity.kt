@@ -49,8 +49,6 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
         )
     }
 
-    private var alertDialog: AlertDialog? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_search)

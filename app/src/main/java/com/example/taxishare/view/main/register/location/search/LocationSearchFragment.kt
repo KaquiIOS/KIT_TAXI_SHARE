@@ -42,6 +42,7 @@ class LocationSearchFragment : Fragment() {
         rcv_location_search_list.apply {
             adapter = this@LocationSearchFragment.adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            itemAnimator = null
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         }
     }

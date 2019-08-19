@@ -21,10 +21,8 @@ class LocationSearchAdapter :
     private val locationSearchResultList: MutableList<Location> = mutableListOf()
     private lateinit var locationSelectionListener: LocationSelectionListener
 
-    private var flag : Boolean = false
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        when(viewType) {
+        when (viewType) {
             1 -> LocationSearchViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_search_location,
@@ -34,7 +32,7 @@ class LocationSearchAdapter :
             )
             else -> LocationNotFoundViewHolder(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_no_search_place,
+                    R.layout.item_no_search_history,
                     parent,
                     false
                 )
@@ -43,37 +41,32 @@ class LocationSearchAdapter :
 
 
     override fun getItemViewType(position: Int): Int =
-        when (flag) {
+        when (locationSearchResultList.size == 0) {
             true -> 2
             else -> 1
         }
 
 
-    override fun getItemCount(): Int = locationSearchResultList.size
+    override fun getItemCount(): Int = when (locationSearchResultList.size > 0) {
+        true -> locationSearchResultList.size
+        else -> 1
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder.itemViewType == 1) {
+        if (holder.itemViewType == 1) {
             (holder as LocationSearchViewHolder).let {
                 it.itemView.setOnClickListener {
                     if (::locationSelectionListener.isInitialized)
-                        locationSelectionListener.locationSelected(locationSearchResultList[position])
+                        locationSelectionListener.locationSelected(locationSearchResultList[holder.adapterPosition])
                 }
-                it.bindView(position)
+                it.bindView(holder.adapterPosition)
             }
-        } else {
-            Log.d("Test", "NotFoundViewHolder")
         }
     }
 
     fun setSearchResultList(resultList: MutableList<Location>) {
         locationSearchResultList.clear()
         locationSearchResultList.addAll(resultList)
-
-        flag = resultList.isEmpty()
-
-        if(flag) {
-            resultList.add(Location(0.0,0.0,"","",""))
-        }
 
         submitList(resultList)
     }
@@ -94,5 +87,5 @@ class LocationSearchAdapter :
         }
     }
 
-    inner class LocationNotFoundViewHolder(viewHolder : View)  : RecyclerView.ViewHolder(viewHolder)
+    inner class LocationNotFoundViewHolder(viewHolder: View) : RecyclerView.ViewHolder(viewHolder)
 }

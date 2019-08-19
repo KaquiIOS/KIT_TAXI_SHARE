@@ -21,7 +21,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     private lateinit var presenter: SignUpPresenter
 
-    private lateinit var alertDialog : AlertDialog
+    private lateinit var alertDialog: AlertDialog
 
     private lateinit var loadingDialog: LoadingDialog
 

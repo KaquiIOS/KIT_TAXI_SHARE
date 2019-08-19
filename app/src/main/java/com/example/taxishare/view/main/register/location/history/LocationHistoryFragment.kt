@@ -91,6 +91,7 @@ class LocationHistoryFragment : Fragment(), LocationHistoryView, LocationRemoveS
     private fun initView() {
         rcv_location_history_list.apply {
             adapter = searchHistoryListAdapter
+            itemAnimator = null
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }

@@ -1,7 +1,6 @@
 package com.example.taxishare.view.login
 
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import com.example.taxishare.R
 import com.example.taxishare.customview.LoadingDialog
 import com.example.taxishare.data.remote.apis.server.ServerClient

@@ -10,7 +10,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/light_gray"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,7 +31,6 @@
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
                 android:layoutAnimation="@anim/layout_animation"
-                android:padding="8dp"
                 android:layout_marginBottom="8dp"
                 app:fastScrollEnabled="false"
                 app:layout_constraintStart_toStartOf="parent"

@@ -8,6 +8,7 @@ import com.example.taxishare.app.AlarmManagerInterface
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
+import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.LeaveTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.ParticipateTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareListGetRequest
@@ -122,23 +123,7 @@ class TaxiShareListPresenter(
                 serverRepo.getTaxiShareList(TaxiShareListGetRequest(nextPageNum, Constant.CURRENT_USER.studentId))
                     .subscribe({
 
-                        val itr = it.iterator()
-                        val temp = startTime
-                        while (itr.hasNext()) {
-                            val taxiTemp = itr.next()
-                            if (startLocation != null && (startLocation != taxiTemp.startLocation)) {
-                                itr.remove()
-                                continue
-                            }
-                            if (endLocation != null && endLocation != taxiTemp.endLocation) {
-                                itr.remove()
-                                continue
-                            }
-                            if (temp != null && (temp.time >= taxiTemp.startDate.time)) {
-                                itr.remove()
-                                continue
-                            }
-                        }
+                        filterTaxiShareList(it, false)
 
                         if (it.size > 0) {
                             nextPageNum = it[it.size - 1].id.toInt()
@@ -155,6 +140,38 @@ class TaxiShareListPresenter(
                     })
         }
     }
+
+    fun filterTaxiShareList(taxiShareList : MutableList<TaxiShareInfo>, setTaxiShareList : Boolean) {
+
+        val itr = taxiShareList.iterator()
+        val temp = startTime
+        while (itr.hasNext()) {
+            val taxiTemp = itr.next()
+            if (startLocation != null && (startLocation != taxiTemp.startLocation)) {
+                itr.remove()
+                continue
+            }
+            if (endLocation != null && endLocation != taxiTemp.endLocation) {
+                itr.remove()
+                continue
+            }
+            if (temp != null && (temp.time >= taxiTemp.startDate.time)) {
+                itr.remove()
+                continue
+            }
+        }
+
+        if(taxiShareList.isEmpty()) {
+            view.setBackgroundWhite()
+        } else {
+            view.setBackgroundGray()
+        }
+
+        if(setTaxiShareList) {
+            view.setTaxiShareList(taxiShareList, true)
+        }
+    }
+
 
     fun resetFilteringSetting() {
         startLocation = null

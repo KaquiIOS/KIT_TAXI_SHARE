@@ -25,7 +25,7 @@ import java.lang.ref.WeakReference
 
 
 class LocationHistoryAdapter constructor(private val mapView: MapView, private val animation: Animation) :
-    ListAdapter<Location, LocationHistoryAdapter.LocationHistoryViewHolder>(Location.DIFF_UTIL), OnMapReadyCallback {
+    ListAdapter<Location, RecyclerView.ViewHolder>(Location.DIFF_UTIL), OnMapReadyCallback {
 
     private val locationList: MutableList<Location> = mutableListOf()
     private lateinit var onSelectionListener: LocationSelectionListener
@@ -40,16 +40,33 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationHistoryViewHolder =
-        LocationHistoryViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+        1 -> LocationHistoryViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_history_location,
                 parent,
                 false
             )
         )
+        else -> NoSearchHistoryViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_no_my_location,
+                parent,
+                false
+            )
+        )
+    }
 
-    override fun getItemCount(): Int = locationList.size
+
+    override fun getItemViewType(position: Int): Int = when (locationList.size > 0) {
+        true -> 1
+        else -> 2
+    }
+
+    override fun getItemCount(): Int = when (locationList.size == 0) {
+        true -> 1
+        else -> locationList.size
+    }
 
     override fun onMapReady(p0: GoogleMap?) {
         MapsInitializer.initialize(mapView.context)
@@ -81,29 +98,32 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
         }
     }
 
-    override fun onBindViewHolder(holderHistory: LocationHistoryViewHolder, position: Int) {
-        holderHistory.bindView(position)
-        holderHistory.itemView.setOnClickListener {
-            if (!::mapRef.isInitialized) {
-                mapRef = WeakReference(holderHistory)
-                addView(holderHistory, position)
-            } else if (mapRef.get() != holderHistory) {
-                removeView(mapRef.get())
-                mapRef = WeakReference(holderHistory)
-                addView(holderHistory, position)
-            } else {
-                mapRef.clear()
-                removeView(holderHistory)
+    override fun onBindViewHolder(holderHistory: RecyclerView.ViewHolder, position: Int) {
+
+        if(holderHistory.itemViewType == 1) {
+            (holderHistory as LocationHistoryViewHolder).bindView(position)
+            holderHistory.itemView.setOnClickListener {
+                if (!::mapRef.isInitialized) {
+                    mapRef = WeakReference(holderHistory)
+                    addView(holderHistory, position)
+                } else if (mapRef.get() != holderHistory) {
+                    removeView(mapRef.get())
+                    mapRef = WeakReference(holderHistory)
+                    addView(holderHistory, position)
+                } else {
+                    mapRef.clear()
+                    removeView(holderHistory)
+                }
             }
-        }
-        holderHistory.itemView.onLongClick {
-            if (::onLocationLongClickListener.isInitialized) {
-                onLocationLongClickListener.locationLongClicked(locationList[position])
+            holderHistory.itemView.onLongClick {
+                if (::onLocationLongClickListener.isInitialized) {
+                    onLocationLongClickListener.locationLongClicked(locationList[position])
+                }
             }
-        }
-        holderHistory.itemView.btn_history_item_select.setOnClickListener {
-            if (::onSelectionListener.isInitialized) {
-                onSelectionListener.locationSelected(locationList[position])
+            holderHistory.itemView.btn_history_item_select.setOnClickListener {
+                if (::onSelectionListener.isInitialized) {
+                    onSelectionListener.locationSelected(locationList[position])
+                }
             }
         }
     }
@@ -132,6 +152,8 @@ class LocationHistoryAdapter constructor(private val mapView: MapView, private v
             }
         }
     }
+
+    inner class NoSearchHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     private fun addView(curHolderHistory: LocationHistoryViewHolder, position: Int) {
         setMapLocation(position)

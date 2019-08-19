@@ -285,6 +285,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             adapter = this@TaxiShareInfoDetailActivity.adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            itemAnimator = null
             setOnBottomDetection()
         }
     }
