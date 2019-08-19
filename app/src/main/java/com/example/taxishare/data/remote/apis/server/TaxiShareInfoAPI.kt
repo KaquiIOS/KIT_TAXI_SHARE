@@ -4,6 +4,7 @@
 
 package com.example.taxishare.data.remote.apis.server
 
+import com.example.taxishare.data.model.MyTaxiShareItem
 import com.example.taxishare.data.model.TaxiShareInfoModel
 import com.example.taxishare.data.remote.apis.server.response.*
 import io.reactivex.Observable
@@ -33,4 +34,7 @@ interface TaxiShareInfoAPI {
 
     @GET("loadDetailTaxiShareInfo")
     fun loadDetailTaxiShareInfo(@Query("postId") postId : String, @Query("uid") uid : Int) : Observable<DetailTaxiShareLoadResponse>
+
+    @GET("getMyTaxiShareList")
+    fun loadMyTaxiShareList(@Query("stdId") stdId : String) : Observable<MutableList<MyTaxiShareItem>>
 }

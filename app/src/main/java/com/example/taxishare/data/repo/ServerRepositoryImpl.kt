@@ -5,10 +5,7 @@
 package com.example.taxishare.data.repo
 
 import com.example.taxishare.data.mapper.TypeMapper
-import com.example.taxishare.data.model.Comment
-import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.ServerResponse
-import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.model.*
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.DetailTaxiShareLoadResponse
@@ -98,5 +95,9 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
 
     override fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest): Observable<DetailTaxiShareLoadResponse> =
         serverClient.loadDetailTaxiShareInfo(detailTaxiShareLoadRequest)
+            .uiSubscribe()
+
+    override fun loadMyTaxiShareList(): Observable<MutableList<MyTaxiShareItem>> =
+        serverClient.loadMyTaxiShareList()
             .uiSubscribe()
 }

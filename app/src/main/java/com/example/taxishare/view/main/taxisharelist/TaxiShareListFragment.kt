@@ -45,7 +45,6 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     private lateinit var alertDialog: AlertDialog
-    private lateinit var loadingProgressBar : ProgressBar
 
     private lateinit var presenter: TaxiShareListPresenter
     private lateinit var taxiShareListAdapter: TaxiShareListAdapter
@@ -54,13 +53,17 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {}
+
+        initPresenter()
+        initAdapter()
+        initView()
+        initListener()
+
         alertDialog = with(AlertDialog.Builder(context)) {
             setCancelable(false)
             setView(R.layout.loading_dialog_layout)
             setMessage(R.string.tedpermission_setting)
         }.create()
-
-        loadingProgressBar = ProgressBar(activity, null, android.R.attr.progressBarStyleSmall)
     }
 
     override fun onCreateView(
@@ -127,13 +130,10 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         toast(getString(R.string.leave_taxi_share_waiting))
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initPresenter()
-        initAdapter()
-        initView()
-        initListener()
 
         setDialogMessage(R.string.loading_taxi_list)
         presenter.loadTaxiShareInfoList(true)
@@ -156,13 +156,13 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     override fun showLoadingDialog() {
-        if(loadingProgressBar.isVisible)
-            loadingProgressBar.visibility = View.VISIBLE
+        if(pb_taxi_list.isVisible)
+            pb_taxi_list.visibility = View.VISIBLE
     }
 
     override fun dismissLoadingDialog() {
-        if(loadingProgressBar.isVisible)
-            loadingProgressBar.visibility = View.GONE
+        if(pb_taxi_list.isVisible)
+            pb_taxi_list.visibility = View.GONE
     }
 
     override fun showMessageDialog() {

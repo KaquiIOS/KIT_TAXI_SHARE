@@ -4,10 +4,7 @@
 
 package com.example.taxishare.data.repo
 
-import com.example.taxishare.data.model.Comment
-import com.example.taxishare.data.model.Location
-import com.example.taxishare.data.model.ServerResponse
-import com.example.taxishare.data.model.TaxiShareInfo
+import com.example.taxishare.data.model.*
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.DetailTaxiShareLoadResponse
 import com.example.taxishare.data.remote.apis.server.response.LoginRequestResponse
@@ -30,4 +27,5 @@ interface ServerRepository {
     fun updateTaxiShare(updateTaxiShareModifyRequest: TaxiShareModifyRequest) : Observable<ServerResponse>
     fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest) : Observable<ServerResponse>
     fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest) : Observable<DetailTaxiShareLoadResponse>
+    fun loadMyTaxiShareList() : Observable<MutableList<MyTaxiShareItem>>
 }

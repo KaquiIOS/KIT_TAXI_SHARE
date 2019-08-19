@@ -228,6 +228,7 @@
     <string name="start_location_title">출발 위치</string>
     <string name="end_location_title">도착 위치</string>
     <string name="start_time_title">출발 시간</string>
+    <string name="party_num">참여 인원 수</string>
 
     <string name="no_start_location_set">출발 위치 설정</string>
     <string name="no_end_location_set">도착 위치 설정</string>
@@ -240,4 +241,5 @@
     <string name="no_search_history_message">검색 기록이 없습니다</string>
     <string name="no_save_location_message">저장된 장소 목록이 없습니다</string>
     <string name="no_taxi_share_message">택시 공유 글이 없습니다 ㅠ</string>
+
 </resources>

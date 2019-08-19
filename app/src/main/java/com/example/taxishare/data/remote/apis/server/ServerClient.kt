@@ -7,6 +7,7 @@ package com.example.taxishare.data.remote.apis.server
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.CommentModel
 import com.example.taxishare.data.model.Location
+import com.example.taxishare.data.model.MyTaxiShareItem
 import com.example.taxishare.data.model.TaxiShareInfoModel
 import com.example.taxishare.data.remote.apis.server.request.*
 import com.example.taxishare.data.remote.apis.server.response.*
@@ -90,24 +91,28 @@ class ServerClient private constructor() {
             .participateTaxiShare(participateTaxiShareRequest.getRequest())
 
 
-    fun removeComment(removeCommentRequest: RemoveCommentRequest) : Observable<RemoveCommentResponse> =
+    fun removeComment(removeCommentRequest: RemoveCommentRequest): Observable<RemoveCommentResponse> =
         retrofit.create(CommentAPI::class.java)
             .removeComment(removeCommentRequest.getRequest())
 
-    fun removeTaxiSharePost(taxiShareRemoveRequest: TaxiShareRemoveRequest) : Observable<TaxiShareRemoveResponse> =
+    fun removeTaxiSharePost(taxiShareRemoveRequest: TaxiShareRemoveRequest): Observable<TaxiShareRemoveResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .removeTaxiShare(taxiShareRemoveRequest.getRequest())
 
-    fun updateTaxiSharePost(taxiShareModifyRequest: TaxiShareModifyRequest) : Observable<TaxiShareModifyResponse> =
+    fun updateTaxiSharePost(taxiShareModifyRequest: TaxiShareModifyRequest): Observable<TaxiShareModifyResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .updateTaxiShare(taxiShareModifyRequest.getRequest())
 
-    fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest) : Observable<LeaveTaxiShareResponse> =
+    fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest): Observable<LeaveTaxiShareResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .leaveTaxiShare(leaveTaxiShareRequest.getRequest())
 
-    fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest) : Observable<DetailTaxiShareLoadResponse> =
+    fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest): Observable<DetailTaxiShareLoadResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .loadDetailTaxiShareInfo(detailTaxiShareLoadRequest.postId, detailTaxiShareLoadRequest.uid.toInt())
 
+
+    fun loadMyTaxiShareList(): Observable<MutableList<MyTaxiShareItem>> =
+        retrofit.create(TaxiShareInfoAPI::class.java)
+            .loadMyTaxiShareList(Constant.CURRENT_USER.studentId.toString())
 }
