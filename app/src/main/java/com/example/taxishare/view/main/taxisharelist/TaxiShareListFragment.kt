@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -56,8 +55,6 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
 
         initPresenter()
         initAdapter()
-        initView()
-        initListener()
 
         alertDialog = with(AlertDialog.Builder(context)) {
             setCancelable(false)
@@ -69,7 +66,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_taxi_share_list, container, false)
+    ): View?  = inflater.inflate(R.layout.fragment_taxi_share_list, container, false)
 
     override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
@@ -131,9 +128,11 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initView()
+        initListener()
 
         setDialogMessage(R.string.loading_taxi_list)
         presenter.loadTaxiShareInfoList(true)
@@ -156,12 +155,12 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     override fun showLoadingDialog() {
-        if(pb_taxi_list.isVisible)
+        if (pb_taxi_list.isVisible)
             pb_taxi_list.visibility = View.VISIBLE
     }
 
     override fun dismissLoadingDialog() {
-        if(pb_taxi_list.isVisible)
+        if (pb_taxi_list.isVisible)
             pb_taxi_list.visibility = View.GONE
     }
 
@@ -193,12 +192,12 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         taxiShareListAdapter.addTaxiShareInfo(taxiShareInfo, isVisible)
     }
 
-    fun setStartLocation(location : Location) {
+    fun setStartLocation(location: Location) {
         presenter.setStartLocation(location)
         presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }
 
-    fun setEndLocation(location : Location) {
+    fun setEndLocation(location: Location) {
         presenter.setEndLocation(location)
         presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }

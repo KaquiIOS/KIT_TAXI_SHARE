@@ -57,5 +57,7 @@ class Constant {
         const val END_LOCATION_SEARCH_CODE: Int = 9001
 
         const val LOCATION_SAVE_STR: String = "location"
+
+        const val LEAVE_TAXI_PARTY : Int = 11
     }
 }

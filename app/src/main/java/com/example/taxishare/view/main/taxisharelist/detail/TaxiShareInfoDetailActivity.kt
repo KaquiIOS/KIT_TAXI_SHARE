@@ -137,7 +137,10 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
     override fun saveCurrentTaxiShareInfo() {
         setResult(
-            Activity.RESULT_OK, Intent().putExtra(
+            when (currentTaxiShareInfo.isParticipated) {
+                true -> Activity.RESULT_OK
+                else -> Constant.LEAVE_TAXI_PARTY
+            }, Intent().putExtra(
                 Constant.TAXISHARE_DETAIL_STR, TaxiShareInfo(
                     currentTaxiShareInfo.id,
                     currentTaxiShareInfo.uid,

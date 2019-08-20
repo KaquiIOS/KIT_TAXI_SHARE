@@ -3,7 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
 
     <!-- 시작 시간 -->
@@ -38,7 +39,7 @@
             android:layout_marginStart="8dp"
             android:minWidth="100dp"
             android:text="@string/start_location_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_time_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_time"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
@@ -50,7 +51,7 @@
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@id/tv_my_item_start_location_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_time_title"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_time"/>
 
     <!-- 도착지 -->
     <TextView
@@ -61,7 +62,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/end_location_title"
             android:minWidth="100dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_location_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_location"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
@@ -73,7 +74,7 @@
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@id/tv_my_item_end_location_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_location_title"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_my_item_start_location"/>
 
 
     <!-- 현재 참여 인원 -->
@@ -85,7 +86,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/party_num"
             android:minWidth="100dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_item_end_location_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_my_item_end_location"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
@@ -97,8 +98,7 @@
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@id/tv_my_item_party_num_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_my_item_end_location_title"/>
-
+            app:layout_constraintTop_toBottomOf="@id/tv_my_item_end_location"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
