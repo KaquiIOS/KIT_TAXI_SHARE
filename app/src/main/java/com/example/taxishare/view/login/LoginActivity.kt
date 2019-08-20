@@ -56,13 +56,6 @@ class LoginActivity : BaseActivity(), LoginView {
             else resources.getString(R.string.common_email_pattern_not_match)
     }
 
-    /*
-     *  */
-    override fun changePwEditTextState(isMatched: Boolean) {
-        text_layout_login_pw.error =
-            if (isMatched) null
-            else resources.getString(R.string.common_pw_pattern_not_match)
-    }
 
     /*
      * Presenter 초기화  */

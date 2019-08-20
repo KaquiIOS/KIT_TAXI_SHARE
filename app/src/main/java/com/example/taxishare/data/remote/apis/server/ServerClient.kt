@@ -115,4 +115,8 @@ class ServerClient private constructor() {
     fun loadMyTaxiShareList(): Observable<MutableList<MyTaxiShareItem>> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .loadMyTaxiShareList(Constant.CURRENT_USER.studentId.toString())
+
+    fun findPassword(findPasswordRequest : FindPasswordRequest) : Observable<FindPasswordResponse> =
+        retrofit.create(FindPasswordAPI::class.java)
+            .sendTemporaryPassword(findPasswordRequest.getRequest())
 }

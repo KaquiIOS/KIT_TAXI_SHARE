@@ -55,8 +55,10 @@ enum class ServerResponse(val code: Int, val description: String) {
 
     DETAIL_TAXISHARE_LOAD_SUCCESS(2061, "DetailTaxiShareSuccess"),
     DETAIL_TAXISHARE_LOAD_FAIL(2062, "DetailTaxiShareFail"),
-    DETAIL_TAXISHARE_DELETED(2063, "DetailTaxiShareDeleted");
+    DETAIL_TAXISHARE_DELETED(2063, "DetailTaxiShareDeleted"),
 
+    FIND_PASSWORD_SUCCESS(2071, "SendTemporaryPasswordSuccess"),
+    FIND_PASSWORD_FAIL(2072, "SendTemporaryPasswordFail");
 
     companion object{
         fun fromServerResponseCode(code : Int) = values().first { it.code == code }

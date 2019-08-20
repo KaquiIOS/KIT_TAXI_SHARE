@@ -4,6 +4,7 @@
 
 package com.example.taxishare.data.repo
 
+import android.util.Log
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.*
 import com.example.taxishare.data.remote.apis.server.ServerClient
@@ -99,5 +100,12 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
 
     override fun loadMyTaxiShareList(): Observable<MutableList<MyTaxiShareItem>> =
         serverClient.loadMyTaxiShareList()
+            .uiSubscribe()
+
+    override fun findPassword(findPasswordRequest: FindPasswordRequest): Observable<ServerResponse> =
+        serverClient.findPassword(findPasswordRequest)
+            .map {
+                Log.d("test", "Test")
+                ServerResponse.fromServerResponseCode(it.responseCode) }
             .uiSubscribe()
 }

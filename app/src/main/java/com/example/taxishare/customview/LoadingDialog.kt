@@ -26,6 +26,7 @@ class LoadingDialog(
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         LayoutInflater.from(context).inflate(R.layout.loading_dialog_layout, container, false).apply {
             setStyle(STYLE_NORMAL, R.style.Theme_AppCompat_Light_Dialog_Alert)
+            isCancelable = false
             this.tv_loading_message.setText(messageId)
         }
 

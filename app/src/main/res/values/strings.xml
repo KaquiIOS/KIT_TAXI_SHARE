@@ -12,6 +12,13 @@
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
 
+    <string name="input_std_num">학번을 입력하세요</string>
+    <string name="temporary_pw_send">임시 비밀번호 전송</string>
+
+    <string name="temporary_pw_send_message">임시 비밀번호 전송중입니다</string>
+    <string name="temporary_pw_send_success">임시 비밀번호를 전송했습니다</string>
+    <string name="temporary_pw_send_fail">임시 비밀번호 전송을 실패했습니다</string>
+
     <!-- Main -->
     <string name="main_menu_party">TaxiShare</string>
     <string name="main_menu_register">Register</string>

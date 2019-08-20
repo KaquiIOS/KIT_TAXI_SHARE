@@ -56,8 +56,7 @@ class LoginPresenter(
     }
 
     fun checkPwValidation(pw: String) {
-        isPwValidate = RegularExpressionChecker.checkPasswordValidation(pw)
-        loginView.changePwEditTextState(isPwValidate)
+        isPwValidate = pw.isNotEmpty()
         changeLoginButtonState()
     }
 

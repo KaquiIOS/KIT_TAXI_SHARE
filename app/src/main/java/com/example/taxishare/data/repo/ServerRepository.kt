@@ -28,4 +28,5 @@ interface ServerRepository {
     fun leaveTaxiShare(leaveTaxiShareRequest: LeaveTaxiShareRequest) : Observable<ServerResponse>
     fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest) : Observable<DetailTaxiShareLoadResponse>
     fun loadMyTaxiShareList() : Observable<MutableList<MyTaxiShareItem>>
+    fun findPassword(findPasswordRequest: FindPasswordRequest) : Observable<ServerResponse>
 }
