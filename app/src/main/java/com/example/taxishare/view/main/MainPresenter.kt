@@ -18,4 +18,12 @@ class MainPresenter(private val view: MainView) {
             }
         }
     }
+
+    fun changeToolbarName(isTaxiShareList : Boolean) {
+        if(isTaxiShareList) {
+            view.changeToolbarNameAsTaxiList()
+        } else {
+            view.changeToolbarNameAsMyPage()
+        }
+    }
 }

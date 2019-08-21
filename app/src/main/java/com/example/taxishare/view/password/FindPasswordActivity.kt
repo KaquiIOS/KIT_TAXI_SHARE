@@ -1,8 +1,6 @@
 package com.example.taxishare.view.password
 
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import com.example.taxishare.R
 import com.example.taxishare.customview.LoadingDialog
 import com.example.taxishare.data.remote.apis.server.ServerClient
@@ -10,7 +8,6 @@ import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.BaseActivity
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_find_password.*
-import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 
 class FindPasswordActivity : BaseActivity(), FindPasswordView {

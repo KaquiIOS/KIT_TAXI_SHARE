@@ -14,10 +14,9 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.taxishare.R
 import com.example.taxishare.view.login.LoginActivity
-import org.jetbrains.anko.toast
 
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -29,9 +28,15 @@ class AlarmReceiver : BroadcastReceiver() {
             // 설정해둔 pending Intent를 이용해서 데이터를 여기다 보내주고
             // 시간, 언제, 어디서 출발하는지 정보 알려주기
 
-            builder.setSmallIcon(com.example.taxishare.R.mipmap.ic_launcher_round)
+            builder.setSmallIcon(R.drawable.ic_taxi_stop)
             builder.setContentTitle("TaxiShare")
-            builder.setContentText("알림 세숩 텍스트")
+
+            if(intent != null) {
+                val message = intent.getStringExtra(Constant.ALARM_MESSAGE_STR)
+                builder.setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            } else {
+                builder.setContentText("합승 추가 정보를 읽어오는데 실패했습니다")
+            }
 
             // 액션 정의
             val intent2 = Intent(context, LoginActivity::class.java)
@@ -45,11 +50,11 @@ class AlarmReceiver : BroadcastReceiver() {
             builder.setContentIntent(pendingIntent)
 
             // 큰 아이콘 설정
-            val largeIcon = BitmapFactory.decodeResource(context.resources, com.example.taxishare.R.mipmap.ic_launcher)
+            val largeIcon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_taxi_stop)
             builder.setLargeIcon(largeIcon)
 
             // 색상 변경
-            builder.color = Color.RED
+            builder.color = Color.BLACK
 
             val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager?
             // 오레오에서는 알림 채널을 매니저에 생성해야 한다

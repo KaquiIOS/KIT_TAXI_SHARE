@@ -4,7 +4,6 @@
 
 package com.example.taxishare.view.main.register.location.search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

@@ -6,11 +6,9 @@ package com.example.taxishare.service
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.example.taxishare.view.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import java.lang.Exception
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -24,7 +22,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         // when not null
         remoteMessage?.from.apply {
-            Log.d("Test", remoteMessage.toString())
             sendToActivity(
                 applicationContext,
                 remoteMessage?.from ?: "",

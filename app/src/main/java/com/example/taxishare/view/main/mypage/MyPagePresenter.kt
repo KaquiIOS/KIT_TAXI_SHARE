@@ -1,6 +1,5 @@
 package com.example.taxishare.view.main.mypage
 
-import com.example.taxishare.app.Constant
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.repo.ServerRepository
@@ -12,7 +11,7 @@ class MyPagePresenter(
     private val view: MyPageView
 ) {
 
-    private lateinit var loadMyTaxiShareListDisposable : Disposable
+    private lateinit var loadMyTaxiShareListDisposable: Disposable
 
 
     fun onCreate() {
@@ -24,13 +23,15 @@ class MyPagePresenter(
             loadMyTaxiShareListDisposable.dispose()
     }
 
-    fun openDetailTaxiShareInfoPage(id : String, uid : String) {
-        view.openDetailTaxiSharePage(TaxiShareInfo(
-            id, uid, "", Date(0),
-            Location(0.0,0.0,"","",""),
-            Location(0.0,0.0,"","",""),
-            0, "" , "", 0, false
-        ))
+    fun openDetailTaxiShareInfoPage(id: String, uid: String) {
+        view.openDetailTaxiSharePage(
+            TaxiShareInfo(
+                id, uid, "", Date(0),
+                Location(0.0, 0.0, "", "", ""),
+                Location(0.0, 0.0, "", "", ""),
+                0, "", "", 0, false
+            )
+        )
     }
 
 
@@ -39,6 +40,11 @@ class MyPagePresenter(
             loadMyTaxiShareListDisposable = serverRepoImpl.loadMyTaxiShareList()
                 .subscribe({
                     view.setMyList(it)
+                    if (it.isEmpty()) {
+                        view.setBackgroundWhite()
+                    } else {
+                        view.setBackgroundGray()
+                    }
                 }, {
                     it.printStackTrace()
                 })

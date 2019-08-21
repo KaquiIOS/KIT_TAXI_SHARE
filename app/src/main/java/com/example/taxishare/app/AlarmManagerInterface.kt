@@ -8,7 +8,11 @@ import java.util.*
 
 interface AlarmManagerInterface {
 
-    fun setOneTimeAlarm(postId : Int, date : Calendar)
+    fun setOneTimeAlarm(
+        postId: Int, date: Calendar, startLocation: String,
+        endLocation: String
+    )
+
     fun setRepeatingAlarm()
     fun cancelAlarm(postId: Int)
 

@@ -11,18 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.taxishare.R
 import com.example.taxishare.app.AlarmManagerImpl
 import com.example.taxishare.app.Constant
-import com.example.taxishare.data.local.room.AppDatabase
-import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.ServerClient
-import com.example.taxishare.data.repo.LocationRepositoryImpl
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.main.register.location.LocationSearchActivity
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.itemSelections
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_register_taxi_share.*
+import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import java.util.*
@@ -33,7 +31,6 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
     private val presenter: RegisterTaxiSharePresenter by lazy {
         RegisterTaxiSharePresenter(
             this, ServerRepositoryImpl(ServerClient.getInstance()),
-            LocationRepositoryImpl.getInstance(AppDatabase.getInstance(this), TypeMapper),
             AlarmManagerImpl(getSystemService(Context.ALARM_SERVICE) as AlarmManager, this)
         )
     }
@@ -80,7 +77,9 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
     override fun taxiRegisterTaskSuccess(taxiShareInfo: TaxiShareInfo) {
         toast(resources.getString(R.string.register_taxi_share_info_success))
-        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.REGISTER_TAXI_SHARE_STR, taxiShareInfo) })
+        setResult(
+            Activity.RESULT_OK,
+            Intent().apply { putExtra(Constant.REGISTER_TAXI_SHARE_STR, taxiShareInfo) })
         finish()
     }
 
@@ -94,7 +93,9 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
     override fun taxiModifyTaskSuccess(taxiShareInfo: TaxiShareInfo) {
         toast(getString(R.string.modify_taxi_share_success))
-        setResult(Activity.RESULT_OK, Intent().apply { putExtra(Constant.MODIFY_TAXI_SHARE_STR, taxiShareInfo) })
+        setResult(
+            Activity.RESULT_OK,
+            Intent().apply { putExtra(Constant.MODIFY_TAXI_SHARE_STR, taxiShareInfo) })
         finish()
     }
 
@@ -111,15 +112,21 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
 
         val calendar: Calendar = Calendar.getInstance()
 
-        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                Calendar.getInstance().apply {
-                    set(year, month, dayOfMonth, hourOfDay, minute)
-                    presenter.setStartDateTime(time)
-                }
+        DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                    Calendar.getInstance().apply {
+                        set(year, month, dayOfMonth, hourOfDay, minute)
+                        presenter.setStartDateTime(time)
+                    }
 
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -148,7 +155,10 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
             )
                 .apply {
                     intent = Intent().apply {
-                        putExtra(resources.getString(R.string.intent_request_code), Constant.REGISTER_END_LOCATION_CODE)
+                        putExtra(
+                            resources.getString(R.string.intent_request_code),
+                            Constant.REGISTER_END_LOCATION_CODE
+                        )
                     }
                 }
         }
@@ -160,10 +170,15 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
             )
                 .apply {
                     intent = Intent().apply {
-                        putExtra(resources.getString(R.string.intent_request_code), Constant.REGISTER_END_LOCATION_CODE)
+                        putExtra(
+                            resources.getString(R.string.intent_request_code),
+                            Constant.REGISTER_END_LOCATION_CODE
+                        )
                     }
                 }
         }
+
+        spn_taxi_register_member_num.onTouch { view, _ -> view.requestFocusFromTouch() }
 
         spn_taxi_register_member_num.itemSelections().skipInitialValue().subscribe {
             presenter.setMemberNum(spn_taxi_register_member_num.selectedItem.toString())

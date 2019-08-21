@@ -18,6 +18,7 @@ import com.example.taxishare.extension.observeBottomDetectionPublisher
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_my_page.*
+import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 
@@ -63,6 +64,14 @@ class MyPageFragment : Fragment(), MyPageView {
         } else if(resultCode == Constant.DATA_REMOVED && data != null) {
             myListAdapter.removeMyItem(data.getStringExtra(Constant.POST_ID))
         }
+    }
+
+    override fun setBackgroundGray() {
+        nsc_my_taxi_list.backgroundResource = R.color.temp_gray
+    }
+
+    override fun setBackgroundWhite() {
+        nsc_my_taxi_list.backgroundResource = R.color.common_white
     }
 
     override fun onDestroy() {

@@ -9,6 +9,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.taxishare.data.mapper.TypeMapper
 import java.util.*
 
 class AlarmManagerImpl(
@@ -17,8 +18,17 @@ class AlarmManagerImpl(
 ) : AlarmManagerInterface {
 
 
-    override fun setOneTimeAlarm(postId: Int, date: Calendar) {
+    override fun setOneTimeAlarm(
+        postId: Int, date: Calendar, startLocation: String,
+        endLocation: String
+    ) {
         Intent(context, AlarmReceiver::class.java).let {
+            it.putExtra(
+                Constant.ALARM_MESSAGE_STR, String.format(
+                    "%s 시 합승 출발 알림입니다.\n출발지 : %s\n도착지: %s",
+                    TypeMapper.dateToString(date.time), startLocation, endLocation
+                )
+            )
             PendingIntent.getBroadcast(context, postId, it, 0)
         }.apply {
             alarmManager.set(
@@ -31,7 +41,7 @@ class AlarmManagerImpl(
     }
 
     override fun setRepeatingAlarm() {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun cancelAlarm(postId: Int) {

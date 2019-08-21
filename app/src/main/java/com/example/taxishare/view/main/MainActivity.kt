@@ -30,7 +30,8 @@ import org.jetbrains.anko.startActivityForResult
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), MainView,
+    NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var mainPresenter: MainPresenter
     private lateinit var taxiShareListFragment: TaxiShareListFragment
@@ -132,23 +133,31 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
     }
 
     override fun openEndLocationSettingActivity() {
-        startActivityForResult<LocationSearchActivity>(Constant.END_LOCATION_SEARCH_CODE,
-            Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_arrive))
+        startActivityForResult<LocationSearchActivity>(
+            Constant.END_LOCATION_SEARCH_CODE,
+            Constant.LOCATION_SEARCH_HINT to resources.getString(R.string.search_location_arrive)
+        )
     }
 
     override fun openStartTimeSettingActivity() {
         val calendar: Calendar = Calendar.getInstance()
 
-        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                Calendar.getInstance().apply {
-                    set(year, month, dayOfMonth, hourOfDay, minute)
-                    taxiShareListFragment.setStartTime(time)
-                    nav_view.menu[2].subMenu[0].title = TypeMapper.dateToString(time)
-                }
+        DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                    Calendar.getInstance().apply {
+                        set(year, month, dayOfMonth, hourOfDay, minute)
+                        taxiShareListFragment.setStartTime(time)
+                        nav_view.menu[2].subMenu[0].title = TypeMapper.dateToString(time)
+                    }
 
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     override fun resetFilteringSetting() {
@@ -160,8 +169,19 @@ class MainActivity : AppCompatActivity(), MainView, NavigationView.OnNavigationI
         }
     }
 
+    override fun changeToolbarNameAsTaxiList() {
+        tv_tb_title.text = getString(R.string.taxi_list_toolbar_title)
+    }
+
+    override fun changeToolbarNameAsMyPage() {
+        tv_tb_title.text = getString(R.string.taxi_list_my_page_title)
+    }
+
     private fun changeFragment(fragment: Fragment) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+
+        mainPresenter.changeToolbarName(fragment == taxiShareListFragment)
+
         fragmentTransaction.replace(R.id.ll_main, fragment).commitAllowingStateLoss()
     }
 

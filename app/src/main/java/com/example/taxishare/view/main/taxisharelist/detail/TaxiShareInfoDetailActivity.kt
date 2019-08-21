@@ -171,8 +171,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         btn_taxi_share_detail_participate.textColor = R.color.light_gray
         btn_taxi_share_detail_participate.text =
             String.format(
-                getString(R.string.already_participate_taxi_share_title),
-                currentTaxiShareInfo.participantsNum
+                getString(R.string.already_participate_taxi_share_title)
             )
         toast(getString(R.string.participate_taxi_share_success))
     }
@@ -204,9 +203,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         btn_taxi_share_detail_participate.textColor = R.color.common_black
         btn_taxi_share_detail_participate.text =
             String.format(
-                getString(R.string.taxi_share_participants_num),
-                currentTaxiShareInfo.participantsNum,
-                currentTaxiShareInfo.limit
+                getString(R.string.taxi_share_participants_num)
             )
         toast(getString(R.string.leave_taxi_share_success))
     }
@@ -233,19 +230,37 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
     }
 
     private fun setTaxiShareInfoDeletedFlag() {
-        setResult(Constant.DATA_REMOVED, Intent().putExtra(Constant.POST_ID, currentTaxiShareInfo.id))
+        setResult(
+            Constant.DATA_REMOVED,
+            Intent().putExtra(Constant.POST_ID, currentTaxiShareInfo.id)
+        )
         finish()
     }
 
     private fun setViewItem() {
         with(currentTaxiShareInfo) {
-            tv_taxi_share_detail_leader.text = String.format(getString(R.string.nickname_format), nickname, major)
-            tv_taxi_share_detail_start_time.text = TypeMapper.dateToString(startDate)
+            tv_taxi_share_detail_leader.text =
+                String.format(getString(R.string.nickname_format), nickname, major)
+            tv_taxi_share_detail_start_time.text =
+                String.format(
+                    getString(R.string.taxi_list_start_time),
+                    TypeMapper.dateToString(startDate)
+                )
             tv_taxi_share_detail_start_location.text = startLocation.locationName
             tv_taxi_share_detail_end_location.text = endLocation.locationName
             tv_taxi_share_detail_title.text = title
+
+            tv_taxi_share_detail_participants_title.text =
+                String.format(
+                    getString(R.string.taxi_share_participants_member_title),
+                    limit
+                )
+
             tv_taxi_share_detail_participants.text =
-                String.format(getString(R.string.taxi_share_participants_member), participants.toString())
+                String.format(
+                    getString(R.string.taxi_share_participants_member),
+                    participants.toString()
+                )
 
             Calendar.getInstance().apply {
                 time = currentTaxiShareInfo.startDate
@@ -264,18 +279,18 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
             if (Constant.CURRENT_USER.studentId.toString() == uid) {
                 btn_taxi_share_detail_participate.text =
-                    String.format(resources.getString(R.string.my_taxi_share_title), participantsNum)
+                    String.format(resources.getString(R.string.my_taxi_share_title))
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
                 btn_taxi_share_detail_participate.textColor = R.color.light_gray
                 btn_taxi_share_detail_participate.isEnabled = false
             } else if (isParticipated) {
                 btn_taxi_share_detail_participate.text =
-                    String.format(resources.getString(R.string.already_participate_taxi_share_title), participantsNum)
+                    String.format(resources.getString(R.string.already_participate_taxi_share_title))
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
                 btn_taxi_share_detail_participate.textColor = R.color.light_gray
             } else {
                 btn_taxi_share_detail_participate.text =
-                    String.format(resources.getString(R.string.taxi_share_participants_num), participantsNum, limit)
+                    String.format(resources.getString(R.string.taxi_share_participants_num))
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_not_participate_color)
                 btn_taxi_share_detail_participate.textColor = R.color.common_black
             }
@@ -331,7 +346,8 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             it.printStackTrace()
         })
 
-        rcv_taxi_share_detail_comments.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rcv_taxi_share_detail_comments.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {

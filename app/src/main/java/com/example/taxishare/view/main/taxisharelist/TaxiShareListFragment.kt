@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +25,7 @@ import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
-import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
@@ -66,7 +65,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?  = inflater.inflate(R.layout.fragment_taxi_share_list, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_taxi_share_list, container, false)
 
     override fun setTaxiShareList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         taxiShareListAdapter.setTaxiShareInfoList(taxiShareList, isRefresh)
@@ -181,11 +180,11 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     override fun setBackgroundGray() {
-        nsc_taxi_list.backgroundColor = R.color.light_gray
+        rcv_taxi_list.backgroundResource = R.color.temp_gray
     }
 
     override fun setBackgroundWhite() {
-        nsc_taxi_list.backgroundColor = R.color.common_white
+        rcv_taxi_list.backgroundResource = R.color.common_white
     }
 
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
@@ -211,7 +210,10 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     private fun initPresenter() {
         presenter = TaxiShareListPresenter(
             this, ServerRepositoryImpl.getInstance(ServerClient.getInstance()),
-            AlarmManagerImpl(context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager, context!!)
+            AlarmManagerImpl(
+                context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager,
+                context!!
+            )
         )
     }
 
@@ -238,7 +240,8 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             }
         }
 
-        taxiShareListAdapter.setTaxiShareInfoItemClickListener(object : TaxiShareInfoItemClickListener {
+        taxiShareListAdapter.setTaxiShareInfoItemClickListener(object :
+            TaxiShareInfoItemClickListener {
             override fun onTaxiShareInfoItemClicked(selectedTaxiShareInfo: TaxiShareInfo) {
                 this@TaxiShareListFragment.startActivityForResult<TaxiShareInfoDetailActivity>(
                     Constant.TAXISHARE_DETAIL,
@@ -246,15 +249,20 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                 )
             }
         })
-        taxiShareListAdapter.setTaxiShareInfoModifyClickListener(object : TaxiShareInfoModifyClickListener {
-            override fun onTaxiShareInfoModifyClicked(selectedTaxiShareInfo: TaxiShareInfo, pos: Int) {
+        taxiShareListAdapter.setTaxiShareInfoModifyClickListener(object :
+            TaxiShareInfoModifyClickListener {
+            override fun onTaxiShareInfoModifyClicked(
+                selectedTaxiShareInfo: TaxiShareInfo,
+                pos: Int
+            ) {
                 this@TaxiShareListFragment.startActivityForResult<RegisterTaxiShareActivity>(
                     Constant.MODIFY_TAXI_SHARE,
                     Constant.MODIFY_TAXI_SHARE_STR to selectedTaxiShareInfo
                 )
             }
         })
-        taxiShareListAdapter.setTaxiShareInfoRemoveClickListener(object : TaxiShareInfoRemoveClickListener {
+        taxiShareListAdapter.setTaxiShareInfoRemoveClickListener(object :
+            TaxiShareInfoRemoveClickListener {
             override fun onTaxiShareInfoRemoveClicked(postId: String) {
                 AlertDialog.Builder(context)
                     .setTitle(getString(R.string.taxi_share_remove_title))
@@ -268,8 +276,12 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                     .show()
             }
         })
-        taxiShareListAdapter.setTaxiShareParticipantsClickListener(object : TaxiShareParticipantBtnClickListener {
-            override fun onParticipantsButtonClicked(postId: String, isParticipating: Boolean) {
+        taxiShareListAdapter.setTaxiShareParticipantsClickListener(object :
+            TaxiShareParticipantBtnClickListener {
+            override fun onParticipantsButtonClicked(
+                postId: String,
+                isParticipating: Boolean, startLocation: String, endLocation: String
+            ) {
                 if (isParticipating) {
                     AlertDialog.Builder(context)
                         .setTitle(getString(R.string.taxi_share_leave_title))
@@ -282,7 +294,7 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                         .setCancelable(false)
                         .show()
                 } else {
-                    presenter.participateTaxiShare(postId, Date())
+                    presenter.participateTaxiShare(postId, Date(), startLocation, endLocation)
                 }
             }
         })

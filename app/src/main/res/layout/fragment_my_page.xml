@@ -8,11 +8,28 @@
                                        tools:context=".view.main.mypage.MyPageFragment">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_my_taxi_share"
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/my_page_tip_title"
+                android:dividerHeight="0dp"
+                android:divider="@null"
+                android:background="@color/temp_gray"
+                android:padding="2dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_my_taxi_share"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

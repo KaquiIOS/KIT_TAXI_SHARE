@@ -1,27 +1,20 @@
 package com.example.taxishare.data.repo
 
-import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.User
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.remote.apis.server.request.LoginRequest
-import io.reactivex.Observable
 import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.observers.TestObserver
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.TestScheduler
 import org.junit.After
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 import org.mockito.Mock
-import org.mockito.Mockito
-import java.util.*
 
 class RxSchedulerRule : TestRule {
     override fun apply(base: Statement?, description: Description?): Statement {

@@ -12,5 +12,7 @@ interface MyPageView {
 
     fun loadMyListFail()
 
+    fun setBackgroundGray()
+    fun setBackgroundWhite()
 
 }

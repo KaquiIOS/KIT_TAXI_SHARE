@@ -89,7 +89,7 @@ class TaxiShareListPresenter(
         }
     }
 
-    fun participateTaxiShare(postId: String, date: Date) {
+    fun participateTaxiShare(postId: String, date: Date, startLocation : String, endLocation : String) {
 
         if (!::participateTaxiShareDisposable.isInitialized || participateTaxiShareDisposable.isDisposed) {
             view.showMessageDialog()
@@ -97,7 +97,8 @@ class TaxiShareListPresenter(
                 .subscribe({
                     if (it == ServerResponse.PARTICIPATE_TAXI_SHARE_SUCCESS) {
                         view.showParticipateTaxiShareSuccess(postId)
-                        alarmManager.setOneTimeAlarm(postId.toInt(), Calendar.getInstance().apply { time = date })
+                        alarmManager.setOneTimeAlarm(postId.toInt(), Calendar.getInstance().apply { time = date },
+                            startLocation, endLocation)
                     } else {
                         view.showParticipateTaxiShareFail()
                     }

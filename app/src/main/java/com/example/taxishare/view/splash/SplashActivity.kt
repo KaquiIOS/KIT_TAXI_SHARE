@@ -1,8 +1,6 @@
 package com.example.taxishare.view.splash
 
-import android.animation.Animator
 import android.os.Bundle
-import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieDrawable
 import com.example.taxishare.R

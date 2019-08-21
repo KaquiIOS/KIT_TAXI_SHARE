@@ -10,7 +10,9 @@
     <color name="transparent">#00000000</color>
     <color name="common_gray">#999999</color>
     <color name="light_gray">#CCCCCC</color>
+    <color name="temp_gray">#EEEEEE</color>
     <color name="common_black">#000000</color>
+    <color name="light_black">#222222</color>
 
     <color name="warning_red">#FF0000</color>
 

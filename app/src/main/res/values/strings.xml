@@ -38,6 +38,7 @@
     <string name="register_post">등록</string>
 
     <string-array name="register_member_num">
+        <item>2</item>
         <item>3</item>
         <item>4</item>
     </string-array>
@@ -70,6 +71,12 @@
 
     <string name="login">로그인 화면입니다 !</string>
     <string name="login_loading_text">로그인 중입니다</string>
+
+    <string name="taxi_list_toolbar_title">택시 합승 목록</string>
+    <string name="taxi_list_my_page_title">마이 페이지</string>
+
+    <string name="taxi_list_start_time">출발시간 : %s</string>
+    <string name="taxi_list_party_num">현재 참여 인원(최대 인원) : %d(%d)</string>
 
     <!-- Sign Up -->
     <string-array name="major_list">
@@ -131,7 +138,7 @@
     <string name="sign_up_send_email">이메일을 전송했습니다 !</string>
     <string name="sign_up_fail_send_email">이메일 전송을 실패했습니다</string>
     <string name="sign_up_same_nickname_exist">동일한 닉네임이 존재합니다</string>
-<string name="find_pw_send_email">임시 비밀번호를 학교 이메일로 전송합니다.</string>
+    <string name="find_pw_send_email">임시 비밀번호를 학교 이메일로 전송합니다.</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -169,9 +176,9 @@
     <string name="taxi_share_leave_content">택시 합승을 취소하시겠습니까 ?</string>
     <string name="taxi_share_remove_title">합승 글 삭제</string>
     <string name="taxi_share_remove_content">합승 글을 삭제하시겠습니까 ?</string>
-    <string name="my_taxi_share_title">내가 작성한 글입니다(현재 참여 인원 : %d명)</string>
-    <string name="already_participate_taxi_share_title">이미 참여중인 글입니다(현재 참여 인원 : %d 명)</string>
-    <string name="taxi_share_participants_num">현재 참여중인 인원은 %d 명 입니다(제한 인원 : %d 명)</string>
+    <string name="my_taxi_share_title">내가 작성한 글입니다</string>
+    <string name="already_participate_taxi_share_title">이미 참여중인 글입니다</string>
+    <string name="taxi_share_participants_num">참여하기</string>
     <string name="nickname_format">%s (%s)</string>
 
     <string name="leave_taxi_share_fail">택시 합승 취소를 실패했습니다</string>
@@ -193,7 +200,16 @@
     <string name="already_taxi_share_started">이미 출발한 글입니다</string>
 
     <string name="taxi_share_list_load_not_finish">합승 목록을 불러오는 중입니다</string>
-    <string name="taxi_share_participants_member">현재 참여자 목록 : %s</string>
+    <string name="taxi_share_participants_member_title">현재 참여자 목록(%d)</string>
+    <string name="taxi_share_participants_member">%s</string>
+    <string name="my_taxi_share_tip_title">현재까지 택시 합승 기록 목록입니다.\n이미 지나간(종료된) 합승 정보는 가져오지 않습니다.</string>
+
+    <string-array name="my_page_tip_title">
+        <item>- 현재까지 택시 합승 기록 목록을 보여줍니다.</item>
+        <item>- 이미 종료된 합승 저오는 가져오지 않습니다</item>
+    </string-array>
+
+    <string name="no_my_list">참여한 합승이 없습니다</string>
 
     <string name="already_removed_taxi_share">삭제된 글입니다</string>
     <string name="remove_comment_waiting">댓글 삭제중입니다</string>

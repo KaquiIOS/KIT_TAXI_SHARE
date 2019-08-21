@@ -10,4 +10,7 @@ interface MainView {
     fun openEndLocationSettingActivity()
     fun openStartTimeSettingActivity()
     fun resetFilteringSetting()
+
+    fun changeToolbarNameAsTaxiList()
+    fun changeToolbarNameAsMyPage()
 }

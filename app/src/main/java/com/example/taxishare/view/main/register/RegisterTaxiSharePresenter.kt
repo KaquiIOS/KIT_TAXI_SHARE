@@ -4,17 +4,14 @@
 
 package com.example.taxishare.view.main.register
 
-import android.util.Log
 import com.example.taxishare.app.AlarmManagerInterface
 import com.example.taxishare.app.Constant
-import com.example.taxishare.data.local.room.entity.LocationModel
 import com.example.taxishare.data.mapper.TypeMapper
 import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.TaxiShareInfo
 import com.example.taxishare.data.remote.apis.server.request.RegisterTaxiShareRequest
 import com.example.taxishare.data.remote.apis.server.request.TaxiShareModifyRequest
-import com.example.taxishare.data.repo.LocationRepository
 import com.example.taxishare.data.repo.ServerRepository
 import io.reactivex.disposables.Disposable
 import java.util.*
@@ -23,7 +20,6 @@ import java.util.*
 class RegisterTaxiSharePresenter(
     private val view: RegisterTaxiShareView,
     private val serverRepoImpl: ServerRepository,
-    private val localRepoImpl: LocationRepository,
     private val alarmManger: AlarmManagerInterface
 ) {
 
@@ -47,6 +43,7 @@ class RegisterTaxiSharePresenter(
         isTitleChecked = title.length > Constant.REGISTER_TAXI_TITLE_MIN_LENGTH
         this@RegisterTaxiSharePresenter.title = title
         view.changeTitleEditTextState(isTitleChecked)
+        view.changeSignUpButtonState(isAllRequestDataValidated())
     }
 
     fun setStartDateTime(startDateTime: Date) {
@@ -59,14 +56,12 @@ class RegisterTaxiSharePresenter(
         this.startLocation = startLocation
         view.changeStartLocation(startLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
-        saveSelectedLocationToLocalDB(startLocation)
     }
 
     fun setEndLocation(endLocation: Location) {
         this.endLocation = endLocation
         view.changeEndLocation(endLocation.locationName)
         view.changeSignUpButtonState(isAllRequestDataValidated())
-        saveSelectedLocationToLocalDB(endLocation)
     }
 
     fun setMemberNum(memberNum: String) {
@@ -138,7 +133,9 @@ class RegisterTaxiSharePresenter(
                     )
                     alarmManger.setOneTimeAlarm(
                         preTaxiShareInfo!!.id.toInt(),
-                        Calendar.getInstance().apply { time = startDateTime })
+                        Calendar.getInstance().apply { time = startDateTime },
+                        startLocation.locationName, endLocation.locationName
+                    )
                 } else {
                     view.taxiModifyTaskFail()
                 }
@@ -177,7 +174,9 @@ class RegisterTaxiSharePresenter(
                         )
                         alarmManger.setOneTimeAlarm(
                             it.id.toInt(),
-                            Calendar.getInstance().apply { time = startDateTime })
+                            Calendar.getInstance().apply { time = startDateTime },
+                            startLocation.locationName, endLocation.locationName
+                        )
                     }
                     else -> view.taxiRegisterTaskFail()
                 }
@@ -186,18 +185,6 @@ class RegisterTaxiSharePresenter(
             })
         } else {
             view.taxiRegisterTaskNotOver()
-        }
-    }
-
-    private fun saveSelectedLocationToLocalDB(location: Location) {
-        with(location) {
-            localRepoImpl.insertLocation(
-                LocationModel(latitude, longitude, locationName, roadAddress, jibunAddress, Date())
-            ).subscribe({
-                Log.d("Test", "SaveSelectedLocationToDB")
-            }, {
-                it.printStackTrace()
-            })
         }
     }
 

@@ -15,13 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
 import com.example.taxishare.data.mapper.TypeMapper
-import com.example.taxishare.data.model.Location
 import com.example.taxishare.data.model.TaxiShareInfo
 import kotlinx.android.synthetic.main.item_taxi_share_post.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.textColor
-import java.util.*
-import kotlin.collections.ArrayList
 
 // ListAdapter 사용
 class TaxiShareListAdapter :
@@ -43,7 +40,7 @@ class TaxiShareListAdapter :
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_taxi_share_post, parent, false)
             )
-            else ->  NoTaxiShareInfoViewHolder(
+            else -> NoTaxiShareInfoViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_no_taxi_share, parent, false)
             )
@@ -54,7 +51,7 @@ class TaxiShareListAdapter :
         else -> 2
     }
 
-    override fun getItemCount(): Int = when(taxiShareInfoList.isEmpty()) {
+    override fun getItemCount(): Int = when (taxiShareInfoList.isEmpty()) {
         true -> 1
         else -> taxiShareInfoList.size
     }
@@ -72,7 +69,9 @@ class TaxiShareListAdapter :
                     if (::taxiShareParticipantBtnClickListener.isInitialized) {
                         taxiShareParticipantBtnClickListener.onParticipantsButtonClicked(
                             taxiShareInfoList[holder.adapterPosition].id,
-                            taxiShareInfoList[holder.adapterPosition].isParticipated
+                            taxiShareInfoList[holder.adapterPosition].isParticipated,
+                            taxiShareInfoList[holder.adapterPosition].startLocation.locationName,
+                            taxiShareInfoList[holder.adapterPosition].endLocation.locationName
                         )
                     }
                 }
@@ -100,7 +99,8 @@ class TaxiShareListAdapter :
                             } else if (it.itemId == R.id.taxi_share_info_modify) {
                                 if (::taxiShareInfoModifyClickListener.isInitialized) {
                                     taxiShareInfoModifyClickListener.onTaxiShareInfoModifyClicked(
-                                        taxiShareInfoList[holder.adapterPosition], holder.adapterPosition
+                                        taxiShareInfoList[holder.adapterPosition],
+                                        holder.adapterPosition
                                     )
                                 }
                             }
@@ -122,7 +122,8 @@ class TaxiShareListAdapter :
     }
 
     fun setTaxiShareParticipantsClickListener(taxiShareParticipantBtnClickListener: TaxiShareParticipantBtnClickListener) {
-        this@TaxiShareListAdapter.taxiShareParticipantBtnClickListener = taxiShareParticipantBtnClickListener
+        this@TaxiShareListAdapter.taxiShareParticipantBtnClickListener =
+            taxiShareParticipantBtnClickListener
     }
 
     fun setTaxiShareInfoItemClickListener(taxiShareInfoItemClickListener: TaxiShareInfoItemClickListener) {
@@ -130,11 +131,13 @@ class TaxiShareListAdapter :
     }
 
     fun setTaxiShareInfoModifyClickListener(taxiShareInfoModifyClickListener: TaxiShareInfoModifyClickListener) {
-        this@TaxiShareListAdapter.taxiShareInfoModifyClickListener = taxiShareInfoModifyClickListener
+        this@TaxiShareListAdapter.taxiShareInfoModifyClickListener =
+            taxiShareInfoModifyClickListener
     }
 
     fun setTaxiShareInfoRemoveClickListener(taxiShareInfoRemoveClickListener: TaxiShareInfoRemoveClickListener) {
-        this@TaxiShareListAdapter.taxiShareInfoRemoveClickListener = taxiShareInfoRemoveClickListener
+        this@TaxiShareListAdapter.taxiShareInfoRemoveClickListener =
+            taxiShareInfoRemoveClickListener
     }
 
     fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
@@ -200,7 +203,10 @@ class TaxiShareListAdapter :
         }
     }
 
-    private fun changeButtonState(view: View, text: String, @DrawableRes id: Int, @ColorRes cId: Int) {
+    private fun changeButtonState(
+        view: View,
+        text: String, @DrawableRes id: Int, @ColorRes cId: Int
+    ) {
         view.btn_taxi_share_post_participate.setBackgroundResource(id)
         view.btn_taxi_share_post_participate.text = text
         view.btn_taxi_share_post_participate.textColor = cId
@@ -211,18 +217,41 @@ class TaxiShareListAdapter :
     inner class TaxiShareInfoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(taxiShareInfo: TaxiShareInfo) {
 
+
             with(taxiShareInfo) {
                 view.tv_taxi_share_post_nickname.text =
-                    String.format(view.resources.getString(R.string.nickname_format), nickname, major)
-                view.tv_taxi_share_post_start_time.text = TypeMapper.dateToString(startDate)
+                    String.format(
+                        view.resources.getString(R.string.nickname_format),
+                        nickname,
+                        major
+                    )
+                view.tv_taxi_share_post_start_time.text =
+                    String.format(
+                        view.resources.getString(R.string.taxi_list_start_time),
+                        TypeMapper.dateToString(startDate)
+                    )
+
                 view.tv_taxi_share_post_start_location.text = startLocation.locationName
                 view.tv_taxi_share_post_end_location.text = endLocation.locationName
                 view.tv_taxi_share_post_title.text = title
 
-                if (Constant.CURRENT_USER.studentId == uid.toInt()) {
+                view.tv_taxi_share_post_party_num.text =
+                    String.format(
+                        view.resources.getString(R.string.taxi_list_party_num),
+                        participantsNum, limit
+                    )
+
+                if (System.currentTimeMillis() > startDate.time + Constant.ALARM_NOTIFY_TIME) {
                     changeButtonState(
                         view,
-                        String.format(view.resources.getString(R.string.my_taxi_share_title), participantsNum),
+                        view.resources.getString(R.string.taxi_share_closed),
+                        R.drawable.background_already_participate_color,
+                        R.color.light_gray
+                    )
+                } else if (Constant.CURRENT_USER.studentId == uid.toInt()) {
+                    changeButtonState(
+                        view,
+                        String.format(view.resources.getString(R.string.my_taxi_share_title)),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )
@@ -230,21 +259,14 @@ class TaxiShareListAdapter :
                 } else if (isParticipated) {
                     changeButtonState(
                         view,
-                        String.format(
-                            view.resources.getString(R.string.already_participate_taxi_share_title),
-                            participantsNum
-                        ),
+                        String.format(view.resources.getString(R.string.already_participate_taxi_share_title)),
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )
                 } else {
                     changeButtonState(
                         view,
-                        String.format(
-                            view.resources.getString(R.string.taxi_share_participants_num),
-                            participantsNum,
-                            limit
-                        ),
+                        String.format(view.resources.getString(R.string.taxi_share_participants_num)),
                         R.drawable.background_not_participate_color,
                         R.color.common_black
                     )

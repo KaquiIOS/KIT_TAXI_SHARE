@@ -7,7 +7,6 @@ import com.example.taxishare.data.remote.apis.server.request.LoginRequest
 import com.example.taxishare.data.repo.ServerRepository
 import com.example.taxishare.util.RegularExpressionChecker
 import io.reactivex.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
 class LoginPresenter(
     private val loginView: LoginView,

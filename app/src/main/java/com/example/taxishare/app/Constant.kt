@@ -58,6 +58,8 @@ class Constant {
 
         const val LOCATION_SAVE_STR: String = "location"
 
+        const val ALARM_MESSAGE_STR : String = "Alarm"
+
         const val LEAVE_TAXI_PARTY : Int = 11
     }
 }
