@@ -5,36 +5,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <!--<com.airbnb.lottie.LottieAnimationView-->
-    <!--android:id="@+id/splash_lottie_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--app:lottie_fileName="splash_load.json"/>-->
-
     <com.hanks.htextview.typer.TyperTextView
             android:id="@+id/ttv_splash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:lineSpacingMultiplier="1.5"
-            android:text="@string/taxi_share_splash"
-            app:charIncrease="1"
-            app:typerSpeed="40"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/splash_lottie_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_repeatMode="restart"
+            app:layout_constraintVertical_bias="0.3"
+            app:lottie_fileName="splash_car_asset.json"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ttv_splash"
             app:layout_constraintBottom_toBottomOf="parent"/>
-    <!--
-        <com.hanks.htextview.HTextView
-                android:id="@+id/ttv_splash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="KIT TAXI SHARE"
-                android:textSize="24sp"
-                app:animateType="typer"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

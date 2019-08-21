@@ -155,12 +155,12 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
     }
 
     override fun showLoadingDialog() {
-        if (pb_taxi_list.isVisible)
+        if (pb_taxi_list.visibility == View.GONE)
             pb_taxi_list.visibility = View.VISIBLE
     }
 
     override fun dismissLoadingDialog() {
-        if (pb_taxi_list.isVisible)
+        if (pb_taxi_list.visibility == View.VISIBLE)
             pb_taxi_list.visibility = View.GONE
     }
 

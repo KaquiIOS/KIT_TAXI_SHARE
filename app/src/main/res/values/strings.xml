@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Common -->
     <string name="app_name">TaxiShare</string>
     <string name="common_email_pattern_not_match">이메일 형식이 맞지 않습니다</string>
@@ -161,7 +162,7 @@
     <string name="taxi_share_detail_comment_hint">댓글을 입력하세요</string>
 
 
-    <string name="taxi_share_splash">This is Test Sentence</string>
+    <string name="taxi_share_splash">KIT TaxiPool</string>
     <string name="taxi_share_leave_title">택시 합승 취소</string>
     <string name="taxi_share_leave_content">택시 합승을 취소하시겠습니까 ?</string>
     <string name="taxi_share_remove_title">합승 글 삭제</string>
