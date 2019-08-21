@@ -190,7 +190,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
             })
 
 
-        spn_sign_up_major.onTouch { v, _ -> v.requestFocus() }
+        spn_sign_up_major.onTouch { v, _ -> v.requestFocusFromTouch() }
 
         // 전공선택 확인
         spn_sign_up_major.itemSelections().skipInitialValue()
