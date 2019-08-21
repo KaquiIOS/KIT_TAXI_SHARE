@@ -59,7 +59,7 @@ class FindPasswordActivity : BaseActivity(), FindPasswordView {
     override fun changeIdEditTextState(isMatched: Boolean) {
         text_input_layout_find_pw.error =
             if (isMatched) null
-            else resources.getString(R.string.common_email_pattern_not_match)
+            else resources.getString(R.string.common_student_id_pattern_not_match)
     }
 
     private fun initPresenter() {
@@ -76,6 +76,10 @@ class FindPasswordActivity : BaseActivity(), FindPasswordView {
 
         btn_find_pw_send.setOnClickListener {
             presenter.findPassword(text_input_find_pw.text.toString())
+        }
+
+        tb_find_pw.setNavigationOnClickListener {
+            finish()
         }
     }
 }

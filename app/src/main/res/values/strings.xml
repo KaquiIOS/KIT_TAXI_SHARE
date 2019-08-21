@@ -50,7 +50,7 @@
 
 
     <!-- Login -->
-    <string name="login_title">택시 카풀(가제)</string>
+    <string name="login_title">Kit TaxiPool</string>
     <string name="login_id">아이디</string>
     <string name="login_pw">비밀번호</string>
     <string name="login_sign_in">로그인</string>
@@ -107,7 +107,7 @@
         <item>-----</item>
     </string-array>
 
-    <string name="sign_up_personal_data">ID INFO</string>
+    <string name="sign_up_personal_data">회원가입</string>
     <string name="sign_up_validation">VALIDATION</string>
     <string name="sign_up_id">아이디</string>
     <string name="sign_up_pw">비밀번호</string>
@@ -131,8 +131,9 @@
     <string name="sign_up_send_email">이메일을 전송했습니다 !</string>
     <string name="sign_up_fail_send_email">이메일 전송을 실패했습니다</string>
     <string name="sign_up_same_nickname_exist">동일한 닉네임이 존재합니다</string>
+<string name="find_pw_send_email">임시 비밀번호를 학교 이메일로 전송합니다.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
@@ -162,6 +163,7 @@
     <string name="taxi_share_detail_comment_hint">댓글을 입력하세요</string>
 
 
+    <string name="find_pw_toolbar_title">임시 비밀번호 발송</string>
     <string name="taxi_share_splash">KIT TaxiPool</string>
     <string name="taxi_share_leave_title">택시 합승 취소</string>
     <string name="taxi_share_leave_content">택시 합승을 취소하시겠습니까 ?</string>
