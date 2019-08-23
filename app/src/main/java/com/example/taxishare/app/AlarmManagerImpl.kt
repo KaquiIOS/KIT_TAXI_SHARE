@@ -33,7 +33,7 @@ class AlarmManagerImpl(
         }.apply {
             alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
-                date.timeInMillis,
+                date.timeInMillis - (1800000),
                 this
             )
             Log.d("Test", "알람이 $date 에 설정되었습니다")

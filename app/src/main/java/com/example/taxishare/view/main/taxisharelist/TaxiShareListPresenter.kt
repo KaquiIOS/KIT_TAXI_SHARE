@@ -134,6 +134,7 @@ class TaxiShareListPresenter(
                         }
                         view.setTaxiShareList(it, isLatest)
                         view.dismissLoadingDialog()
+                        view.dismissRefresh()
                     }, {
                         view.showLoadTaxiShareListFailMessage()
                         view.dismissLoadingDialog()
@@ -144,6 +145,7 @@ class TaxiShareListPresenter(
 
     fun filterTaxiShareList(taxiShareList : MutableList<TaxiShareInfo>, setTaxiShareList : Boolean) {
 
+        val mutableList = mutableListOf<TaxiShareInfo>()
         val itr = taxiShareList.iterator()
         val temp = startTime
         while (itr.hasNext()) {
@@ -152,13 +154,16 @@ class TaxiShareListPresenter(
                 itr.remove()
                 continue
             }
-            if (endLocation != null && endLocation != taxiTemp.endLocation) {
+            else if (endLocation != null && endLocation != taxiTemp.endLocation) {
                 itr.remove()
                 continue
             }
-            if (temp != null && (temp.time >= taxiTemp.startDate.time)) {
+            else if (temp != null && (temp.time >= taxiTemp.startDate.time)) {
                 itr.remove()
                 continue
+            }
+            else {
+                mutableList.add(taxiTemp)
             }
         }
 
@@ -169,7 +174,7 @@ class TaxiShareListPresenter(
         }
 
         if(setTaxiShareList) {
-            view.setTaxiShareList(taxiShareList, true)
+            view.setTaxiShareList(mutableList, true)
         }
     }
 

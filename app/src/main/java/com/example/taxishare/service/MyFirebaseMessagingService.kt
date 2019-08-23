@@ -12,6 +12,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.taxishare.R
 import com.example.taxishare.app.Constant
@@ -58,6 +59,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         contents: String
     ) {
 
+
+        Log.d("FirebaseNotificationT", "$title $body")
 
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, "default")
 

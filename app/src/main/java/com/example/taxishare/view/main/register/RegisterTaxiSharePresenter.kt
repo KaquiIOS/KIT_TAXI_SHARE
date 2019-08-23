@@ -40,7 +40,7 @@ class RegisterTaxiSharePresenter(
 
 
     fun checkTitleLength(title: String) {
-        isTitleChecked = title.length > Constant.REGISTER_TAXI_TITLE_MIN_LENGTH
+        isTitleChecked =  title.isNotEmpty() && title.length <= Constant.REGISTER_TAXI_TITLE_MIN_LENGTH
         this@RegisterTaxiSharePresenter.title = title
         view.changeTitleEditTextState(isTitleChecked)
         view.changeSignUpButtonState(isAllRequestDataValidated())

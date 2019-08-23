@@ -29,6 +29,7 @@ interface TaxiShareListView {
     fun setBackgroundGray()
     fun setBackgroundWhite()
 
+    fun dismissRefresh()
 
     fun showLoadingDialog()
     fun dismissLoadingDialog()

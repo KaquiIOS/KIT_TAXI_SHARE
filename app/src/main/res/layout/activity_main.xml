@@ -31,7 +31,7 @@
                 <androidx.appcompat.widget.Toolbar
                         android:id="@+id/tb_taxi_list"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/main_toolbar_size"
+                        android:layout_height="?attr/actionBarSize"
                         app:layout_scrollFlags="scroll|enterAlways">
 
                     <androidx.constraintlayout.widget.ConstraintLayout

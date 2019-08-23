@@ -28,8 +28,8 @@
 
     <!-- Register TaxiShare -->
     <string name="register_title">글 등록</string>
-    <string name="register_title_hint">제목</string>
-    <string name="register_title_helper">제목은 3~20자로 입력해주세요</string>
+    <string name="register_title_hint">추가 설명을 입력해주세요</string>
+    <string name="register_title_helper">내용은 100자 이내로 입력해주세요</string>
     <string name="register_start_time_hint">출발 시간</string>
     <string name="register_start_location_hint">출발 위치</string>
     <string name="register_end_location_hint">도착 위치</string>
@@ -75,8 +75,8 @@
     <string name="taxi_list_toolbar_title">택시 합승 목록</string>
     <string name="taxi_list_my_page_title">마이 페이지</string>
 
-    <string name="taxi_list_start_time">출발시간 : %s</string>
-    <string name="taxi_list_party_num">현재 참여 인원(최대 인원) : %d(%d)</string>
+    <string name="taxi_list_start_time">출발 시간  : %s</string>
+    <string name="taxi_list_party_num" >참여 인원(최대)" ": %d(%d)</string>
 
     <!-- Sign Up -->
     <string-array name="major_list">
@@ -154,6 +154,7 @@
     <string name="location_select">선택</string>
     <string name="location_dialog_title">새로 등록할 지역의 이름을 입력해주세요 !</string>
     <string name="location_dialog_hint">여기다 입력해주세요 !</string>
+    <string name="taxi_share_content_requirement_not_match">내용은 1~300자로 입력해주세요</string>
     <string name="taxi_share_title_pattern_not_match">제목 형식이 맞지않습니다</string>
     <string name="taxi_share_register_not_finish">게시글 등록이 끝나지 않았습니다 !</string>
     <string name="taxi_share_register_success">등록 성공</string>

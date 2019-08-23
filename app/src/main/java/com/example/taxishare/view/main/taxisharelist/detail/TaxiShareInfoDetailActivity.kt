@@ -262,7 +262,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             tv_taxi_share_detail_participants_title.text =
                 String.format(
                     getString(R.string.taxi_share_participants_member_title),
-                    limit
+                    participantsNum
                 )
 
             tv_taxi_share_detail_participants.text =
@@ -306,7 +306,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         rcv_taxi_share_detail_comments.apply {
             adapter = this@TaxiShareInfoDetailActivity.adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
             itemAnimator = null
             setOnBottomDetection()
         }

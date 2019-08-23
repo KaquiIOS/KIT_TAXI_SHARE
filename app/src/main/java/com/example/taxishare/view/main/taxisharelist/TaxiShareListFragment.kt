@@ -26,6 +26,7 @@ import com.example.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailA
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
 import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
@@ -187,23 +188,27 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
         rcv_taxi_list.backgroundResource = R.color.common_white
     }
 
+    override fun dismissRefresh() {
+        srl_main.isRefreshing = false
+    }
+
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo) {
         taxiShareListAdapter.addTaxiShareInfo(taxiShareInfo, isVisible)
     }
 
     fun setStartLocation(location: Location) {
         presenter.setStartLocation(location)
-        presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
+        //presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }
 
     fun setEndLocation(location: Location) {
         presenter.setEndLocation(location)
-        presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
+        //presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }
 
     fun setStartTime(startDate: Date) {
         presenter.setStartTime(startDate)
-        presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
+        //presenter.filterTaxiShareList(taxiShareListAdapter.getTaxiShareList(), true)
     }
 
 
@@ -238,6 +243,10 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
                 setDialogMessage(R.string.loading_taxi_list)
                 presenter.loadTaxiShareInfoList(false)
             }
+        }
+
+        srl_main.onRefresh {
+            presenter.loadTaxiShareInfoList(true)
         }
 
         taxiShareListAdapter.setTaxiShareInfoItemClickListener(object :

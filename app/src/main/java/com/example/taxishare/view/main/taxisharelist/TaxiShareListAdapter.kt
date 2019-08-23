@@ -140,13 +140,14 @@ class TaxiShareListAdapter :
             taxiShareInfoRemoveClickListener
     }
 
-    fun setTaxiShareInfoList(taxiShareInfoList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
+    fun setTaxiShareInfoList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
         if (isRefresh) {
-            this.taxiShareInfoList.clear()
+            taxiShareInfoList.clear()
         }
 
-        this.taxiShareInfoList.addAll(taxiShareInfoList)
-        submitList(ArrayList(this.taxiShareInfoList))
+        taxiShareInfoList.addAll(taxiShareList)
+
+        submitList(ArrayList(taxiShareInfoList))
     }
 
     private fun findTaxiShareInfoWithPostId(postId: String): Int {
@@ -161,8 +162,6 @@ class TaxiShareListAdapter :
 
         return idx
     }
-
-    fun getTaxiShareList() = taxiShareInfoList
 
     fun changeTaxiShareParticipateInfo(postId: String, isParticipate: Boolean) {
 

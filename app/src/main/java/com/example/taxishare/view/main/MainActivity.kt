@@ -11,6 +11,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -25,6 +26,7 @@ import com.example.taxishare.view.main.register.location.LocationSearchActivity
 import com.example.taxishare.view.main.taxisharelist.TaxiShareListFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivityForResult
 import java.util.*
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity(), MainView,
 
         nav_view.setNavigationItemSelectedListener(this)
 
+
         btn_taxi_list_filter.onClick {
             if (drawer_layout.isDrawerOpen(GravityCompat.END)) {
                 drawer_layout.closeDrawer(GravityCompat.END)
@@ -72,8 +75,14 @@ class MainActivity : AppCompatActivity(), MainView,
                 false
             } else {
                 when (it.itemId) {
-                    R.id.nav_taxi_share_list -> changeFragment(taxiShareListFragment)
-                    else -> changeFragment(myPageFragment)
+                    R.id.nav_taxi_share_list -> {
+                        btn_taxi_list_filter.visibility = View.VISIBLE
+                        changeFragment(taxiShareListFragment)
+                    }
+                    else -> {
+                        btn_taxi_list_filter.visibility = View.GONE
+                        changeFragment(myPageFragment)
+                    }
                 }
                 true
             }
@@ -89,10 +98,12 @@ class MainActivity : AppCompatActivity(), MainView,
         } else if (taxiShareListFragment.isVisible && requestCode == Constant.START_LOCATION_SEARCH_CODE && data != null) {
             val location = data.getSerializableExtra(Constant.LOCATION_SAVE_STR) as Location
             taxiShareListFragment.setStartLocation(location)
+            taxiShareListFragment.reloadTaxiShareList()
             nav_view.menu[0].subMenu[0].title = location.locationName
         } else if (taxiShareListFragment.isVisible && requestCode == Constant.END_LOCATION_SEARCH_CODE && data != null) {
             val location = data.getSerializableExtra(Constant.LOCATION_SAVE_STR) as Location
             taxiShareListFragment.setEndLocation(location)
+            taxiShareListFragment.reloadTaxiShareList()
             nav_view.menu[1].subMenu[0].title = location.locationName
         }
     }
@@ -149,6 +160,7 @@ class MainActivity : AppCompatActivity(), MainView,
                     Calendar.getInstance().apply {
                         set(year, month, dayOfMonth, hourOfDay, minute)
                         taxiShareListFragment.setStartTime(time)
+                        taxiShareListFragment.reloadTaxiShareList()
                         nav_view.menu[2].subMenu[0].title = TypeMapper.dateToString(time)
                     }
 

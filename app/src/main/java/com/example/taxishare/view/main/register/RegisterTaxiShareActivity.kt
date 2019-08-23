@@ -52,7 +52,7 @@ class RegisterTaxiShareActivity : AppCompatActivity(), RegisterTaxiShareView {
     override fun changeTitleEditTextState(isMatched: Boolean) {
         text_input_layout_taxi_register_title.error =
             if (isMatched) null
-            else resources.getString(R.string.taxi_share_title_pattern_not_match)
+            else resources.getString(R.string.taxi_share_content_requirement_not_match)
     }
 
     override fun changeSignUpButtonState(canActivate: Boolean) {
