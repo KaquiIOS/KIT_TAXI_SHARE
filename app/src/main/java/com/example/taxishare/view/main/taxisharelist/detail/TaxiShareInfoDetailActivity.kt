@@ -22,6 +22,7 @@ import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.extension.observeBottomDetectionPublisher
 import com.example.taxishare.extension.setOnBottomDetection
+import com.example.taxishare.util.KeyboardHideUtil
 import com.example.taxishare.view.main.register.RegisterTaxiShareActivity
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.activity_taxi_share_info_detail.*
@@ -105,6 +106,10 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
 
     override fun loadCommentNotFinished() {
         toast(getString(R.string.load_comment_waiting))
+    }
+
+    override fun clearText() {
+        et_taxi_share_detail_comment_input.text.clear()
     }
 
     override fun removeCommentSuccess(commentId: Int) {
@@ -229,6 +234,10 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         toast(getString(R.string.remove_taxi_share_waiting))
     }
 
+    override fun hideKeyboard() {
+        KeyboardHideUtil.keyboardStateChange(this, true)
+    }
+
     private fun setTaxiShareInfoDeletedFlag() {
         setResult(
             Constant.DATA_REMOVED,
@@ -271,11 +280,6 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
                     btn_taxi_share_detail_comment_send.isEnabled = false
                 }
             }
-
-            // String.format(view.resources.getString(R.string.taxi_share_participants_num), participantsNum, limit)
-            // String.format(view.resources.getString(R.string.already_participate_taxi_share_title),  participantsNum)
-            // String.format(view.resources.getString(R.string.my_taxi_share_title),  participantsNum)
-
 
             if (Constant.CURRENT_USER.studentId.toString() == uid) {
                 btn_taxi_share_detail_participate.text =

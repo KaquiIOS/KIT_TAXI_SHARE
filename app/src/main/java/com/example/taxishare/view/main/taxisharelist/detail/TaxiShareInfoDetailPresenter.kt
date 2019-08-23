@@ -71,8 +71,6 @@ class TaxiShareInfoDetailPresenter(
                 it.printStackTrace()
                 view.failLoadDetailInfo()
             })
-        } else {
-            //view.loadDetailInfoNotFinish()
         }
     }
 
@@ -88,6 +86,8 @@ class TaxiShareInfoDetailPresenter(
                             nextCommentId = it.commentId
                             view.insertComment(it)
                             view.registerCommentSuccess()
+                            view.clearText()
+                            view.hideKeyboard()
                         }
                     }, {
                         it.printStackTrace()

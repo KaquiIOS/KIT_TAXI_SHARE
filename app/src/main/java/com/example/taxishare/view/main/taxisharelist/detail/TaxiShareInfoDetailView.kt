@@ -48,4 +48,7 @@ interface TaxiShareInfoDetailView {
     fun saveCurrentTaxiShareInfo()
 
     fun disableAllComponents()
+
+    fun hideKeyboard()
+    fun clearText()
 }
