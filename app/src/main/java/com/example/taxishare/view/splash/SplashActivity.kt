@@ -1,10 +1,13 @@
 package com.example.taxishare.view.splash
 
+import android.Manifest
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieDrawable
 import com.example.taxishare.R
 import com.example.taxishare.view.login.LoginActivity
+import com.tedpark.tedpermission.rx2.TedRx2Permission
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.startActivity
@@ -16,11 +19,40 @@ class SplashActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        initView()
-        initAnimationSetting()
-        initListener()
-        startAnimation()
+        requestPermissions()
+    }
 
+    @SuppressWarnings("all")
+    private fun requestPermissions() {
+        TedRx2Permission.with(this)
+            .setRationaleTitle(R.string.splash_permission_request_title)
+            .setRationaleMessage(R.string.splash_permission_request_content)
+            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .request()
+            .subscribe({ tedPermissionResult ->
+                if (tedPermissionResult.isGranted) {
+                    initView()
+                    initAnimationSetting()
+                    initListener()
+                    startAnimation()
+                } else {
+
+                    AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setTitle(R.string.splash_permission_request_title)
+                        .setMessage(R.string.splash_permission_request_content)
+                        .setPositiveButton("확인", { dialogInterface, _ ->
+                            dialogInterface.dismiss()
+                            requestPermissions()
+                        })
+                        .setNegativeButton("앱 종료", { dialogInterface, _ ->
+                            dialogInterface.dismiss()
+                            finish() })
+                        .create()
+                        .show()
+
+                }
+            }, { throwable -> throwable.printStackTrace() })
     }
 
     private fun initView() {

@@ -160,6 +160,9 @@
     <string name="taxi_share_register_success">등록 성공</string>
     <string name="taxi_share_register_fail">등록 실패</string>
 
+    <string name="splash_permission_request_title">권한 요청</string>
+    <string name="splash_permission_request_content">해당 앱에서는 장소 검색 기록 저장을 위해 내부저장소 권한이 필요합니다</string>
+
     <string name="taxi_share_post_pop_up">&#8942;</string>
     <string name="taxi_share_post_participate">참여하기</string>
 
