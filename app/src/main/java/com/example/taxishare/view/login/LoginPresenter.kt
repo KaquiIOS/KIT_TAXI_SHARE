@@ -86,11 +86,14 @@ class LoginPresenter(
             val savedId = spManager.getPreferenceId("") ?: ""
             val savedPw = spManager.getPreferencePassword("") ?: ""
 
-            loginView.writeSavedPw(savedId)
+            loginView.writeSavedId(savedId)
             loginView.writeSavedPw(savedPw)
             loginView.checkAutoLogin()
 
             if(savedId != "" && savedPw != "" ){
+                isIdValidate =  true
+                isPwValidate = true
+                changeLoginButtonState()
                 loginWithIdPw(
                     spManager.getPreferenceId("")!!,
                     spManager.getPreferencePassword("")!!

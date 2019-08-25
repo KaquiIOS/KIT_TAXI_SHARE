@@ -63,7 +63,7 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun changeIdEditTextState(isMatched: Boolean) {
         text_layout_login_id.error =
             if (isMatched) null
-            else resources.getString(R.string.common_email_pattern_not_match)
+            else resources.getString(R.string.common_student_id_pattern_not_match)
     }
 
     override fun checkAutoLogin() {
@@ -90,13 +90,13 @@ class LoginActivity : BaseActivity(), LoginView {
     @SuppressWarnings("all")
     private fun initListener() {
 
-        text_input_login_id.textChanges().subscribe({
+        text_input_login_id.textChanges().skipInitialValue().subscribe({
             presenter.checkIdValidation(text_input_login_id.text.toString())
         }, {
             it.stackTrace[0]
         })
 
-        text_input_login_pw.textChanges().subscribe({
+        text_input_login_pw.textChanges().skipInitialValue().subscribe({
             presenter.checkPwValidation(text_input_login_pw.text.toString())
         }, {
             it.stackTrace[0]
