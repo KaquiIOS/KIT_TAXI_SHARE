@@ -1,8 +1,7 @@
 package com.example.taxishare.view.main
 
+
 import android.app.DatePickerDialog
-
-
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
-import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -26,7 +24,6 @@ import com.example.taxishare.view.main.register.location.LocationSearchActivity
 import com.example.taxishare.view.main.taxisharelist.TaxiShareListFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_taxi_share_list.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivityForResult
 import java.util.*

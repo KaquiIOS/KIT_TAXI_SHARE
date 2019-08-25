@@ -15,7 +15,6 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.taxishare.R
-import com.example.taxishare.app.Constant
 import com.example.taxishare.view.login.LoginActivity
 import com.example.taxishare.view.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
