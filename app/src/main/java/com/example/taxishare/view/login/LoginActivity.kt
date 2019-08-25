@@ -3,6 +3,7 @@ package com.example.taxishare.view.login
 import android.os.Bundle
 import com.example.taxishare.R
 import com.example.taxishare.customview.LoadingDialog
+import com.example.taxishare.data.local.sharedpreference.SharedPreferenceManager
 import com.example.taxishare.data.remote.apis.server.ServerClient
 import com.example.taxishare.data.repo.ServerRepositoryImpl
 import com.example.taxishare.view.BaseActivity
@@ -25,14 +26,23 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        alertDialog = LoadingDialog.newInstance(R.string.login_loading_text)
+
         initPresenter()
         initListener()
 
-        alertDialog = LoadingDialog.newInstance(R.string.login_loading_text)
-
+        presenter.onCreate()
     }
 
     override fun getLayoutId(): Int = R.layout.activity_login
+
+    override fun writeSavedId(id: String) {
+        text_input_login_id.setText(id)
+    }
+
+    override fun writeSavedPw(pw: String) {
+        text_input_login_pw.setText(pw)
+    }
 
     override fun loginSuccess() {
         startActivity<MainActivity>()
@@ -56,11 +66,18 @@ class LoginActivity : BaseActivity(), LoginView {
             else resources.getString(R.string.common_email_pattern_not_match)
     }
 
+    override fun checkAutoLogin() {
+        cb_login_remember.isChecked = true
+    }
 
     /*
-     * Presenter 초기화  */
+         * Presenter 초기화  */
     private fun initPresenter() {
-        presenter = LoginPresenter(this, ServerRepositoryImpl.getInstance(ServerClient.getInstance()))
+        presenter = LoginPresenter(
+            this,
+            ServerRepositoryImpl.getInstance(ServerClient.getInstance()),
+            SharedPreferenceManager.getInstance(this)
+        )
     }
 
     override fun onDestroy() {
@@ -86,7 +103,10 @@ class LoginActivity : BaseActivity(), LoginView {
         })
 
         btn_login_request.clicks().subscribe({
-            presenter.login(text_input_login_id.text.toString(), text_input_login_pw.text.toString())
+            presenter.loginWithIdPw(
+                text_input_login_id.text.toString(),
+                text_input_login_pw.text.toString()
+            )
         }, {
             it.stackTrace[0]
         })
@@ -94,9 +114,14 @@ class LoginActivity : BaseActivity(), LoginView {
         /* 자동 로그인 */
         text_login_remember.clicks().subscribe({
             cb_login_remember.isChecked = !cb_login_remember.isChecked
+            presenter.changeCheckBoxState(cb_login_remember.isChecked)
         }, {
             it.stackTrace[0]
         })
+
+        cb_login_remember.onClick {
+            presenter.changeCheckBoxState(cb_login_remember.isChecked)
+        }
 
         /* SignUp 요청 */
         btn_login_sign_up.onClick { startActivity<SignUpActivity>() }
@@ -113,9 +138,5 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun dismissLoginLoadingDialog() {
         if (alertDialog.isVisible)
             alertDialog.dismiss()
-    }
-
-    private fun isAutoLoginGranted(isGranted: Boolean) {
-
     }
 }

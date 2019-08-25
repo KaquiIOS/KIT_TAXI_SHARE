@@ -1,6 +1,7 @@
 package com.example.taxishare.view.login
 
 import com.example.taxishare.app.Constant
+import com.example.taxishare.data.local.sharedpreference.SharedPreferenceManager
 import com.example.taxishare.data.model.ServerResponse
 import com.example.taxishare.data.model.User
 import com.example.taxishare.data.remote.apis.server.request.LoginRequest
@@ -10,7 +11,8 @@ import io.reactivex.disposables.Disposable
 
 class LoginPresenter(
     private val loginView: LoginView,
-    private val serverRepoImpl: ServerRepository
+    private val serverRepoImpl: ServerRepository,
+    private val spManager: SharedPreferenceManager
 ) {
 
     private var isIdValidate: Boolean = false
@@ -18,8 +20,24 @@ class LoginPresenter(
 
     private lateinit var preLoginRequestDisposable: Disposable
 
+    private fun saveId(id: String) {
+        spManager.setPreferenceId(id)
+    }
+
+    private fun savePw(pw: String) {
+        spManager.setPreferencePassword(pw)
+    }
+
+    fun changeCheckBoxState(isCheck: Boolean) {
+        spManager.setPreferenceIsAutoLogin(isCheck)
+    }
+
+    fun loginWithIdPw(id: String, pw: String) {
+        login(id, pw)
+    }
+
     /* 로그인 요청 */
-    fun login(id: String, pw: String) {
+    private fun login(id: String, pw: String) {
 
         // 이전에 로그인 요청이 있었으면 무시하고 다시 요청
         if (!::preLoginRequestDisposable.isInitialized || preLoginRequestDisposable.isDisposed) {
@@ -29,6 +47,8 @@ class LoginPresenter(
                     when (it.responseCode) {
                         ServerResponse.LOGIN_SUCCESS.code -> {
                             Constant.CURRENT_USER = User(it.id, it.nickname, it.major)
+                            saveId(id)
+                            savePw(pw)
                             loginView.loginSuccess()
                         }
                         ServerResponse.NOT_VALIDATED_USER.code -> loginView.notValidatedUserMessage()
@@ -57,6 +77,26 @@ class LoginPresenter(
     fun checkPwValidation(pw: String) {
         isPwValidate = pw.isNotEmpty()
         changeLoginButtonState()
+    }
+
+    fun onCreate() {
+
+        if (spManager.getPreferenceIsAutoLogin()) {
+
+            val savedId = spManager.getPreferenceId("") ?: ""
+            val savedPw = spManager.getPreferencePassword("") ?: ""
+
+            loginView.writeSavedPw(savedId)
+            loginView.writeSavedPw(savedPw)
+            loginView.checkAutoLogin()
+
+            if(savedId != "" && savedPw != "" ){
+                loginWithIdPw(
+                    spManager.getPreferenceId("")!!,
+                    spManager.getPreferencePassword("")!!
+                )
+            }
+        }
     }
 
     fun onDestroy() {
