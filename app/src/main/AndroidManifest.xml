@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.example.taxishare">
+        package="com.meongbyeol.taxishare">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-            android:name=".app.AppInitializer"
+            android:name="com.meongbyeol.taxishare.app.AppInitializer"
             android:allowBackup="true"
             android:icon="@drawable/ic_taxi_stop"
             android:label="@string/app_name"
@@ -20,7 +20,7 @@
             android:usesCleartextTraffic="true">
 
         <service
-                android:name=".service.MyFirebaseMessagingService"
+                android:name="com.meongbyeol.taxishare.service.MyFirebaseMessagingService"
                 android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -37,14 +37,14 @@
             <!--                    android:resource="@color/light_gray"/>-->
         </service>
 
-        <receiver android:name=".app.AlarmReceiver">
+        <receiver android:name="com.meongbyeol.taxishare.app.AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLIED" />
             </intent-filter>
         </receiver>
 
         <activity
-                android:name=".view.main.taxisharelist.detail.TaxiShareInfoDetailActivity"
+                android:name="com.meongbyeol.taxishare.view.main.taxisharelist.detail.TaxiShareInfoDetailActivity"
                 android:label="@string/title_activity_taxi_share_info_detail"
                 android:theme="@style/AppTheme.NoActionBar"></activity>
 
@@ -52,17 +52,17 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyCIpEXk966QUDB_PswHP96bJIsW82tPPJ0" />
 
-        <activity android:name=".view.main.register.location.LocationSearchActivity"></activity>
-        <activity android:name=".view.main.register.RegisterTaxiShareActivity"></activity>
-        <activity android:name=".view.password.FindPasswordActivity"></activity>
+        <activity android:name="com.meongbyeol.taxishare.view.main.register.location.LocationSearchActivity"></activity>
+        <activity android:name="com.meongbyeol.taxishare.view.main.register.RegisterTaxiShareActivity"></activity>
+        <activity android:name="com.meongbyeol.taxishare.view.password.FindPasswordActivity"></activity>
         <activity
-                android:name=".view.signup.SignUpActivity"
+                android:name="com.meongbyeol.taxishare.view.signup.SignUpActivity"
                 android:screenOrientation="portrait"></activity>
         <activity
-                android:name=".view.login.LoginActivity"
+                android:name="com.meongbyeol.taxishare.view.login.LoginActivity"
                 android:screenOrientation="portrait"></activity>
         <activity
-                android:name=".view.splash.SplashActivity"
+                android:name="com.meongbyeol.taxishare.view.splash.SplashActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -71,7 +71,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".view.main.MainActivity"
+                android:name="com.meongbyeol.taxishare.view.main.MainActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

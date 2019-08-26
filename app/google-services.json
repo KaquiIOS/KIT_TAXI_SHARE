@@ -42,6 +42,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579010132092:android:9bd383c928918c5a",
+        "android_client_info": {
+          "package_name": "com.meongbyeol.taxishare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579010132092-vt4t6545r8fbfcubve4og4314r8kcb2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.meongbyeol.taxishare",
+            "certificate_hash": "7d9d53678c4b9260f0d5aba13bb441349e46ac98"
+          }
+        },
+        {
+          "client_id": "579010132092-sdt9cuv2l04prpu2rjvt7mr63ga6r2jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXcyk4_0PNb5i-Ry9gWK8hnIKgAOjBMJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579010132092-sdt9cuv2l04prpu2rjvt7mr63ga6r2jm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

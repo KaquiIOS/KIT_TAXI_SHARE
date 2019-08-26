@@ -96,15 +96,36 @@
                 android:hint="@string/taxi_share_detail_comment_hint"
                 android:maxLines="1" />
 
-        <Button
-                android:id="@+id/btn_taxi_share_detail_comment_send"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="end"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/register_comment_button_selector"
-                android:enabled="false" />
+                android:layout_height="36dp">
+
+            <Button
+                    android:id="@+id/btn_taxi_share_detail_comment_send"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/register_comment_button_selector"
+                    android:enabled="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ProgressBar
+                    android:id="@+id/pb_taxi_share_detail_comment_send"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
