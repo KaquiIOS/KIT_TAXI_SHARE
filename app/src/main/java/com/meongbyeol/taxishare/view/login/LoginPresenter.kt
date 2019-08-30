@@ -45,6 +45,9 @@ class LoginPresenter(
             preLoginRequestDisposable = serverRepoImpl.loginRequest(LoginRequest(id, pw))
                 .subscribe({
                     when (it.responseCode) {
+                        ServerResponse.NOW_PATCH.code -> {
+                            loginView.showPatchMessage()
+                        }
                         ServerResponse.LOGIN_SUCCESS.code -> {
                             Constant.CURRENT_USER = User(it.id, it.nickname, it.major)
                             saveId(id)

@@ -13,7 +13,7 @@ data class CommentModel(
     val id: Int,
     @Expose
     @SerializedName("stdId")
-    val uid: Int,
+    val uid: String,
     @Expose
     @SerializedName("commentId")
     val commentId: Int,

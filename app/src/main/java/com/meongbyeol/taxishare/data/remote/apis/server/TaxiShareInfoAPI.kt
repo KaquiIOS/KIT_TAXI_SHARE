@@ -18,7 +18,7 @@ interface TaxiShareInfoAPI {
     fun registerTaxiShareInfo(@Body serverRequest: Map<String, String>): Observable<TaxiShareRegisterResponse>
 
     @GET("loadTaxiShareInfo")
-    fun getTaxiShareInfo(@Query("nextPageNum") nextPageNum: Int, @Query("uid") uid : Int): Observable<MutableList<TaxiShareInfoModel>>
+    fun getTaxiShareInfo(@Query("nextPageNum") nextPageNum: Int, @Query("uid") uid : String): Observable<MutableList<TaxiShareInfoModel>>
 
     @POST("participateTaxiShare")
     fun participateTaxiShare(@Body serverRequest: Map<String, String>) : Observable<ParticipateTaxiShareResponse>

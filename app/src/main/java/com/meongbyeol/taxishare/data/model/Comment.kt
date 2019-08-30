@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import java.io.Serializable
 
 data class Comment(
-    val uid: Int,
+    val uid: String,
     val commentId: Int,
     val commentDate: String,
     val content: String,

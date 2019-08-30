@@ -247,7 +247,7 @@ class TaxiShareListAdapter :
                         R.drawable.background_already_participate_color,
                         R.color.light_gray
                     )
-                } else if (Constant.CURRENT_USER.studentId == uid.toInt()) {
+                } else if (Constant.CURRENT_USER.studentId == uid) {
                     changeButtonState(
                         view,
                         String.format(view.resources.getString(R.string.my_taxi_share_title)),

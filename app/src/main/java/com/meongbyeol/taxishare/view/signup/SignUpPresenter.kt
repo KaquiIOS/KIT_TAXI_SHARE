@@ -80,6 +80,7 @@ class SignUpPresenter(
 
     fun checkIsIdValidate(stdId: String) {
         isIdValidated = RegularExpressionChecker.checkStudentIdValidation(stdId)
+        isIdValidated = stdId.indexOf("@",0) != -1
         signUpView.changeIdEditTextState(isIdValidated)
         if (isIdValidated) {
             checkSameIdExist(stdId)

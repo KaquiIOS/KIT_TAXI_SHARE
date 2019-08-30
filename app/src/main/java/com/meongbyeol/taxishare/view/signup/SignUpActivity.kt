@@ -3,15 +3,15 @@ package com.meongbyeol.taxishare.view.signup
 import android.Manifest
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import com.jakewharton.rxbinding3.view.clicks
+import com.jakewharton.rxbinding3.view.focusChanges
+import com.jakewharton.rxbinding3.widget.itemSelections
+import com.jakewharton.rxbinding3.widget.textChanges
 import com.meongbyeol.taxishare.R
 import com.meongbyeol.taxishare.customview.LoadingDialog
 import com.meongbyeol.taxishare.data.remote.apis.server.ServerClient
 import com.meongbyeol.taxishare.data.repo.ServerRepositoryImpl
 import com.meongbyeol.taxishare.view.BaseActivity
-import com.jakewharton.rxbinding3.view.clicks
-import com.jakewharton.rxbinding3.view.focusChanges
-import com.jakewharton.rxbinding3.widget.itemSelections
-import com.jakewharton.rxbinding3.widget.textChanges
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.sdk27.coroutines.onTouch
@@ -67,16 +67,19 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     override fun sameIdNotExist() {
         text_input_layout_sign_up_std_id.error = null
-        text_input_layout_sign_up_std_id.helperText = resources.getString(R.string.sign_up_email_validation)
+        text_input_layout_sign_up_std_id.helperText =
+            resources.getString(R.string.sign_up_email_validation)
     }
 
     override fun sameNicknameExist() {
-        text_input_layout_sign_up_nick_name.error = resources.getString(R.string.sign_up_same_nickname_exist)
+        text_input_layout_sign_up_nick_name.error =
+            resources.getString(R.string.sign_up_same_nickname_exist)
     }
 
     override fun sameNicknameNotExist() {
         text_input_layout_sign_up_nick_name.error = null
-        text_input_layout_sign_up_nick_name.helperText = resources.getString(R.string.sign_up_nickname_helper_text)
+        text_input_layout_sign_up_nick_name.helperText =
+            resources.getString(R.string.sign_up_nickname_helper_text)
     }
 
     override fun changeSignUpButtonState(canActivate: Boolean) {

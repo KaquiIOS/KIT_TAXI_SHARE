@@ -14,7 +14,7 @@ data class LoginRequestResponse(
 
     @Expose
     @SerializedName("id")
-    val id: Int,
+    val id: String,
 
     @Expose
     @SerializedName("nickname")
