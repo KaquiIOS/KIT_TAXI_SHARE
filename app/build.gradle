@@ -11,7 +11,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.taxishare"
+        applicationId "com.meongbyeol.taxishare"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
