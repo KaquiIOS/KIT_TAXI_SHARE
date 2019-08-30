@@ -6,7 +6,7 @@
 package com.meongbyeol.taxishare.data.model
 
 data class UserEntity(
-    val studentId: Int, val pw: String,
+    val studentId: String, val pw: String,
     val nickname: String, val email: String,
     val major: String
 )

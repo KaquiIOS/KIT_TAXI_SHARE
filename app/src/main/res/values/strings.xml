@@ -91,6 +91,7 @@
         <item>전자 및 전파전공</item>
         <item>전자IT융합전공</item>
         <item>건축학부</item>
+        <item>컴퓨터공학부</item>
         <item>건축학전공(5년제)</item>
         <item>건축공학전공</item>
         <item>산업공학부</item>
@@ -111,7 +112,6 @@
         <item>응용수학과</item>
         <item>경영학과</item>
         <item>기계공학과</item>
-        <item>-----</item>
     </string-array>
 
     <string name="sign_up_personal_data">회원가입</string>
@@ -121,12 +121,13 @@
     <string name="sign_up_confirm_pw">비밀번호 확인</string>
     <string name="sign_up_loading_message">회원가입을 요청중입니다</string>
     <string name="sign_up_major">학과</string>
-    <string name="sign_up_student_id">학번</string>
+    <string name="sign_up_student_id">아이디만 !! @ 없이 !!</string>
     <string name="sign_up_ok">회원가입</string>
     <string name="sign_up_send_validation_email">인증 메일 전송</string>
     <string name="sign_up_nickname">닉네임</string>
     <string name="sign_up_finish">회원가입</string>
-    <string name="sign_up_nickname_helper_text">아이디는 3~20자로 구성됩니다.</string>
+    <string name="sign_up_nickname_helper_text">닉네임은 3~20자로 구성됩니다.</string>
+    <string name="sign_up_student_id_error">아이디는 4~30자의 영문 소문자와 숫자, 특수기호(_)만 사용할수 있습니다.</string>
     <string name="sign_up_email_validation">학교 이메일로 인증메일이 전송됩니다.</string>
     <string name="sign_up_pw_validation">비밀번호는 영어,숫자,특수문자를 포함하여 8~15자로 구성됩니다</string>
     <string name="sign_up_same_id_exist">동일한 아이디가 이미 존재합니다</string>
@@ -140,6 +141,8 @@
     <string name="sign_up_same_nickname_exist">동일한 닉네임이 존재합니다</string>
     <string name="find_pw_send_email">임시 비밀번호를 학교 이메일로 전송합니다.</string>
 
+    <string name="patch_title">점검</string>
+    <string name="patch_content">현재 점검중입니다 죄송합니다 ㅠㅠ</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

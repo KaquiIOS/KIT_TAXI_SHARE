@@ -58,7 +58,9 @@ enum class ServerResponse(val code: Int, val description: String) {
     DETAIL_TAXISHARE_DELETED(2063, "DetailTaxiShareDeleted"),
 
     FIND_PASSWORD_SUCCESS(2071, "SendTemporaryPasswordSuccess"),
-    FIND_PASSWORD_FAIL(2072, "SendTemporaryPasswordFail");
+    FIND_PASSWORD_FAIL(2072, "SendTemporaryPasswordFail"),
+
+    NOW_PATCH(1700, "Patch");
 
     companion object{
         fun fromServerResponseCode(code : Int) = values().first { it.code == code }

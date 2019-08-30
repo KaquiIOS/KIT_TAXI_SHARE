@@ -46,7 +46,7 @@ class TaxiShareInfoDetailPresenter(
             loadDetailTaxiShareDisposable = serverRepo.loadDetailTaxiShareInfo(
                 DetailTaxiShareLoadRequest(
                     postId,
-                    Constant.CURRENT_USER.studentId.toString()
+                    Constant.CURRENT_USER.studentId
                 )
             ).subscribe({
 

@@ -119,7 +119,7 @@ class RegisterTaxiSharePresenter(
                     view.taxiModifyTaskSuccess(
                         TaxiShareInfo(
                             preTaxiShareInfo!!.id,
-                            Constant.CURRENT_USER.studentId.toString(),
+                            Constant.CURRENT_USER.studentId,
                             title,
                             startDateTime,
                             startLocation,
@@ -160,7 +160,7 @@ class RegisterTaxiSharePresenter(
                         view.taxiRegisterTaskSuccess(
                             TaxiShareInfo(
                                 it.id,
-                                Constant.CURRENT_USER.studentId.toString(),
+                                Constant.CURRENT_USER.studentId,
                                 title,
                                 startDateTime,
                                 startLocation,

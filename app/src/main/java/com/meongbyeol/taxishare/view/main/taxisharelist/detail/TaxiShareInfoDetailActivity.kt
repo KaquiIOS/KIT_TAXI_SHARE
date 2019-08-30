@@ -391,7 +391,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             finish()
         }
 
-        if (Constant.CURRENT_USER.studentId == currentTaxiShareInfo.uid.toInt()) {
+        if (Constant.CURRENT_USER.studentId == currentTaxiShareInfo.uid) {
             btn_taxi_share_detail_delete.visibility = View.VISIBLE
             btn_taxi_share_detail_delete.onClick {
                 // 삭제 작업 수행

@@ -73,7 +73,7 @@ class ServerClient private constructor() {
         retrofit.create(TaxiShareInfoAPI::class.java)
             .registerTaxiShareInfo(registerTaxiShareRequest.getRequest())
 
-    fun getTaxiShareInfo(nextPageNum: Int, uid: Int): Observable<MutableList<TaxiShareInfoModel>> =
+    fun getTaxiShareInfo(nextPageNum: Int, uid: String): Observable<MutableList<TaxiShareInfoModel>> =
         retrofit.create(TaxiShareInfoAPI::class.java)
             .getTaxiShareInfo(nextPageNum, uid)
 
@@ -109,14 +109,17 @@ class ServerClient private constructor() {
 
     fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest): Observable<DetailTaxiShareLoadResponse> =
         retrofit.create(TaxiShareInfoAPI::class.java)
-            .loadDetailTaxiShareInfo(detailTaxiShareLoadRequest.postId, detailTaxiShareLoadRequest.uid.toInt())
+            .loadDetailTaxiShareInfo(
+                detailTaxiShareLoadRequest.postId,
+                detailTaxiShareLoadRequest.uid.toInt()
+            )
 
 
     fun loadMyTaxiShareList(): Observable<MutableList<MyTaxiShareItem>> =
         retrofit.create(TaxiShareInfoAPI::class.java)
-            .loadMyTaxiShareList(Constant.CURRENT_USER.studentId.toString())
+            .loadMyTaxiShareList(Constant.CURRENT_USER.studentId)
 
-    fun findPassword(findPasswordRequest : FindPasswordRequest) : Observable<FindPasswordResponse> =
+    fun findPassword(findPasswordRequest: FindPasswordRequest): Observable<FindPasswordResponse> =
         retrofit.create(FindPasswordAPI::class.java)
             .sendTemporaryPassword(findPasswordRequest.getRequest())
 }

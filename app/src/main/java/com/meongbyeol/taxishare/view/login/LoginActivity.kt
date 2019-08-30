@@ -1,6 +1,7 @@
 package com.meongbyeol.taxishare.view.login
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import com.meongbyeol.taxishare.R
 import com.meongbyeol.taxishare.customview.LoadingDialog
 import com.meongbyeol.taxishare.data.local.sharedpreference.SharedPreferenceManager
@@ -32,6 +33,16 @@ class LoginActivity : BaseActivity(), LoginView {
         initListener()
 
         presenter.onCreate()
+    }
+
+    override fun showPatchMessage() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.patch_title)
+            .setMessage(R.string.patch_content)
+            .setPositiveButton(R.string.ok, { _, _ -> finish() })
+            .setNegativeButton(R.string.cancel, { _, _ -> finish() })
+            .setCancelable(false)
+            .create()
     }
 
     override fun getLayoutId(): Int = R.layout.activity_login

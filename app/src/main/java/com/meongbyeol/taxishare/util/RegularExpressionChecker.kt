@@ -16,8 +16,9 @@ class RegularExpressionChecker {
         private const val PASSWORD_EXPRESSION_RULE =
             "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$"
 
+        //아이디는 4~30자의 영문 소문자와 숫자, 특수기호(_)만 사용할수 있습니다.
         private const val STUDENT_ID_EXPRESSION_RULE =
-            "^20[\\d]{6}$"
+            "^[a-zA-Z0-9_]{4,30}$"
 
         private const val NICKNAME_EXPRESSION_RULE =
             "^[a-zA-Z가-힣-_.]{3,}$"

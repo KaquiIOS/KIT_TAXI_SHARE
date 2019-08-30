@@ -15,4 +15,6 @@ interface LoginView {
     fun writeSavedId(id : String)
     fun writeSavedPw(pw : String)
     fun checkAutoLogin()
+
+    fun showPatchMessage()
 }
