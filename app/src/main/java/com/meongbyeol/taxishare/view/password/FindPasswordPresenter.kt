@@ -34,7 +34,7 @@ class FindPasswordPresenter(
     }
 
     fun checkIdValidation(id: String) {
-        isIdValidate = RegularExpressionChecker.checkStudentIdValidation(id)
+        isIdValidate = RegularExpressionChecker.checkStudentIdValidation(id) && id.indexOf("@",0) == -1
         view.changeLoginButtonState(isIdValidate)
         view.changeIdEditTextState(isIdValidate)
     }

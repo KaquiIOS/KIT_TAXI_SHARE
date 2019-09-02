@@ -56,7 +56,7 @@ class FindPasswordActivity : BaseActivity(), FindPasswordView {
     override fun changeIdEditTextState(isMatched: Boolean) {
         text_input_layout_find_pw.error =
             if (isMatched) null
-            else resources.getString(R.string.common_student_id_pattern_not_match)
+            else resources.getString(R.string.sign_up_student_id_error)
     }
 
     private fun initPresenter() {

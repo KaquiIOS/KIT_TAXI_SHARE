@@ -89,7 +89,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     override fun changeIdEditTextState(isMatched: Boolean) {
         text_input_layout_sign_up_std_id.error =
             if (isMatched) null
-            else resources.getString(R.string.common_student_id_pattern_not_match)
+            else resources.getString(R.string.sign_up_student_id_error)
     }
 
     override fun changePwEditTextState(isMatched: Boolean) {
