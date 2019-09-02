@@ -55,6 +55,7 @@ class TaxiShareInfoDetailPresenter(
                 } else if (it.responseCode == ServerResponse.DETAIL_TAXISHARE_DELETED.code) {
                     view.detailInfoDeleted()
                 } else {
+
                     view.setDetailInfo(with(it) {
                         TaxiShareDetailInfo(
                             id, uid, title, Date(startDate), startLocation, endLocation, limit,
@@ -98,8 +99,6 @@ class TaxiShareInfoDetailPresenter(
                         view.registerCommentFail()
                         view.enableSendBtn()
                     })
-        } else {
-            //view.registerCommentNotFinish()
         }
     }
 
@@ -114,18 +113,15 @@ class TaxiShareInfoDetailPresenter(
             loadCommentDisposable = serverRepo.loadComments(id, nextCommentId.toString())
                 .subscribe({
 
-                    if (it.size > 0) {
+                    if (it.isNotEmpty()) {
                         nextCommentId = it[it.size - 1].commentId
-                        view.addComments(it)
                     }
-
+                    view.addComments(it)
                     noCommentExist = it.size < 5
                 }, {
                     it.printStackTrace()
                     view.loadCommentFail()
                 })
-        } else if (::loadCommentDisposable.isInitialized || !loadCommentDisposable.isDisposed) {
-            //view.loadCommentNotFinished()
         }
     }
 
@@ -142,28 +138,25 @@ class TaxiShareInfoDetailPresenter(
                     it.printStackTrace()
                     view.removeCommentFail()
                 })
-        } else {
-            //view.removeCommentNotFinished()
         }
     }
 
     fun participateTaxiShare(postId: String) {
 
         if (!::participateTaxiShareDisposable.isInitialized || participateTaxiShareDisposable.isDisposed) {
-            participateTaxiShareDisposable = serverRepo.participateTaxiShare(ParticipateTaxiShareRequest(postId))
-                .subscribe({
-                    if (it == ServerResponse.PARTICIPATE_TAXI_SHARE_SUCCESS) {
-                        view.saveCurrentTaxiShareInfo()
-                        view.showParticipateTaxiShareSuccess()
-                    } else {
+            participateTaxiShareDisposable =
+                serverRepo.participateTaxiShare(ParticipateTaxiShareRequest(postId))
+                    .subscribe({
+                        if (it == ServerResponse.PARTICIPATE_TAXI_SHARE_SUCCESS) {
+                            view.saveCurrentTaxiShareInfo()
+                            view.showParticipateTaxiShareSuccess()
+                        } else {
+                            view.showParticipateTaxiShareFail()
+                        }
+                    }, {
+                        it.printStackTrace()
                         view.showParticipateTaxiShareFail()
-                    }
-                }, {
-                    it.printStackTrace()
-                    view.showParticipateTaxiShareFail()
-                })
-        } else {
-            //view.showParticipateTaxiShareNotFinish()
+                    })
         }
     }
 
@@ -181,8 +174,6 @@ class TaxiShareInfoDetailPresenter(
                     it.printStackTrace()
                     view.showLeaveTaxiShareFail()
                 })
-        } else {
-            //view.showLeaveTaxiShareNotFinish()
         }
     }
 
@@ -200,8 +191,6 @@ class TaxiShareInfoDetailPresenter(
                     it.printStackTrace()
                     view.removeCommentFail()
                 })
-        } else {
-            //view.showRemoveTaxiShareNotFinish()
         }
     }
 

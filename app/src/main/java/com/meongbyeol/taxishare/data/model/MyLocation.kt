@@ -7,12 +7,12 @@ package com.meongbyeol.taxishare.data.model
 import androidx.recyclerview.widget.DiffUtil
 
 data class MyLocation(
-    val saveName: String,
-    val latitude: Double,
-    val longitude: Double,
-    val locationName: String,
-    val roadAddress: String,
-    val jibunAddress: String
+    val saveName: String = "",
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
+    val locationName: String = "",
+    val roadAddress: String = "",
+    val jibunAddress: String = ""
 ) {
     companion object {
         val DIFF_UTIL: DiffUtil.ItemCallback<MyLocation> = object : DiffUtil.ItemCallback<MyLocation>() {

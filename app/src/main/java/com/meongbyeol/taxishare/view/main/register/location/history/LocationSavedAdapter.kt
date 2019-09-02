@@ -23,6 +23,8 @@ class LocationSavedAdapter :
     private lateinit var onSelectionListener: LocationSelectionListener
     private lateinit var onRemoveSelectionListener: LocationRemoveSelectionListener
 
+    private var isEmptyList : Boolean = false
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -39,24 +41,20 @@ class LocationSavedAdapter :
         )
     }
 
-
-    override fun getItemViewType(position: Int): Int = when (myLocationList.size > 0) {
-        true -> 1
+    override fun getItemViewType(position: Int): Int = when (isEmptyList) {
+        false -> 1
         else -> 2
     }
 
-    override fun getItemCount(): Int = when (myLocationList.size == 0) {
-        true -> 1
-        else -> myLocationList.size
-    }
+    override fun getItemCount(): Int = myLocationList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if(holder.itemViewType == 1) {
-            (holder as MyLocationHistoryViewHolder).bindView(position)
+            (holder as MyLocationHistoryViewHolder).bindView(holder.adapterPosition)
             holder.itemView.onClick {
                 if (::onSelectionListener.isInitialized)
-                    with(myLocationList[position]) {
+                    with(myLocationList[holder.adapterPosition]) {
                         onSelectionListener.locationSelected(
                             Location(latitude, longitude, locationName, roadAddress, jibunAddress)
                         )
@@ -65,7 +63,7 @@ class LocationSavedAdapter :
 
             holder.itemView.btn_save_item_select.onClick {
                 if (::onRemoveSelectionListener.isInitialized) {
-                    with(myLocationList[position]) {
+                    with(myLocationList[holder.adapterPosition]) {
                         onRemoveSelectionListener.onRemoveItemSelect(saveName)
                     }
                 }
@@ -95,9 +93,18 @@ class LocationSavedAdapter :
         this@LocationSavedAdapter.onRemoveSelectionListener = onRemoveSelectionListener
     }
 
-    fun setMyLocationList(myLocationList: MutableList<MyLocation>) {
-        this.myLocationList.clear()
-        this.myLocationList.addAll(myLocationList)
-        submitList(myLocationList)
+    fun setMyLocationList(locationList: MutableList<MyLocation>) {
+        myLocationList.clear()
+        myLocationList.addAll(locationList)
+
+        isEmptyList = false
+
+        if(locationList.isEmpty()) {
+            isEmptyList = true
+            myLocationList.add(MyLocation())
+            locationList.add(MyLocation())
+        }
+
+        submitList(locationList)
     }
 }

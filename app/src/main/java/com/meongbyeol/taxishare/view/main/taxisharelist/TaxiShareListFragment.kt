@@ -232,7 +232,6 @@ class TaxiShareListFragment : Fragment(), TaxiShareListView {
             adapter = taxiShareListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             //layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation)
-            itemAnimator = null
         }
     }
 

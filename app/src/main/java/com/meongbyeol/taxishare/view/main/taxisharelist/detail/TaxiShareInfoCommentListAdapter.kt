@@ -24,6 +24,8 @@ class TaxiShareInfoCommentListAdapter :
 
     private val commentList: MutableList<Comment> = mutableListOf()
 
+    private var isEmptyList : Boolean = true
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
             1 -> CommentViewHolder(
@@ -42,29 +44,26 @@ class TaxiShareInfoCommentListAdapter :
             )
         }
 
-    override fun getItemViewType(position: Int): Int = when (commentList.size == 0) {
-        true -> 2
-        else -> 1
+    override fun getItemViewType(position: Int): Int = when (isEmptyList) {
+        false -> 1
+        else -> 2
     }
 
-    override fun getItemCount(): Int = when (commentList.size > 0) {
-        true -> commentList.size
-        else -> 1
-    }
+    override fun getItemCount(): Int = commentList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (holder.itemViewType == 1) {
 
-            (holder as CommentViewHolder).bind(commentList[position])
+            (holder as CommentViewHolder).bind(commentList[holder.adapterPosition])
 
             with(holder.itemView) {
 
-                if (position == commentList.size - 1 && ::onBottomReachedListener.isInitialized) {
+                if (holder.adapterPosition == commentList.size - 1 && ::onBottomReachedListener.isInitialized) {
                     onBottomReachedListener.onBottomReached()
                 }
 
-                if (Constant.CURRENT_USER.studentId == commentList[position].uid) {
+                if (Constant.CURRENT_USER.studentId == commentList[holder.adapterPosition].uid) {
 
                     tv_comment_pop_up.visibility = View.VISIBLE
 
@@ -93,17 +92,33 @@ class TaxiShareInfoCommentListAdapter :
     }
 
     fun insertComment(comment: Comment) {
-        this.commentList.add(0, comment)
+
+        if(isEmptyList) commentList.clear()
+
+        isEmptyList = false
+
+        commentList.add(0, comment)
         submitList(ArrayList(commentList))
     }
 
-    fun setComments(commentList: MutableList<Comment>) {
-        this.commentList.addAll(commentList)
-        submitList(ArrayList(this.commentList))
+    fun setComments(newCommentList: MutableList<Comment>) {
+        commentList.addAll(newCommentList)
+
+        isEmptyList = false
+
+        if(commentList.isEmpty()) {
+            isEmptyList = true
+            commentList.add(Comment())
+        }
+
+        submitList(ArrayList(commentList))
     }
 
     fun clear() {
-        this.commentList.clear()
+        commentList.clear()
+        commentList.add(Comment())
+        isEmptyList = true
+
         submitList(ArrayList(commentList))
     }
 
@@ -116,6 +131,11 @@ class TaxiShareInfoCommentListAdapter :
                 iter.remove()
                 break
             }
+        }
+
+        if(commentList.isEmpty()) {
+            isEmptyList = true
+            commentList.add(Comment())
         }
 
         submitList(ArrayList(commentList))

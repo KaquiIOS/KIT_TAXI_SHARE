@@ -8,22 +8,22 @@ import java.io.Serializable
 data class MyTaxiShareItem(
     @Expose
     @SerializedName("id")
-    val id: String,
+    val id: String = "",
     @Expose
     @SerializedName("uid")
-    val uid: String,
+    val uid: String = "",
     @Expose
     @SerializedName("startDate")
-    val startDate: Long,
+    val startDate: Long = 0,
     @Expose
     @SerializedName("startLocation")
-    val startLocation: Location,
+    val startLocation: Location = Location(),
     @Expose
     @SerializedName("endLocation")
-    val endLocation: Location,
+    val endLocation: Location = Location(),
     @Expose
     @SerializedName("participantsNum")
-    val partyNum: Int
+    val partyNum: Int = 0
 ) : Serializable {
     companion object {
         val DIFF_UTIL: DiffUtil.ItemCallback<MyTaxiShareItem> = object : DiffUtil.ItemCallback<MyTaxiShareItem>() {
