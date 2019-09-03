@@ -111,7 +111,7 @@ class ServerClient private constructor() {
         retrofit.create(TaxiShareInfoAPI::class.java)
             .loadDetailTaxiShareInfo(
                 detailTaxiShareLoadRequest.postId,
-                detailTaxiShareLoadRequest.uid.toInt()
+                detailTaxiShareLoadRequest.uid
             )
 
 
