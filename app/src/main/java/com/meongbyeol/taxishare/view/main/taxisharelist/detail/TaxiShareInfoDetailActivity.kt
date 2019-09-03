@@ -7,8 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meongbyeol.taxishare.R
@@ -42,6 +44,8 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_taxi_share_info_detail)
 
+        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
         initPresenter()
         initAdapter()
         initView()
@@ -51,6 +55,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             presenter.loadComments(this.id, true)
         }
     }
+
 
     override fun disableSendBtn() {
         btn_taxi_share_detail_comment_send.visibility = View.GONE
@@ -294,7 +299,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
                 }
             }
 
-            if (Constant.CURRENT_USER.studentId.toString() == uid) {
+            if (Constant.CURRENT_USER.studentId == uid) {
                 btn_taxi_share_detail_participate.text =
                     String.format(resources.getString(R.string.my_taxi_share_title))
                 btn_taxi_share_detail_participate.setBackgroundResource(R.drawable.background_already_participate_color)
@@ -320,7 +325,6 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
             adapter = this@TaxiShareInfoDetailActivity.adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             //addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-            itemAnimator = null
             setOnBottomDetection()
         }
     }
@@ -382,7 +386,7 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
         btn_taxi_share_detail_comment_send.onClick {
             presenter.registerComment(
                 currentTaxiShareInfo.id,
-                Constant.CURRENT_USER.studentId.toString(),
+                Constant.CURRENT_USER.studentId,
                 et_taxi_share_detail_comment_input.text.toString()
             )
         }

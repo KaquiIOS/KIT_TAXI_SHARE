@@ -9,17 +9,17 @@ import java.io.Serializable
 import java.util.*
 
 data class TaxiShareInfo(
-    val id: String,
-    val uid: String,
-    var title: String,
-    var startDate: Date,
-    var startLocation: Location,
-    var endLocation: Location,
-    var limit: Int,
-    val nickname: String,
-    val major: String,
-    var participantsNum: Int,
-    var isParticipated: Boolean
+    val id: String = "",
+    val uid: String = "",
+    var title: String = "",
+    var startDate: Date = Date(),
+    var startLocation: Location = Location(),
+    var endLocation: Location = Location(),
+    var limit: Int = 0,
+    val nickname: String = "",
+    val major: String = "",
+    var participantsNum: Int = 0,
+    var isParticipated: Boolean = false
 ) : Serializable {
 
     companion object {

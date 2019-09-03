@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.MapView
 import com.meongbyeol.taxishare.R
 import com.meongbyeol.taxishare.app.Constant
 import com.meongbyeol.taxishare.data.local.room.AppDatabase
@@ -21,7 +22,6 @@ import com.meongbyeol.taxishare.data.repo.LocationRepositoryImpl
 import com.meongbyeol.taxishare.data.repo.MyLocationRepositoryImpl
 import com.meongbyeol.taxishare.view.main.register.location.LocationLongClickListener
 import com.meongbyeol.taxishare.view.main.register.location.LocationSelectionListener
-import com.google.android.gms.maps.MapView
 import kotlinx.android.synthetic.main.fragment_location_history.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
@@ -67,7 +67,7 @@ class LocationHistoryFragment : Fragment(), LocationHistoryView, LocationRemoveS
         myLocationListAdapter.setMyLocationList(savedList)
     }
 
-    override fun onRemoveItemSelect(savedName : String) {
+    override fun onRemoveItemSelect(savedName: String) {
         presenter.removeSavedLocation(savedName)
     }
 
@@ -91,7 +91,6 @@ class LocationHistoryFragment : Fragment(), LocationHistoryView, LocationRemoveS
     private fun initView() {
         rcv_location_history_list.apply {
             adapter = searchHistoryListAdapter
-            itemAnimator = null
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }

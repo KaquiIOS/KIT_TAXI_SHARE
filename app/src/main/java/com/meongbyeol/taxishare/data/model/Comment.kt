@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import java.io.Serializable
 
 data class Comment(
-    val uid: String,
-    val commentId: Int,
-    val commentDate: String,
-    val content: String,
-    val nickname : String
+    val uid: String = "",
+    val commentId: Int = -1,
+    val commentDate: String = "",
+    val content: String = "",
+    val nickname : String = ""
 ) : Serializable {
     companion object {
         val DIFF_UTIL: DiffUtil.ItemCallback<Comment> = object : DiffUtil.ItemCallback<Comment>() {

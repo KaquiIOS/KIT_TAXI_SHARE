@@ -31,12 +31,11 @@ class TaxiShareListAdapter :
 
     private val taxiShareInfoList: MutableList<TaxiShareInfo> = mutableListOf()
 
-    private var lastPosition = -1
-
+    private var isEmptyList: Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        when (taxiShareInfoList.isEmpty()) {
-            false -> TaxiShareInfoViewHolder(
+        when (viewType) {
+            1 -> TaxiShareInfoViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_taxi_share_post, parent, false)
             )
@@ -46,20 +45,17 @@ class TaxiShareListAdapter :
             )
         }
 
-    override fun getItemViewType(position: Int): Int = when (taxiShareInfoList.isEmpty()) {
+    override fun getItemViewType(position: Int): Int = when (isEmptyList) {
         false -> 1
         else -> 2
     }
 
-    override fun getItemCount(): Int = when (taxiShareInfoList.isEmpty()) {
-        true -> 1
-        else -> taxiShareInfoList.size
-    }
+    override fun getItemCount(): Int = taxiShareInfoList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (holder.itemViewType == 1) {
-            (holder as TaxiShareInfoViewHolder).bind(taxiShareInfoList[position])
+            (holder as TaxiShareInfoViewHolder).bind(taxiShareInfoList[holder.adapterPosition])
 
 
             with(holder.itemView) {
@@ -76,7 +72,7 @@ class TaxiShareListAdapter :
                     }
                 }
 
-                if (Constant.CURRENT_USER.studentId.toString() == taxiShareInfoList[position].uid) {
+                if (Constant.CURRENT_USER.studentId == taxiShareInfoList[holder.adapterPosition].uid) {
 
                     tv_taxi_share_post_pop_up.visibility = View.VISIBLE
 
@@ -114,7 +110,7 @@ class TaxiShareListAdapter :
                 // 상세화면으로 넘어가는 이벤트
                 onClick {
                     if (::taxiShareInfoItemClickListener.isInitialized) {
-                        taxiShareInfoItemClickListener.onTaxiShareInfoItemClicked(taxiShareInfoList[position])
+                        taxiShareInfoItemClickListener.onTaxiShareInfoItemClicked(taxiShareInfoList[holder.adapterPosition])
                     }
                 }
             }
@@ -141,11 +137,18 @@ class TaxiShareListAdapter :
     }
 
     fun setTaxiShareInfoList(taxiShareList: MutableList<TaxiShareInfo>, isRefresh: Boolean) {
-        if (isRefresh) {
+
+        if (isRefresh)
             taxiShareInfoList.clear()
-        }
 
         taxiShareInfoList.addAll(taxiShareList)
+
+        isEmptyList = false
+
+        if (taxiShareInfoList.isEmpty()) {
+            isEmptyList = true
+            taxiShareInfoList.add(TaxiShareInfo())
+        }
 
         submitList(ArrayList(taxiShareInfoList))
     }
@@ -183,12 +186,21 @@ class TaxiShareListAdapter :
 
         if (idx != -1) {
             taxiShareInfoList.removeAt(idx)
+
+            if (taxiShareInfoList.isEmpty()) {
+                isEmptyList = true
+                taxiShareInfoList.add(TaxiShareInfo())
+            }
+
             submitList(ArrayList(taxiShareInfoList))
         }
     }
 
     fun addTaxiShareInfo(taxiShareInfo: TaxiShareInfo, isRefresh: Boolean) {
+        if (isEmptyList)
+            taxiShareInfoList.clear()
         taxiShareInfoList.add(0, taxiShareInfo)
+        isEmptyList = false
         if (isRefresh) {
             submitList(ArrayList(taxiShareInfoList))
         }

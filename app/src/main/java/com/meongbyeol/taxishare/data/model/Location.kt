@@ -12,19 +12,19 @@ import java.io.Serializable
 data class Location (
     @Expose
     @SerializedName("latitude")
-    val latitude: Double,
+    val latitude: Double = 0.0,
     @Expose
     @SerializedName("longitude")
-    val longitude: Double,
+    val longitude: Double = 0.0,
     @Expose
     @SerializedName("name")
-    val locationName: String,
+    val locationName: String = "",
     @Expose
     @SerializedName("road_address")
-    val roadAddress: String,
+    val roadAddress: String = "",
     @Expose
     @SerializedName("jibun_address")
-    val jibunAddress: String
+    val jibunAddress: String = ""
 ) : Serializable {
     override fun toString(): String {
         return "{\"latitude\" : $latitude," +

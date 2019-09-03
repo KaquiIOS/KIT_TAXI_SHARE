@@ -19,19 +19,17 @@ class MyTaxiShareListAdapter : ListAdapter<MyTaxiShareItem, RecyclerView.ViewHol
 
     private lateinit var onClickListener: MyTaxiShareItemClickListener
 
+    private var isEmptyList : Boolean = true
 
-    override fun getItemCount(): Int = when (myTaxiShareList.isEmpty()) {
-        true -> 1
-        else -> myTaxiShareList.size
+    override fun getItemCount(): Int = myTaxiShareList.size
+
+    override fun getItemViewType(position: Int): Int = when (isEmptyList) {
+        false -> 1
+        else -> 2
     }
 
-    override fun getItemViewType(position: Int): Int = when (myTaxiShareList.isEmpty()) {
-        true -> 2
-        else -> 1
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType == 1) {
-        true -> MyTaxiShareItemViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+        1 -> MyTaxiShareItemViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_my_taxishare, parent, false
             )
@@ -61,6 +59,15 @@ class MyTaxiShareListAdapter : ListAdapter<MyTaxiShareItem, RecyclerView.ViewHol
     fun setMyTaxiShareList(taxiShareList: MutableList<MyTaxiShareItem>) {
         myTaxiShareList.clear()
         myTaxiShareList.addAll(taxiShareList)
+
+        isEmptyList = false
+
+        if(myTaxiShareList.isEmpty()) {
+            isEmptyList = true
+            myTaxiShareList.add(MyTaxiShareItem())
+            taxiShareList.add(MyTaxiShareItem())
+        }
+
         submitList(ArrayList(myTaxiShareList))
     }
 

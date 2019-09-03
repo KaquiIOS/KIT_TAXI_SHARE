@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meongbyeol.taxishare.R
@@ -108,7 +109,6 @@ class MyPageFragment : Fragment(), MyPageView {
         with(rcv_my_taxi_share) {
             adapter = myListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            itemAnimator = null
         }
     }
 
