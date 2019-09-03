@@ -29,4 +29,5 @@ interface ServerRepository {
     fun loadDetailTaxiShareInfo(detailTaxiShareLoadRequest: DetailTaxiShareLoadRequest) : Observable<DetailTaxiShareLoadResponse>
     fun loadMyTaxiShareList() : Observable<MutableList<MyTaxiShareItem>>
     fun findPassword(findPasswordRequest: FindPasswordRequest) : Observable<ServerResponse>
+    fun updateFCMToken(userId : String, token : String) : Observable<ServerResponse>
 }

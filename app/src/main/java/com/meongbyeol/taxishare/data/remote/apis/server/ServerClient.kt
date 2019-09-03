@@ -122,4 +122,8 @@ class ServerClient private constructor() {
     fun findPassword(findPasswordRequest: FindPasswordRequest): Observable<FindPasswordResponse> =
         retrofit.create(FindPasswordAPI::class.java)
             .sendTemporaryPassword(findPasswordRequest.getRequest())
+
+    fun updateTokenRequest(updateFCMTokenRequest: UpdateFCMTokenRequest) : Observable<UpdateFCMTokenResponse> =
+        retrofit.create(LoginAPI::class.java)
+            .updateTokenRequest(updateFCMTokenRequest.getRequest())
 }

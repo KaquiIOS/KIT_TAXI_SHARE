@@ -24,7 +24,7 @@ class TaxiShareInfoCommentListAdapter :
 
     private val commentList: MutableList<Comment> = mutableListOf()
 
-    private var isEmptyList : Boolean = true
+    private var isEmptyList: Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
@@ -93,7 +93,7 @@ class TaxiShareInfoCommentListAdapter :
 
     fun insertComment(comment: Comment) {
 
-        if(isEmptyList) commentList.clear()
+        if (isEmptyList) commentList.clear()
 
         isEmptyList = false
 
@@ -102,11 +102,13 @@ class TaxiShareInfoCommentListAdapter :
     }
 
     fun setComments(newCommentList: MutableList<Comment>) {
+
+        if(isEmptyList) commentList.clear()
         commentList.addAll(newCommentList)
 
         isEmptyList = false
 
-        if(commentList.isEmpty()) {
+        if (commentList.isEmpty()) {
             isEmptyList = true
             commentList.add(Comment())
         }
@@ -116,10 +118,9 @@ class TaxiShareInfoCommentListAdapter :
 
     fun clear() {
         commentList.clear()
-        commentList.add(Comment())
         isEmptyList = true
 
-        submitList(ArrayList(commentList))
+        //submitList(ArrayList(commentList))
     }
 
     fun removeComment(commentId: Int) {
@@ -133,7 +134,7 @@ class TaxiShareInfoCommentListAdapter :
             }
         }
 
-        if(commentList.isEmpty()) {
+        if (commentList.isEmpty()) {
             isEmptyList = true
             commentList.add(Comment())
         }

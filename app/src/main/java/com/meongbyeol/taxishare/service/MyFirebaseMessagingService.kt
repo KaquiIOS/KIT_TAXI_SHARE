@@ -4,9 +4,7 @@
 
 package com.meongbyeol.taxishare.service
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -14,11 +12,15 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.meongbyeol.taxishare.R
-import com.meongbyeol.taxishare.view.login.LoginActivity
-import com.meongbyeol.taxishare.view.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.meongbyeol.taxishare.R
+import com.meongbyeol.taxishare.data.local.sharedpreference.SharedPreferenceManager
+import com.meongbyeol.taxishare.data.model.ServerResponse
+import com.meongbyeol.taxishare.data.remote.apis.server.ServerClient
+import com.meongbyeol.taxishare.data.repo.ServerRepositoryImpl
+import com.meongbyeol.taxishare.view.login.LoginActivity
+
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -29,6 +31,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         super.onMessageReceived(remoteMessage)
+
+        Log.d("FirebaseNotificationT", "Message Received")
 
         // when not null
         remoteMessage?.from.apply {
@@ -46,8 +50,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onSendError(p0, p1)
     }
 
+    @SuppressWarnings("all")
     override fun onNewToken(p0: String?) {
         super.onNewToken(p0)
+
+        val id: String =
+            SharedPreferenceManager.getInstance(applicationContext).getPreferenceId("")!!
+
+        // Server Update Query 사용
+        if (id != "" && p0 != null && p0 != "") {
+            ServerRepositoryImpl.getInstance(ServerClient.getInstance()).updateFCMToken(
+                id, p0
+            ).subscribe({
+                if (it.code == ServerResponse.NEW_TOKEN_UPDATE_SUCCESS.code) {
+
+                } else {
+
+                }
+            }, {
+                it.printStackTrace()
+            })
+        }
     }
 
     private fun sendToActivity(
@@ -57,7 +80,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         body: String,
         contents: String
     ) {
-
 
         Log.d("FirebaseNotificationT", "$title $body")
 
@@ -82,7 +104,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         builder.setContentIntent(pendingIntent)
 
         // 큰 아이콘 설정
-        val largeIcon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_taxi_stop)
+        val largeIcon = BitmapFactory.decodeResource(
+            context.resources,
+            R.drawable.ic_taxi_stop
+        )
         builder.setLargeIcon(largeIcon)
 
         // 색상 변경
@@ -103,7 +128,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // 알림 통지
         manager!!.notify(1, builder.build())
 
-        Intent(context, MainActivity::class.java).apply {
+        val activityManager = getSystemService(Activity.ACTIVITY_SERVICE) as ActivityManager
+
+        val list = activityManager.getRunningTasks(1)
+
+        val info = list[0]
+
+        Intent(context, Class.forName(info.topActivity.className)).apply {
             //            putExtra("from", from)
 //            putExtra("title", title)
 //            putExtra("body", body)

@@ -60,7 +60,10 @@ enum class ServerResponse(val code: Int, val description: String) {
     FIND_PASSWORD_SUCCESS(2071, "SendTemporaryPasswordSuccess"),
     FIND_PASSWORD_FAIL(2072, "SendTemporaryPasswordFail"),
 
-    NOW_PATCH(1700, "Patch");
+    NOW_PATCH(1700, "Patch"),
+
+    NEW_TOKEN_UPDATE_SUCCESS(2081, "UpdateTokenSuccess"),
+    NEW_TOKEN_UPDATE_FAIL(2082, "UpdateTokenFail");
 
     companion object{
         fun fromServerResponseCode(code : Int) = values().first { it.code == code }
