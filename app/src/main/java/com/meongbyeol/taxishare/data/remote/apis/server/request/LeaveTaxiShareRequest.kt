@@ -19,7 +19,7 @@ data class LeaveTaxiShareRequest (
     override fun getRequest(): Map<String, String> {
         val params: MutableMap<String, String> = HashMap()
 
-        params[UID] = Constant.CURRENT_USER.studentId.toString()
+        params[UID] = Constant.CURRENT_USER.studentId
         params[POST_ID] = postId
 
         return params
