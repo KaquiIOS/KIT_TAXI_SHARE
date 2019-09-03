@@ -88,7 +88,6 @@ class TaxiShareInfoDetailActivity : AppCompatActivity(), TaxiShareInfoDetailView
     override fun changeRegisterButtonState(isActivated: Boolean) {
         btn_taxi_share_detail_comment_send.isEnabled = isActivated
     }
-
     override fun addComments(commentList: MutableList<Comment>) {
         adapter.setComments(commentList)
     }

@@ -14,6 +14,8 @@ import com.meongbyeol.taxishare.data.remote.apis.server.response.LoginRequestRes
 import com.meongbyeol.taxishare.data.remote.apis.server.response.TaxiShareRegisterResponse
 import com.meongbyeol.taxishare.extension.uiSubscribe
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 
 class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepository {
 
@@ -108,4 +110,9 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
                 Log.d("test", "Test")
                 ServerResponse.fromServerResponseCode(it.responseCode) }
             .uiSubscribe()
+
+    override fun updateFCMToken(userId : String, token: String): Observable<ServerResponse> =
+        serverClient.updateTokenRequest(UpdateFCMTokenRequest(userId, token))
+            .map { ServerResponse.fromServerResponseCode(it.responseCode) }
+            .observeOn(Schedulers.io())
 }

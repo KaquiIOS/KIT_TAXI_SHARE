@@ -104,9 +104,9 @@ class TaxiShareInfoDetailPresenter(
 
     fun loadComments(id: String, isRefresh: Boolean) {
 
-        nextCommentId = when (isRefresh) {
-            true -> -1
-            else -> nextCommentId
+        if (isRefresh) {
+            nextCommentId = -1
+            noCommentExist = false
         }
 
         if (!noCommentExist && (!::loadCommentDisposable.isInitialized || loadCommentDisposable.isDisposed)) {
@@ -116,7 +116,9 @@ class TaxiShareInfoDetailPresenter(
                     if (it.isNotEmpty()) {
                         nextCommentId = it[it.size - 1].commentId
                     }
+
                     view.addComments(it)
+
                     noCommentExist = it.size < 5
                 }, {
                     it.printStackTrace()
