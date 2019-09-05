@@ -115,4 +115,9 @@ class ServerRepositoryImpl(private val serverClient: ServerClient) : ServerRepos
         serverClient.updateTokenRequest(UpdateFCMTokenRequest(userId, token))
             .map { ServerResponse.fromServerResponseCode(it.responseCode) }
             .observeOn(Schedulers.io())
+
+    override fun getAppVersion(): Observable<Int> =
+        serverClient.getAppVersion()
+            .map { it.appVersion }
+            .uiSubscribe()
 }
