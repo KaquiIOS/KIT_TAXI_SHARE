@@ -126,4 +126,8 @@ class ServerClient private constructor() {
     fun updateTokenRequest(updateFCMTokenRequest: UpdateFCMTokenRequest) : Observable<UpdateFCMTokenResponse> =
         retrofit.create(LoginAPI::class.java)
             .updateTokenRequest(updateFCMTokenRequest.getRequest())
+
+    fun getAppVersion() : Observable<AppVersionResponse> =
+        retrofit.create(AppVersionCheckAPI::class.java)
+            .getAppVersion()
 }

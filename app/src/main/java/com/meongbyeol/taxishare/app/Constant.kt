@@ -10,6 +10,8 @@ class Constant {
         lateinit var CURRENT_USER: User
         lateinit var USER_ID: String
 
+        const val APP_VERSION = 9
+
         const val TIME_LIMIT: Long = 2L
         const val ALL_SIGN_UP_REQUEST_CHECKED = 63
         const val BASE_URL: String = "http://kittaxishare.cafe24app.com/"
