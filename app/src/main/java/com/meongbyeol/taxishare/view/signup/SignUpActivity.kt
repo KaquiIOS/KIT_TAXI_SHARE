@@ -14,6 +14,7 @@ import com.meongbyeol.taxishare.data.repo.ServerRepositoryImpl
 import com.meongbyeol.taxishare.view.BaseActivity
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.toast
 
@@ -130,10 +131,8 @@ class SignUpActivity : BaseActivity(), SignUpView {
             .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
             .request()
             .subscribe({
-                // TODO : 갤러리로 넘어가기
                 slideBottomSheet()
             }, {
-                // TODO : 오류 처리하기
                 it.stackTrace[0]
             })
     }
@@ -170,6 +169,9 @@ class SignUpActivity : BaseActivity(), SignUpView {
                 it.stackTrace[0]
             })
 
+        btn_sign_up_back.onClick {
+            finish()
+        }
 
         // 비밀번호 동일 확인
         text_input_sign_up_confirm_pw.textChanges().skipInitialValue()

@@ -53,6 +53,7 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
         setContentView(R.layout.activity_location_search)
 
         initView()
+        initListener()
     }
 
     override fun locationSelected(location: Location) {
@@ -101,6 +102,12 @@ class LocationSearchActivity : AppCompatActivity(), LocationSearchView, GoogleAp
             })
 
         changeFragment(locationHistoryFragment)
+    }
+
+    private fun initListener() {
+        tb_search_location.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     private fun changeFragment(fragment: Fragment) =
