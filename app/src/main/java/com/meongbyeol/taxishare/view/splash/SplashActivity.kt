@@ -1,11 +1,14 @@
 package com.meongbyeol.taxishare.view.splash
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieDrawable
 import com.meongbyeol.taxishare.R
+import com.meongbyeol.taxishare.app.Constant
 import com.meongbyeol.taxishare.view.login.LoginActivity
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -47,7 +50,8 @@ class SplashActivity : AppCompatActivity(), AnkoLogger {
                         })
                         .setNegativeButton("앱 종료", { dialogInterface, _ ->
                             dialogInterface.dismiss()
-                            finish() })
+                            finish()
+                        })
                         .create()
                         .show()
 
@@ -70,8 +74,40 @@ class SplashActivity : AppCompatActivity(), AnkoLogger {
 
     private fun initListener() {
         ttv_splash.setAnimationListener {
-            startActivity<LoginActivity>("pre" to "now")
-            finish()
+
+            when (Constant.APP_VERSION) {
+                1.9 -> {
+                    startActivity<LoginActivity>("pre" to "now")
+                    finish()
+                }
+                else -> AlertDialog.Builder(this)
+                    .setTitle("앱 버전 업데이트 필요")
+                    .setMessage("최신 버전 업데이트가 필요합니다 !")
+                    .setPositiveButton(R.string.ok, { _, _ ->
+                        val appPackageName = packageName
+                        try {
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=$appPackageName")
+                            ).apply {
+                                startActivity(this)
+                                finish()
+                            }
+                        } catch (anfe: android.content.ActivityNotFoundException) {
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                            ).apply {
+                                startActivity(this)
+                                finish()
+                            }
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, { _, _ -> finish() })
+                    .setCancelable(false)
+                    .create()
+                    .show()
+            }
         }
     }
 
