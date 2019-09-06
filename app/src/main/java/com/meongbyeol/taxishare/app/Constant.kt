@@ -7,8 +7,7 @@ import java.util.*
 class Constant {
     companion object {
 
-        lateinit var CURRENT_USER: User
-        lateinit var USER_ID: String
+        var CURRENT_USER: User = User()
 
         const val APP_VERSION = 9
 
@@ -21,7 +20,7 @@ class Constant {
         const val DATE_FORMAT: String = "yyyy-MM-dd hh:mm"
 
         val DATE_FORMATTER: SimpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.KOREA)
-        val LOCATION_SEARCH_HINT: String = "hint"
+        const val LOCATION_SEARCH_HINT: String = "hint"
 
         const val SEARCH_HISTORY_MAP_HEIGHT = 600
 
