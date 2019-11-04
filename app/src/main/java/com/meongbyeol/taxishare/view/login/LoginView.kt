@@ -17,4 +17,6 @@ interface LoginView {
     fun checkAutoLogin()
 
     fun showPatchMessage()
+
+    fun okSign()
 }
