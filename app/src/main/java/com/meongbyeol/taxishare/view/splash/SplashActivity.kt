@@ -30,13 +30,22 @@ class SplashActivity : AppCompatActivity(), AnkoLogger {
     @SuppressWarnings("all")
     private fun getAppVersion() {
 
-        ServerRepositoryImpl.getInstance(ServerClient.getInstance())
-            .getAppVersion()
-            .subscribe({
-                checkAppVersion(it)
-            }, {
-                it.printStackTrace()
-            })
+        AlertDialog.Builder(this)
+            .setTitle("앱 운영 종료")
+            .setMessage("서버 대여 기간이 종료되어 아쉽게도 앱 운영을 종료해야할 것 같습니다. 사용성이 제로에 가까웠지만 다운받아 주셨던 분들 감사합니다 :-)")
+            .setPositiveButton("확인", {_, _ -> finish() })
+            .setNegativeButton("종료", {_, _ -> finish()})
+            .setCancelable(false)
+            .create()
+            .show()
+
+//        ServerRepositoryImpl.getInstance(ServerClient.getInstance())
+//            .getAppVersion()
+//            .subscribe({
+//                checkAppVersion(it)
+//            }, {
+//                it.printStackTrace()
+//            })
 
     }
 

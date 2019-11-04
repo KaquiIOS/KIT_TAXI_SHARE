@@ -89,6 +89,8 @@ class LoginPresenter(
             val savedId = spManager.getPreferenceId("") ?: ""
             val savedPw = spManager.getPreferencePassword("") ?: ""
 
+            loginView.okSign()
+
             loginView.writeSavedId(savedId)
             loginView.writeSavedPw(savedPw)
             loginView.checkAutoLogin()

@@ -5,6 +5,7 @@
 package com.meongbyeol.taxishare.view
 
 import android.os.Bundle
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
@@ -17,6 +18,9 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+
+
     }
 
     abstract fun getLayoutId() : Int

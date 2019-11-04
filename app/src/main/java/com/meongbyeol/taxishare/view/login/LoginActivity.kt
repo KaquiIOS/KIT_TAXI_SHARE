@@ -1,6 +1,7 @@
 package com.meongbyeol.taxishare.view.login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.meongbyeol.taxishare.R
 import com.meongbyeol.taxishare.customview.LoadingDialog
@@ -81,8 +82,12 @@ class LoginActivity : BaseActivity(), LoginView {
         cb_login_remember.isChecked = true
     }
 
+    override fun okSign() {
+        Log.d("Test", "FromPresenter")
+    }
+
     /*
-         * Presenter 초기화  */
+                 * Presenter 초기화  */
     private fun initPresenter() {
         presenter = LoginPresenter(
             this,
@@ -121,6 +126,10 @@ class LoginActivity : BaseActivity(), LoginView {
         }, {
             it.stackTrace[0]
         })
+
+        btn111.setOnClickListener {
+            presenter.onCreate()
+        }
 
         /* 자동 로그인 */
         text_login_remember.clicks().subscribe({
